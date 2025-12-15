@@ -40,242 +40,281 @@
    Base Styles
    ============================================================================= */
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-html {
-  scroll-behavior: smooth;
-  color-scheme: dark;
-}
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
 
-body {
-  background: #0a0d17;
-  color: #e2e8f0;
-  font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.6;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  body {
+    background: #0a0d17;
+    color: #e2e8f0;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-/* Subtle grid pattern background */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.15), transparent),
-    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
-  background-size: 100% 100%, 24px 24px;
-  pointer-events: none;
-  z-index: -1;
+  /* Subtle grid pattern background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.15), transparent),
+      radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
+    background-size:
+      100% 100%,
+      24px 24px;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Typography */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #f8fafc;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  a {
+    color: #8b5cf6;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  a:hover {
+    color: #a78bfa;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Focus & Selection */
+  :focus-visible {
+    outline: 2px solid #8b5cf6;
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: rgba(139, 92, 246, 0.3);
+    color: #f8fafc;
+  }
+
+  /* Inputs */
+  input[type='text'],
+  input[type='search'] {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #f8fafc;
+    padding: 10px 14px;
+    transition: all 0.15s ease;
+  }
+
+  input[type='text']:focus,
+  input[type='search']:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #8b5cf6;
+    outline: none;
+  }
+
+  input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
 }
 
 /* =============================================================================
-   Typography
-   ============================================================================= */
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: #f8fafc;
-}
-
-h1 { font-size: 2rem; }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.25rem; }
-
-a {
-  color: #8b5cf6;
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-a:hover {
-  color: #a78bfa;
-}
-
-/* =============================================================================
-   Scrollbar
-   ============================================================================= */
-
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* =============================================================================
-   Focus & Selection
-   ============================================================================= */
-
-:focus-visible {
-  outline: 2px solid #8b5cf6;
-  outline-offset: 2px;
-}
-
-::selection {
-  background: rgba(139, 92, 246, 0.3);
-  color: #f8fafc;
-}
-
-/* =============================================================================
-   Animations
+   Animations (keyframes are global, not in layers)
    ============================================================================= */
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(0.96); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.animate-fade-in { animation: fade-in 0.3s ease-out; }
-.animate-slide-up { animation: slide-up 0.3s ease-out both; }
-.animate-scale-in { animation: scale-in 0.2s ease-out both; }
-
-/* Stagger delays */
-.stagger-1 { animation-delay: 30ms; }
-.stagger-2 { animation-delay: 60ms; }
-.stagger-3 { animation-delay: 90ms; }
-.stagger-4 { animation-delay: 120ms; }
-.stagger-5 { animation-delay: 150ms; }
-.stagger-6 { animation-delay: 180ms; }
-
-/* =============================================================================
-   Component Overrides - Clean DPM Style
-   ============================================================================= */
-
-/* Cards */
-.card {
-  background: linear-gradient(180deg, rgba(26, 31, 53, 0.8) 0%, rgba(26, 31, 53, 0.6) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
-  backdrop-filter: blur(8px);
-}
-
-/* Buttons */
-.btn-primary {
-  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-}
-
-/* Inputs */
-input[type="text"],
-input[type="search"] {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: #f8fafc;
-  padding: 10px 14px;
-  transition: all 0.15s ease;
-}
-
-input[type="text"]:focus,
-input[type="search"]:focus {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: #8b5cf6;
-  outline: none;
-}
-
-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* =============================================================================
-   Tier Badge Colors - Gaming Style
+   Components Layer
    ============================================================================= */
 
-.tier-s { 
-  background: linear-gradient(135deg, #00d4aa 0%, #00b894 100%);
-  color: #0a0d17;
-}
-.tier-a-plus { 
-  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
-  color: #0a0d17;
-}
-.tier-a { 
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: white;
-}
-.tier-b-plus { 
-  background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
-  color: white;
-}
-.tier-b { 
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-  color: white;
-}
-.tier-b-minus { 
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-  color: white;
-}
-.tier-c { 
-  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
-  color: white;
+@layer components {
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out both;
+  }
+  .animate-scale-in {
+    animation: scale-in 0.2s ease-out both;
+  }
+
+  /* Stagger delays */
+  .stagger-1 {
+    animation-delay: 30ms;
+  }
+  .stagger-2 {
+    animation-delay: 60ms;
+  }
+  .stagger-3 {
+    animation-delay: 90ms;
+  }
+  .stagger-4 {
+    animation-delay: 120ms;
+  }
+  .stagger-5 {
+    animation-delay: 150ms;
+  }
+  .stagger-6 {
+    animation-delay: 180ms;
+  }
+
+  /* Cards */
+  .card {
+    background: linear-gradient(180deg, rgba(26, 31, 53, 0.8) 0%, rgba(26, 31, 53, 0.6) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+  }
+
+  /* Buttons */
+  .btn-primary {
+    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  }
+
+  /* Tier Badge Colors */
+  .tier-s {
+    background: linear-gradient(135deg, #00d4aa 0%, #00b894 100%);
+    color: #0a0d17;
+  }
+  .tier-a-plus {
+    background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+    color: #0a0d17;
+  }
+  .tier-a {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+  }
+  .tier-b-plus {
+    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+    color: white;
+  }
+  .tier-b {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+  }
+  .tier-b-minus {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: white;
+  }
+  .tier-c {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    color: white;
+  }
+
+  /* Glass Effect */
+  .glass {
+    background: rgba(26, 31, 53, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
 }
 
 /* =============================================================================
-   Glass Effect
+   Utilities Layer
    ============================================================================= */
 
-.glass {
-  background: rgba(26, 31, 53, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
-/* =============================================================================
-   Utility Classes
-   ============================================================================= */
+  .glow {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+  }
 
-.text-gradient {
-  background: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.glow {
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
-}
-
-.glow-hover:hover {
-  box-shadow: 0 0 24px rgba(139, 92, 246, 0.3);
+  .glow-hover:hover {
+    box-shadow: 0 0 24px rgba(139, 92, 246, 0.3);
+  }
 }

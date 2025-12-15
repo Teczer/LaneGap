@@ -11,7 +11,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'LANEGAP - Midlane Coaching Tool',
-  description: 'Instant midlane matchup insights for League of Legends. Get coaching in < 5 seconds.',
+  description:
+    'Instant midlane matchup insights for League of Legends. Get coaching in < 5 seconds.',
   keywords: ['League of Legends', 'LoL', 'midlane', 'coaching', 'matchups', 'counters'],
 }
 
