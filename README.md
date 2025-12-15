@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LANEGAP 🎮
 
-## Getting Started
+> **Midlane Coaching Tool** - Get counters, tips, and power spikes in < 5 seconds
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38B2AC?logo=tailwind-css)
+![Bun](https://img.shields.io/badge/Bun-1.1-F9F1E1?logo=bun)
+
+## ✨ Features
+
+- 🎯 **Instant Counter Lookup** - Find who counters the enemy midlaner
+- 💡 **Smart Tips** - Actionable coaching tips for any matchup
+- ⚡ **Power Spikes** - Level and item breakpoints visualized
+- 🏆 **Scrim Mode** - Ultra-compact view for competitive play
+- 🌍 **Bilingual** - English & French support
+- 🌙 **Dark Mode** - Easy on the eyes during long sessions
+
+## 🚀 Quick Start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+# Prerequisites: Bun 1.1+
+curl -fsSL https://bun.sh/install | bash
+
+# Clone & Install
+git clone https://github.com/yourusername/lanegap.git
+cd lanegap
+bun install
+
+# Sync champion data from Riot API
+bun run sync:champions
+
+# Start development server
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) 🎉
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📦 Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | Description |
+|---------|-------------|
+| `bun dev` | Start dev server with Turbopack |
+| `bun run build` | Production build |
+| `bun start` | Start production server |
+| `bun run sync:champions` | Download champion icons |
+| `bun run sync:items` | Download item icons |
+| `bun run validate` | Validate database.json |
+| `bun run lint` | Run ESLint |
+| `bun run type-check` | TypeScript check |
 
-## Learn More
+## 🐳 Docker
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Build & run
+bun run docker:build
+bun run docker:up
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# View logs
+bun run docker:logs
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Stop
+bun run docker:down
+```
 
-## Deploy on Vercel
+## 📁 Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+lanegap/
+├── app/                # Next.js App Router
+├── components/         # React components
+├── lib/               # Utilities & types
+├── data/              # Local JSON database
+├── hooks/             # Custom React hooks
+├── scripts/           # CLI tools
+└── docker/            # Docker config
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🎨 Tech Stack
+
+- **Framework**: Next.js 16 (App Router + Turbopack)
+- **Runtime**: Bun 1.1+
+- **Language**: TypeScript 5.9+ (Strict mode)
+- **Styling**: Tailwind CSS 4+
+- **State**: Zustand 5+
+- **Icons**: React Icons (Lucide)
+- **Data**: Riot Data Dragon API
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feat/amazing-feature`)
+3. Commit changes (`git commit -m ':sparkles: feat: add amazing feature'`)
+4. Push to branch (`git push origin feat/amazing-feature`)
+5. Open a Pull Request
+
+## 📜 License
+
+This project is a fan-made tool for League of Legends players.
+League of Legends and all associated properties are trademarks of Riot Games, Inc.
+
+---
+
+Built with ❤️ for the midlane community

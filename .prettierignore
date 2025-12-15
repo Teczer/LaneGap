@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+out/
+build/
+
+# Package manager
+bun.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Generated
+*.generated.*
+next-env.d.ts
+
+# IDE
+.idea/
+.vscode/
+
+# Misc
+*.md
+

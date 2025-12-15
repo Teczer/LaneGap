@@ -1,0 +1,1300 @@
+{
+  "meta": {
+    "version": "2.0.0",
+    "patchVersion": "15.24.1",
+    "lastUpdated": "2025-12-15T12:00:00Z",
+    "author": "LANEGAP"
+  },
+  "champions": [
+    {
+      "id": "Orianna",
+      "name": { "en": "Orianna", "fr": "Orianna" },
+      "dateEdited": "2025-11-05",
+      "countersWholeGame": {
+        "S": ["Akali"],
+        "A": ["Syndra", "Viktor"],
+        "B": ["Hwei"]
+      },
+      "tips": {
+        "en": [
+          "Play the opposite side of her ball OR press up when she uses it to force it back",
+          "When Orianna R she self-CC for a brief second - some champs can abuse (Ahri E, Syndra QE, Hwei EQ)",
+          "Q has 6 sec CD with only 40 dmg early - abuse it"
+        ],
+        "fr": [
+          "Joue du côté opposé de sa balle OU press up quand elle l'utilise pour la forcer à la ramener",
+          "Quand Orianna R elle se self-CC brièvement - certains champs peuvent abuse (Ahri E, Syndra QE, Hwei EQ)",
+          "Q a 6 sec CD avec seulement 40 dmg early - abuse ça"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 1,
+          "text": {
+            "en": "WEAK LVL 1 - Q does 40 dmg with 6 sec CD, abuse it",
+            "fr": "FAIBLE LVL 1 - Q fait 40 dmg avec 6 sec CD, abuse ça"
+          }
+        },
+        { "level": 4, "text": { "en": "W hurts now", "fr": "W fait mal maintenant" } },
+        {
+          "level": 6,
+          "text": {
+            "en": "Kill threat now if you misposition",
+            "fr": "Kill threat si tu te missposition"
+          }
+        },
+        {
+          "level": 8,
+          "text": {
+            "en": "Short CD on Q and W - punishes mistakes",
+            "fr": "CD court sur Q et W - punit les erreurs"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3802",
+          "text": {
+            "en": "Lost Chapter - First big spike",
+            "fr": "Lost Chapter - Premier gros spike"
+          }
+        },
+        {
+          "item": "6653",
+          "text": {
+            "en": "Blackfire/1st item - Champion comes online",
+            "fr": "Blackfire/1st item - Le champion devient fort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Katarina",
+      "name": { "en": "Katarina", "fr": "Katarina" },
+      "dateEdited": "2025-11-05",
+      "countersWholeGame": {
+        "S": ["Lissandra", "Annie", "Malzahar", "Ryze"],
+        "A": ["Orianna", "Aurora", "Leblanc", "Ahri"],
+        "B": ["Akali"]
+      },
+      "tips": {
+        "en": [
+          "Play around her Q CD - 11 seconds",
+          "2-3 sec window when she uses E on a dagger in early game",
+          "Respect her dagger positions"
+        ],
+        "fr": [
+          "Joue autour du CD de son Q - 11 secondes",
+          "Fenêtre de 2-3 sec quand elle utilise E sur un dagger en early",
+          "Respecte les positions de ses daggers"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 1,
+          "text": {
+            "en": "USELESS LVL 1 - Q is 11 sec, pressure up anytime except when last hitting",
+            "fr": "INUTILE LVL 1 - Q est 11 sec, presse up sauf quand elle last hit"
+          }
+        },
+        {
+          "level": 3,
+          "text": {
+            "en": "Unlocks all spells - can punish spacing mistakes",
+            "fr": "Débloque tous les spells - peut punir les erreurs de spacing"
+          }
+        },
+        {
+          "level": 6,
+          "text": {
+            "en": "Unlocks ult - better all-in damage",
+            "fr": "Débloque ult - meilleur dégât all-in"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3100",
+          "text": {
+            "en": "Lich Bane/BORK - Champion becomes 2x stronger",
+            "fr": "Lich Bane/BORK - Le champion devient 2x plus fort"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Aurora",
+      "name": { "en": "Aurora", "fr": "Aurora" },
+      "dateEdited": "2025-11-05",
+      "countersWholeGame": {
+        "S": ["Viktor"],
+        "A": ["Orianna", "Hwei", "Leblanc", "Mel"],
+        "B": ["Syndra", "Taliyah", "Ryze"]
+      },
+      "tips": {
+        "en": [
+          "Play around Q 9 sec, W 22 sec, E 15 sec - very long CDs",
+          "When Aurora Rs into you, she likely insta QE - look to dodge rather than panic skillshot",
+          "Stay away from her when Q is up"
+        ],
+        "fr": [
+          "Joue autour Q 9 sec, W 22 sec, E 15 sec - très longs CDs",
+          "Quand Aurora R sur toi, elle va probablement insta QE - cherche à dodge plutôt que panic skillshot",
+          "Reste loin d'elle quand son Q est up"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 1,
+          "text": {
+            "en": "STRONG LVL 1 - One of strongest lvl 1 mid champs (passive + Q dmg)",
+            "fr": "FORT LVL 1 - Un des plus forts lvl 1 mid (passif + Q dmg)"
+          }
+        },
+        {
+          "level": 2,
+          "text": {
+            "en": "Unlocks W - can punish mispositioning",
+            "fr": "Débloque W - peut punir les mispositioning"
+          }
+        },
+        {
+          "level": 6,
+          "text": {
+            "en": "Ult unlocked - stronger all-in",
+            "fr": "Ult débloqué - all-in plus fort"
+          }
+        },
+        {
+          "level": 7,
+          "text": {
+            "en": "Can 1-shot backline with Q+E now",
+            "fr": "Peut 1-shot les backlines avec Q+E maintenant"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3020",
+          "text": {
+            "en": "Full Boots - Way easier to find angles",
+            "fr": "Full Boots - Plus facile de trouver des angles"
+          }
+        },
+        {
+          "item": "6655",
+          "text": {
+            "en": "Luden - Damage becomes unreal, 50%+ HP with Q+E",
+            "fr": "Luden - Les dégâts deviennent irréels, 50%+ HP avec Q+E"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Ahri",
+      "name": { "en": "Ahri", "fr": "Ahri" },
+      "dateEdited": "2025-11-05",
+      "countersWholeGame": {
+        "S": ["Viktor", "Lissandra", "Malzahar"],
+        "A": ["Leblanc", "Mel", "Sylas", "Orianna", "Aurora"],
+        "B": ["Taliyah", "Syndra"]
+      },
+      "tips": {
+        "en": [
+          "Ahri has shorter range - control mages can utilize range and poke her down",
+          "Play around CDs: Q 6sec, W 10sec, E 12sec",
+          "Ahri without ult is not a champ - trading ult is worth it most of the time",
+          "Charm is her only CC - bait it then trade"
+        ],
+        "fr": [
+          "Ahri a une portée courte - les control mages peuvent utiliser leur range pour la poke",
+          "Joue autour des CDs: Q 6sec, W 10sec, E 12sec",
+          "Ahri sans ult n'est pas un champ - trade ult est worth la plupart du temps",
+          "Charm est son seul CC - bait le puis trade"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 3,
+          "text": {
+            "en": "With 2 points Q can one-shot backline with 2 Qs",
+            "fr": "Avec 2 points Q peut one-shot backline avec 2 Qs"
+          }
+        },
+        {
+          "level": 6,
+          "text": {
+            "en": "More threat and kill potential if you're low",
+            "fr": "Plus de menace et kill potential si tu es low"
+          }
+        },
+        {
+          "level": 9,
+          "text": {
+            "en": "Can 1-shot wave - also possible at lvl 7 if ahead",
+            "fr": "Peut 1-shot wave - possible aussi lvl 7 si ahead"
+          }
+        },
+        {
+          "level": 11,
+          "text": {
+            "en": "Can spam R - gets it back in ~1 min",
+            "fr": "Peut spam R - le récupère en ~1 min"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3020",
+          "text": {
+            "en": "Full Boots - W+MS makes landing skillshots harder, finds Q angles easier",
+            "fr": "Full Boots - W+MS rend les skillshots plus durs à land, trouve les angles Q plus facilement"
+          }
+        },
+        {
+          "item": "3802",
+          "text": {
+            "en": "Lost Chapter - Can reliably trade without going OOM",
+            "fr": "Lost Chapter - Peut trade sans aller OOM"
+          }
+        },
+        {
+          "item": "6653",
+          "text": {
+            "en": "Blackfire/Malignance - Can all-in from 70-0 if mispositioning",
+            "fr": "Blackfire/Malignance - Peut all-in de 70-0 si misposition"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Syndra",
+      "name": { "en": "Syndra", "fr": "Syndra" },
+      "dateEdited": "2025-11-06",
+      "countersWholeGame": {
+        "S": ["Akali", "Zed", "Ekko"],
+        "A": ["Leblanc", "Viktor"],
+        "B": ["Ahri", "Orianna", "Aurora"]
+      },
+      "tips": {
+        "en": [
+          "Play around Syndra CDs: Q 7 sec, E 15 sec",
+          "Pretend to go for last hit and back off/sidestep to dodge Qs",
+          "When E is down you have more space to walk up and punish",
+          "Mercury's Treads very good against Syndra"
+        ],
+        "fr": [
+          "Joue autour des CDs Syndra: Q 7 sec, E 15 sec",
+          "Fais semblant d'aller pour un last hit puis back off/sidestep pour dodge les Qs",
+          "Quand E est down tu as plus d'espace pour walk up et punish",
+          "Mercury's Treads très bon contre Syndra"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 2,
+          "text": {
+            "en": "Will try Q+E or Q+W for stacks - play around her CDs",
+            "fr": "Va essayer Q+E ou Q+W pour les stacks - joue autour de ses CDs"
+          }
+        },
+        {
+          "level": 6,
+          "text": {
+            "en": "Big kill pressure with ult if below 50%",
+            "fr": "Gros kill pressure avec ult si en dessous de 50%"
+          }
+        },
+        {
+          "level": 7,
+          "text": { "en": "Upgraded Q - 2x stronger", "fr": "Q amélioré - 2x plus fort" }
+        },
+        {
+          "level": 9,
+          "text": {
+            "en": "If triple tonic, gets true damage W",
+            "fr": "Si triple tonic, obtient true damage W"
+          }
+        },
+        {
+          "level": 11,
+          "text": {
+            "en": "She's Thanos now - R does insane damage",
+            "fr": "Elle est Thanos maintenant - R fait des dégâts insane"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3020",
+          "text": {
+            "en": "Full Boots - Very mobile, finds stacks and spaces easier",
+            "fr": "Full Boots - Très mobile, trouve stacks et space plus facilement"
+          }
+        },
+        {
+          "item": "3802",
+          "text": {
+            "en": "Lost Chapter - Never runs out of mana",
+            "fr": "Lost Chapter - Ne tombe jamais OOM"
+          }
+        },
+        {
+          "item": "6655",
+          "text": {
+            "en": "Luden/Blackfire - 60% HP from 1 combo",
+            "fr": "Luden/Blackfire - 60% HP d'un combo"
+          }
+        },
+        {
+          "item": "3089",
+          "text": {
+            "en": "Shadowflame - Gets 100-0'd if you have 0 MR",
+            "fr": "Shadowflame - Tu te fais 100-0 si tu as 0 MR"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Azir",
+      "name": { "en": "Azir", "fr": "Azir" },
+      "dateEdited": "2025-11-06",
+      "countersWholeGame": {
+        "S": ["Akali", "Yone"],
+        "A": ["Leblanc"],
+        "B": ["Orianna", "Taliyah", "Syndra", "Veigar", "AurelionSol", "Hwei", "Ahri"]
+      },
+      "tips": {
+        "en": [
+          "Bait out Azir W lvl 1 and go opposite side",
+          "Very useless lvl 1 if you don't run into W",
+          "Azir has big mana problems - forcing W+Q without taking much dmg is a big win"
+        ],
+        "fr": [
+          "Bait son W lvl 1 et va du côté opposé",
+          "Très inutile lvl 1 si tu ne run pas dans son W",
+          "Azir a de gros problèmes de mana - forcer W+Q sans prendre beaucoup de dmg est un gros win"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 1,
+          "text": {
+            "en": "Really useless if you don't run into W - play with CDs and punish on last hit",
+            "fr": "Vraiment inutile si tu ne run pas dans W - joue avec les CDs et punish sur last hit"
+          }
+        },
+        {
+          "level": 6,
+          "text": {
+            "en": "Shuffle threat - play with info or buffer his R if possible (Yone Q2/R)",
+            "fr": "Menace de shuffle - joue avec l'info ou buffer son R si possible (Yone Q2/R)"
+          }
+        },
+        {
+          "level": 7,
+          "text": { "en": "W starts to hurt a bit", "fr": "W commence à faire un peu mal" }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "1026",
+          "text": {
+            "en": "Blasting Wand - W starts to be useful",
+            "fr": "Blasting Wand - W commence à être utile"
+          }
+        },
+        {
+          "item": "3115",
+          "text": {
+            "en": "Nashor/1st item - Becomes a threat in lane and fights",
+            "fr": "Nashor/1st item - Devient une menace en lane et fights"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Mel",
+      "name": { "en": "Mel", "fr": "Mel" },
+      "dateEdited": "2025-11-07",
+      "countersWholeGame": {
+        "S": ["Orianna", "Hwei", "Akali"],
+        "A": ["Viktor", "Syndra", "Ryze"],
+        "B": ["Aurora"]
+      },
+      "tips": {
+        "en": [
+          "Can't dodge her Q fully but dodging most is good enough - 10 sec window after",
+          "W is 35 sec CD - force it with a spell then play when it's down"
+        ],
+        "fr": [
+          "Tu ne peux pas dodge son Q complètement mais dodge la plupart c'est assez - 10 sec window après",
+          "W est 35 sec CD - force le avec un spell puis joue quand c'est down"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 6,
+          "text": {
+            "en": "Becomes a champion - some kill threat",
+            "fr": "Devient un champion - un peu de kill threat"
+          }
+        },
+        {
+          "level": 9,
+          "text": {
+            "en": "If Mel maxes E, getting hit by it = cooked",
+            "fr": "Si Mel max E, se faire toucher = cuit"
+          }
+        },
+        {
+          "level": 11,
+          "text": { "en": "Ult hurts like a truck", "fr": "Ult fait mal comme un camion" }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3802",
+          "text": {
+            "en": "Lost Chapter - Can start to poke for real",
+            "fr": "Lost Chapter - Peut commencer à poke pour de vrai"
+          }
+        },
+        {
+          "item": "6653",
+          "text": {
+            "en": "Blackfire Torch - Hurts if you eat Q or E or both",
+            "fr": "Blackfire Torch - Fait mal si tu te prends Q ou E ou les deux"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Akali",
+      "name": { "en": "Akali", "fr": "Akali" },
+      "dateEdited": "2025-11-07",
+      "countersWholeGame": {
+        "S": ["Galio"],
+        "A": ["Leblanc", "Aurora", "Vex", "Morgana", "Malzahar", "Ryze"],
+        "B": ["Sylas", "TwistedFate", "Lissandra", "Hwei", "Cassiopeia"]
+      },
+      "tips": {
+        "en": [
+          "Early game track her Energy (110-70) - avoid giving Q angle on you + low HP minions",
+          "When Akali uses W (5 sec), create distance. 1 sec before it ends, press up - she has to back off",
+          "After lvl 6, wait out the shroud entirely"
+        ],
+        "fr": [
+          "Early game track son Energy (110-70) - évite de donner angle Q sur toi + minions low HP",
+          "Quand Akali utilise W (5 sec), crée de la distance. 1 sec avant la fin, press up - elle doit back off",
+          "Après lvl 6, attends que le shroud soit fini"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 4,
+          "text": {
+            "en": "Can now look for trades starting with W - weak before that",
+            "fr": "Peut maintenant chercher des trades en commençant par W - faible avant"
+          }
+        },
+        {
+          "level": 5,
+          "text": { "en": "E+Q into W becomes a threat", "fr": "E+Q into W devient une menace" }
+        },
+        {
+          "level": 6,
+          "text": {
+            "en": "Strongest point - avoid bad wave states, call jg/supp",
+            "fr": "Point le plus fort - évite les mauvais états de wave, call jg/supp"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "1036",
+          "text": {
+            "en": "First base 800+ gold - Lots of damage, punishes mispositioning",
+            "fr": "First base 800+ gold - Beaucoup de dégâts, punit le mispositioning"
+          }
+        },
+        {
+          "item": "3152",
+          "text": {
+            "en": "First item - Can 100-0 you if you eat all spells",
+            "fr": "First item - Peut te 100-0 si tu te prends tous les spells"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Leblanc",
+      "name": { "en": "Leblanc", "fr": "LeBlanc" },
+      "dateEdited": "2025-11-08",
+      "countersWholeGame": {
+        "S": ["Lissandra", "Malzahar", "Galio", "Annie"],
+        "A": ["Ryze"],
+        "B": ["Orianna"]
+      },
+      "tips": {
+        "en": [
+          "After W lvl 1, 15 sec CD - press up for prio",
+          "Lvl 6+ when she dashes and uses another spell, no dash for 7+ sec",
+          "Track her W return pad position"
+        ],
+        "fr": [
+          "Après W lvl 1, 15 sec CD - press up pour prio",
+          "Lvl 6+ quand elle dash et utilise un autre spell, pas de dash pendant 7+ sec",
+          "Track la position de son W return pad"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 2,
+          "text": {
+            "en": "Insane burst with Q+W or W+AA+Q",
+            "fr": "Burst insane avec Q+W ou W+AA+Q"
+          }
+        },
+        {
+          "level": 4,
+          "text": { "en": "W hurts for real now", "fr": "W fait vraiment mal maintenant" }
+        },
+        {
+          "level": 6,
+          "text": { "en": "10x more annoying with R mimic", "fr": "10x plus annoying avec R mimic" }
+        },
+        { "level": 9, "text": { "en": "Can 1-shot wave with W", "fr": "Peut 1-shot wave avec W" } },
+        { "level": 11, "text": { "en": "R hurts 2x now", "fr": "R fait 2x plus mal maintenant" } }
+      ],
+      "itemSpikes": [
+        {
+          "item": "1036",
+          "text": {
+            "en": "Pre-base - LeBlanc is very strong pre-base",
+            "fr": "Pre-base - LeBlanc est très forte pre-base"
+          }
+        },
+        {
+          "item": "3802",
+          "text": {
+            "en": "Lost Chapter - More spells, more damage",
+            "fr": "Lost Chapter - Plus de spells, plus de dégâts"
+          }
+        },
+        {
+          "item": "6655",
+          "text": {
+            "en": "Luden - She's Thanos, Q+W = 50% HP gone",
+            "fr": "Luden - Elle est Thanos, Q+W = 50% HP gone"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Sylas",
+      "name": { "en": "Sylas", "fr": "Sylas" },
+      "dateEdited": "2025-11-08",
+      "countersWholeGame": {
+        "S": ["Ryze", "Jayce"],
+        "A": ["Zoe", "Taliyah", "Hwei", "Viktor", "Orianna", "Leblanc"],
+        "B": ["Akali"]
+      },
+      "tips": {
+        "en": [
+          "Early game CDs very long: Q 10, W 12, E 13 sec - play around it",
+          "Can look for E lvl 1 but play around minions for minion dmg + chase down"
+        ],
+        "fr": [
+          "CDs early game très longs: Q 10, W 12, E 13 sec - joue autour",
+          "Peut chercher E lvl 1 mais joue autour des minions pour le dmg minion + chase down"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 3,
+          "text": {
+            "en": "Unlocks all core abilities - can trade back, careful of spacing",
+            "fr": "Débloque toutes les abilités core - peut trade back, attention au spacing"
+          }
+        },
+        {
+          "level": 4,
+          "text": {
+            "en": "Big spike - 2 points on Q or W makes it 2x stronger",
+            "fr": "Gros spike - 2 points sur Q ou W le rend 2x plus fort"
+          }
+        },
+        {
+          "level": 6,
+          "text": {
+            "en": "Can make proactive trades and look for solo kill",
+            "fr": "Peut faire des trades proactifs et chercher le solo kill"
+          }
+        },
+        {
+          "level": 11,
+          "text": {
+            "en": "Able to steal ult more frequently",
+            "fr": "Peut steal ult plus fréquemment"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "1036",
+          "text": {
+            "en": "Pre-base - Doesn't need items, it's about dodging spells",
+            "fr": "Pre-base - N'a pas besoin d'items, c'est question de dodge"
+          }
+        },
+        {
+          "item": "3152",
+          "text": {
+            "en": "Protobelt - Way more angles to jump on you + HP/haste",
+            "fr": "Protobelt - Beaucoup plus d'angles pour jump sur toi + HP/haste"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Viktor",
+      "name": { "en": "Viktor", "fr": "Viktor" },
+      "dateEdited": "2025-11-08",
+      "countersWholeGame": {
+        "A+": ["Galio"],
+        "A": ["Akali", "Irelia", "Hwei"],
+        "B": ["Orianna", "Leblanc", "Azir", "Swain", "Kassadin"],
+        "B-": ["Syndra"]
+      },
+      "tips": {
+        "en": [
+          "Lvl 1 play around Viktor Q CD - don't eat 2nd part, 1st is ok, then play up",
+          "Q 9 sec, E 17 sec - play around them",
+          "Avoid direct laning by pushing wave",
+          "Viktor has mana problems early - HP vs MANA lane, dodge 1-2 Es and you're chilling"
+        ],
+        "fr": [
+          "Lvl 1 joue autour du CD de Q Viktor - ne te prends pas la 2ème partie, 1ère ok, puis play up",
+          "Q 9 sec, E 17 sec - joue autour",
+          "Évite le lane direct en push la wave",
+          "Viktor a des problèmes de mana early - HP vs MANA lane, dodge 1-2 Es et tu chill"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 1,
+          "text": {
+            "en": "Q is one of the most OP spell lvl 1",
+            "fr": "Q est un des spells les plus OP lvl 1"
+          }
+        },
+        {
+          "level": 3,
+          "text": {
+            "en": "Likely 2 points on E - starts to hurt, fake autos and move or use Orianna E to block",
+            "fr": "Probablement 2 points sur E - commence à faire mal, fake autos et bouge ou utilise Orianna E pour block"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3802",
+          "text": {
+            "en": "Lost Chapter - Can spam E, this is when you can start trading back",
+            "fr": "Lost Chapter - Peut spam E, c'est quand tu peux commencer à trade back"
+          }
+        },
+        {
+          "item": "4645",
+          "text": {
+            "en": "1st item - Viktor is now a damage threat in teamfights",
+            "fr": "1st item - Viktor est maintenant une menace de dégâts en teamfights"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Yone",
+      "name": { "en": "Yone", "fr": "Yone" },
+      "dateEdited": "2025-11-09",
+      "countersWholeGame": {
+        "S": ["Cassiopeia", "Leblanc", "Akali"],
+        "A": ["Aurora", "Lissandra", "Annie"],
+        "B": ["Orianna"]
+      },
+      "tips": {
+        "en": [
+          "Yone is really weak until 1st base - abuse it",
+          "Play around Yone W CD: 13 sec lvl 1",
+          "Yone only looks to E in when Q is stacked - be aware when Q is stacked"
+        ],
+        "fr": [
+          "Yone est vraiment faible jusqu'à sa 1st base - abuse ça",
+          "Joue autour du CD du W de Yone: 13 sec lvl 1",
+          "Yone cherche à E seulement quand Q est stack - sois aware quand Q est stack"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 2,
+          "text": {
+            "en": "Can use W to deny damage while last hitting",
+            "fr": "Peut utiliser W pour deny damage en last hitting"
+          }
+        },
+        {
+          "level": 6,
+          "text": {
+            "en": "Somewhat good setup - can look for trades",
+            "fr": "Setup correct - peut chercher des trades"
+          }
+        },
+        {
+          "level": 9,
+          "text": {
+            "en": "Q does a lot of damage now",
+            "fr": "Q fait beaucoup de dégâts maintenant"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3006",
+          "text": {
+            "en": "Berserker Boots - Reduces W/Q CD, easier to dodge and trade",
+            "fr": "Berserker Boots - Réduit W/Q CD, plus facile de dodge et trade"
+          }
+        },
+        {
+          "item": "3153",
+          "text": {
+            "en": "BORK - Yone is Thanos, 10x stronger, can run you down",
+            "fr": "BORK - Yone est Thanos, 10x plus fort, peut te run down"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Kassadin",
+      "name": { "en": "Kassadin", "fr": "Kassadin" },
+      "dateEdited": "2025-11-09",
+      "countersWholeGame": {
+        "S": ["Jayce", "Tristana", "Irelia", "Yone"],
+        "A+": ["Yasuo", "Zed", "Cassiopeia", "Ryze"],
+        "B+": ["Orianna", "Aurora"]
+      },
+      "tips": {
+        "en": [
+          "If you're a control mage, bait his Q before poking",
+          "Play around low HP minions - deny last hits",
+          "Call team for early drakes - Kassadin is not a champ early"
+        ],
+        "fr": [
+          "Si tu es un control mage, bait son Q avant de poke",
+          "Joue autour des minions low HP - deny les last hits",
+          "Call l'équipe pour les drakes early - Kassadin n'est pas un champ early"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 6,
+          "text": {
+            "en": "Before lvl 6 Kassadin is useless",
+            "fr": "Avant lvl 6 Kassadin est inutile"
+          }
+        },
+        {
+          "level": 11,
+          "text": {
+            "en": "Becomes a threat in teamfights",
+            "fr": "Devient une menace en teamfights"
+          }
+        },
+        {
+          "level": 16,
+          "text": {
+            "en": "Can't ignore in teamfights",
+            "fr": "Ne peut pas être ignoré en teamfights"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "1028",
+          "text": {
+            "en": "After 1st base with rubies - Very tanky, easier to scale",
+            "fr": "Après 1st base avec rubies - Très tanky, plus facile de scale"
+          }
+        },
+        {
+          "item": "3003",
+          "text": {
+            "en": "Rod of Ages - Can consistently trade back",
+            "fr": "Rod of Ages - Peut trade back de manière consistante"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Veigar",
+      "name": { "en": "Veigar", "fr": "Veigar" },
+      "dateEdited": "2025-11-10",
+      "countersWholeGame": {
+        "S": ["Kassadin", "Fizz", "Sylas"],
+        "A": ["Leblanc", "Aurora", "Taliyah"],
+        "B+": ["Orianna", "Viktor"]
+      },
+      "tips": {
+        "en": [
+          "Press up to low HP minions - force him to Q you or minion (win-win)",
+          "Play around Q CD: 6 sec",
+          "In 1v1 if Veigar cages, don't panic - easy to dodge skillshots",
+          "Utilize prio lvl 6+ - no need to kill him to win"
+        ],
+        "fr": [
+          "Press up vers les minions low HP - force le à Q toi ou le minion (win-win)",
+          "Joue autour du CD de Q: 6 sec",
+          "En 1v1 si Veigar cage, pas de panique - facile de dodge les skillshots",
+          "Utilise la prio lvl 6+ - pas besoin de le kill pour gagner"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 6,
+          "text": {
+            "en": "He's a champion now - can 1-shot from 50% with 1 combo",
+            "fr": "C'est un champion maintenant - peut 1-shot de 50% avec 1 combo"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "6653",
+          "text": {
+            "en": "1st item - Becomes a champion, can trade back",
+            "fr": "1st item - Devient un champion, peut trade back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Zoe",
+      "name": { "en": "Zoe", "fr": "Zoe" },
+      "dateEdited": "2025-11-11",
+      "countersWholeGame": {
+        "S": ["Mel", "Morgana", "Yone"],
+        "A": ["Akali", "Yasuo", "Leblanc", "Galio"],
+        "B+": ["Syndra", "Hwei", "Orianna", "Viktor", "Lissandra"]
+      },
+      "tips": {
+        "en": [
+          "When Zoe presses Q1 she has 1 sec to Q2 or it disappears - watch her position for angles",
+          "Q 8.5 sec, E 16 sec - play around CDs",
+          "Run before wave is gone to prevent bad trades",
+          "Play opposite side of Zoe - harder to E and Q",
+          "ZOE Q DMG IS BASED ON DISTANCE TRAVELED"
+        ],
+        "fr": [
+          "Quand Zoe press Q1 elle a 1 sec pour Q2 sinon ça disparaît - regarde sa position pour les angles",
+          "Q 8.5 sec, E 16 sec - joue autour des CDs",
+          "Run avant que la wave soit gone pour éviter les mauvais trades",
+          "Joue du côté opposé de Zoe - plus dur de E et Q",
+          "LE DMG DU Q DE ZOE EST BASÉ SUR LA DISTANCE PARCOURUE"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 1,
+          "text": {
+            "en": "Q is very flexible with ton of wave dmg - hard to contest prio",
+            "fr": "Q est très flexible avec beaucoup de wave dmg - dur de contest la prio"
+          }
+        },
+        {
+          "level": 2,
+          "text": {
+            "en": "E unlocked - play around minions without being too close",
+            "fr": "E débloqué - joue autour des minions sans être trop proche"
+          }
+        },
+        { "level": 5, "text": { "en": "Can 1-shot backline", "fr": "Peut 1-shot backline" } }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3020",
+          "text": {
+            "en": "Full Boots - More dmg (Q distance based) + easier roams/E angles",
+            "fr": "Full Boots - Plus de dmg (Q basé sur distance) + roams/angles E plus faciles"
+          }
+        },
+        {
+          "item": "6655",
+          "text": {
+            "en": "Luden - Getting hit by E = 75% HP gone",
+            "fr": "Luden - Se faire toucher par E = 75% HP gone"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Hwei",
+      "name": { "en": "Hwei", "fr": "Hwei" },
+      "dateEdited": "2025-11-12",
+      "countersWholeGame": {
+        "A": ["Yasuo", "Yone", "Irelia", "Akali"],
+        "B": ["Viktor", "Orianna", "Syndra", "Aurora"]
+      },
+      "tips": {
+        "en": [
+          "Early game spells very long: Q 10, W 18, E 13 sec - abuse it",
+          "Play opposite side for less Q angles",
+          "Hwei EW is blockable by minions"
+        ],
+        "fr": [
+          "Spells early game très longs: Q 10, W 18, E 13 sec - abuse ça",
+          "Joue du côté opposé pour moins d'angles Q",
+          "Hwei EW est blockable par les minions"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 2,
+          "text": {
+            "en": "Unlocks passive proc - can threaten more",
+            "fr": "Débloque le proc du passif - peut menacer plus"
+          }
+        },
+        { "level": 4, "text": { "en": "Q hurts 2x more", "fr": "Q fait 2x plus mal" } },
+        { "level": 6, "text": { "en": "Kill threat now", "fr": "Kill threat maintenant" } },
+        { "level": 9, "text": { "en": "Can spam spells on CD", "fr": "Peut spam spells on CD" } }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3802",
+          "text": {
+            "en": "Lost Chapter - Can spam spells",
+            "fr": "Lost Chapter - Peut spam spells"
+          }
+        },
+        {
+          "item": "6653",
+          "text": {
+            "en": "1st item - One combo = 50% gone",
+            "fr": "1st item - Un combo = 50% gone"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Ryze",
+      "name": { "en": "Ryze", "fr": "Ryze" },
+      "dateEdited": "2025-11-12",
+      "countersWholeGame": {
+        "S": ["Orianna", "Cassiopeia"],
+        "A+": ["Anivia", "Annie", "Veigar", "Syndra"],
+        "A": ["Azir", "Hwei"],
+        "B+": ["Aurora"],
+        "B": ["Leblanc"]
+      },
+      "tips": {
+        "en": [
+          "Before Tear he runs OOM fast - bait his mana with your body",
+          "Utilize minions to block Qs",
+          "Trading ult can be good to prevent roams around 6 min for grubs"
+        ],
+        "fr": [
+          "Avant Tear il run OOM vite - bait son mana avec ton corps",
+          "Utilise les minions pour bloquer les Qs",
+          "Trade ult peut être bon pour empêcher les roams autour de 6 min pour les grubs"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 3,
+          "text": {
+            "en": "Unlocks all abilities - decent trade if you don't respect",
+            "fr": "Débloque toutes les abilités - trade décent si tu ne respectes pas"
+          }
+        },
+        {
+          "level": 6,
+          "text": {
+            "en": "R is broken - gives 25% more dmg on Flux procs",
+            "fr": "R est broken - donne 25% de dmg en plus sur les procs Flux"
+          }
+        },
+        {
+          "level": 11,
+          "text": {
+            "en": "R shorter + 75% bonus dmg on Flux procs total",
+            "fr": "R plus court + 75% bonus dmg sur procs Flux au total"
+          }
+        },
+        {
+          "level": 16,
+          "text": {
+            "en": "Ryze has ascended - 100% bonus dmg on E Flux procs",
+            "fr": "Ryze a ascended - 100% bonus dmg sur procs E Flux"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3070",
+          "text": {
+            "en": "Tear - More spells but still some mana problems",
+            "fr": "Tear - Plus de spells mais encore des problèmes de mana"
+          }
+        },
+        {
+          "item": "3010",
+          "text": {
+            "en": "Catalyst - More dmg, tankier, no more mana problems",
+            "fr": "Catalyst - Plus de dmg, plus tanky, plus de problèmes de mana"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Jayce",
+      "name": { "en": "Jayce", "fr": "Jayce" },
+      "dateEdited": "2025-11-13",
+      "countersWholeGame": {
+        "A": ["Leblanc", "Syndra"],
+        "B+": ["Orianna", "Hwei", "Annie"]
+      },
+      "tips": {
+        "en": [
+          "Play around Q Range 8 sec, Melee 16 sec",
+          "Ward in middle of lane to spot Q+E",
+          "Play opposite side - harder for Q+E hits"
+        ],
+        "fr": [
+          "Joue autour Q Range 8 sec, Melee 16 sec",
+          "Ward au milieu de la lane pour spot Q+E",
+          "Joue du côté opposé - plus dur pour les Q+E"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 3,
+          "text": {
+            "en": "2 points on Q - Q+E does 2x more dmg",
+            "fr": "2 points sur Q - Q+E fait 2x plus de dégâts"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3134",
+          "text": {
+            "en": "Dirk - Damage doubles, hurts a lot more",
+            "fr": "Dirk - Dégâts doublés, fait beaucoup plus mal"
+          }
+        },
+        {
+          "item": "3142",
+          "text": {
+            "en": "Youmuu - Very fast, 1-shot wave or Q+E = 400 dmg alone",
+            "fr": "Youmuu - Très rapide, 1-shot wave ou Q+E = 400 dmg seul"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Galio",
+      "name": { "en": "Galio", "fr": "Galio" },
+      "dateEdited": "2025-11-14",
+      "countersWholeGame": {
+        "S": ["Vayne", "Tristana", "Smolder"],
+        "A": ["Ryze", "Kassadin", "Kayle"],
+        "B": ["Orianna", "Viktor", "Syndra", "Azir"]
+      },
+      "tips": {
+        "en": [
+          "Time his R: 180 sec CD - very long",
+          "Galio has hard time last hitting under tower (passive) - crash waves",
+          "Sometimes best way to dodge Q is walk forward",
+          "His ideal scenario is Q on you + wave (low HP minion) - deny that"
+        ],
+        "fr": [
+          "Time son R: 180 sec CD - très long",
+          "Galio a du mal à last hit sous tower (passif) - crash les waves",
+          "Parfois le meilleur moyen de dodge Q est de walk forward",
+          "Son scénario idéal est Q sur toi + wave (minion low HP) - deny ça"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 2,
+          "text": {
+            "en": "Against mages - massive survivability",
+            "fr": "Contre les mages - survivabilité massive"
+          }
+        },
+        {
+          "level": 3,
+          "text": {
+            "en": "Unlocks gank setup for jg/supp",
+            "fr": "Débloque le setup gank pour jg/supp"
+          }
+        },
+        {
+          "level": 6,
+          "text": {
+            "en": "Hero's Entrance - more threat in fog",
+            "fr": "Hero's Entrance - plus de menace dans le fog"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "1028",
+          "text": {
+            "en": "1st base - Mega tanky, harder to kill",
+            "fr": "1st base - Mega tanky, plus dur à kill"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Annie",
+      "name": { "en": "Annie", "fr": "Annie" },
+      "dateEdited": "2025-11-30",
+      "countersWholeGame": {
+        "A": ["Orianna", "Viktor", "Syndra", "Galio"],
+        "B": ["Akali"],
+        "C": ["Morgana", "Veigar"]
+      },
+      "tips": {
+        "en": [
+          "Low waveclear - use that to force passive",
+          "Certain champs can throw spell before getting CC'd",
+          "Annie has range problem - short range compared to Orianna/Viktor"
+        ],
+        "fr": [
+          "Faible waveclear - utilise ça pour forcer le passif",
+          "Certains champs peuvent throw spell avant d'être CC",
+          "Annie a un problème de range - range courte comparé à Orianna/Viktor"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 1,
+          "text": {
+            "en": "Pretty strong lvl 1 (passive) - hit wave to force Q on wave or lose prio",
+            "fr": "Assez fort lvl 1 (passif) - hit wave pour forcer Q sur wave ou perdre prio"
+          }
+        },
+        {
+          "level": 3,
+          "text": {
+            "en": "Unlocks every spell - easier pokes",
+            "fr": "Débloque tous les spells - pokes plus faciles"
+          }
+        },
+        {
+          "level": 6,
+          "text": {
+            "en": "Good Annie will use R immediately to chunk you",
+            "fr": "Une bonne Annie utilisera R immédiatement pour te chunk"
+          }
+        }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3020",
+          "text": {
+            "en": "Full Boots - Way easier trades with E MS + boots MS",
+            "fr": "Full Boots - Trades beaucoup plus faciles avec E MS + boots MS"
+          }
+        },
+        {
+          "item": "3802",
+          "text": {
+            "en": "Lost Chapter - Can trade without going OOM",
+            "fr": "Lost Chapter - Peut trade sans aller OOM"
+          }
+        },
+        {
+          "item": "6653",
+          "text": {
+            "en": "Malignance - Ult on much shorter CD, more spammable",
+            "fr": "Malignance - Ult sur CD beaucoup plus court, plus spammable"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Cassiopeia",
+      "name": { "en": "Cassiopeia", "fr": "Cassiopeia" },
+      "dateEdited": "2025-12-09",
+      "countersWholeGame": {
+        "S": ["Syndra", "Orianna"],
+        "A": ["Taliyah", "Hwei", "Anivia"],
+        "B+": ["Veigar"]
+      },
+      "tips": {
+        "en": [
+          "Play around Cassiopeia mana pool early",
+          "Q is 3.5 sec - play around that",
+          "Spacing is VERY important against her"
+        ],
+        "fr": [
+          "Joue autour du mana pool de Cassiopeia early",
+          "Q est 3.5 sec - joue autour de ça",
+          "Le spacing est TRÈS important contre elle"
+        ]
+      },
+      "levelSpikes": [
+        {
+          "level": 2,
+          "text": {
+            "en": "Can run you down with Q+Es - space correctly",
+            "fr": "Peut te run down avec Q+Es - space correctement"
+          }
+        },
+        {
+          "level": 3,
+          "text": {
+            "en": "Has W - can save herself from dives",
+            "fr": "A W - peut se save des dives"
+          }
+        },
+        { "level": 6, "text": { "en": "R threat - can R+Flash", "fr": "R menace - peut R+Flash" } }
+      ],
+      "itemSpikes": [
+        {
+          "item": "3070",
+          "text": {
+            "en": "Tear - More mana, more angles to trade",
+            "fr": "Tear - Plus de mana, plus d'angles pour trade"
+          }
+        },
+        {
+          "item": "3010",
+          "text": {
+            "en": "Catalyst - Very tanky, can chase you down",
+            "fr": "Catalyst - Très tanky, peut te chase down"
+          }
+        },
+        {
+          "item": "3003",
+          "text": {
+            "en": "RoA - Very tanky + sustain from passive",
+            "fr": "RoA - Très tanky + sustain du passif"
+          }
+        },
+        {
+          "item": "3116",
+          "text": {
+            "en": "Rylai - Perma slow makes life miserable",
+            "fr": "Rylai - Slow perma rend la vie misérable"
+          }
+        }
+      ]
+    }
+  ],
+  "matchups": []
+}

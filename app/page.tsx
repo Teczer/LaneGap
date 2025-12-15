@@ -1,65 +1,185 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { useState, useMemo, useCallback, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { PageContainer } from '@/components/layout/page-container.component'
+import { Input } from '@/components/ui/input'
+import { ChampionCard } from '@/components/champion/champion-card.component'
+import { useDatabase } from '@/hooks/use-database.hook'
+import { useFavoritesStore } from '@/app/store/favorites.store'
+import { useSettingsStore } from '@/app/store/settings.store'
+import { cn } from '@/lib/utils'
+import { LuSearch, LuStar, LuClock, LuTarget } from 'react-icons/lu'
+import type { IChampion } from '@/lib/types'
+
+export default function HomePage() {
+  const router = useRouter()
+  const { champions, meta } = useDatabase()
+  const [search, setSearch] = useState('')
+  const language = useSettingsStore((s) => s.language)
+
+  const favoriteChampions = useFavoritesStore((s) => s.favoriteChampions)
+  const recentChampions = useFavoritesStore((s) => s.recentChampions)
+  const addRecent = useFavoritesStore((s) => s.addRecent)
+
+  const filteredChampions = useMemo(() => {
+    if (!search.trim()) return champions
+    const lowerQuery = search.toLowerCase()
+    return champions.filter(
+      (c) =>
+        c.name.en.toLowerCase().includes(lowerQuery) ||
+        c.name.fr.toLowerCase().includes(lowerQuery) ||
+        c.id.toLowerCase().includes(lowerQuery)
+    )
+  }, [champions, search])
+
+  const favoriteChampionsList = useMemo(() => {
+    return champions.filter((c) => favoriteChampions.includes(c.id))
+  }, [champions, favoriteChampions])
+
+  const recentChampionsList = useMemo(() => {
+    return recentChampions
+      .map((id) => champions.find((c) => c.id === id))
+      .filter((c): c is IChampion => c !== undefined)
+  }, [champions, recentChampions])
+
+  const handleSelect = useCallback(
+    (champion: IChampion) => {
+      addRecent(champion.id)
+      router.push(`/enemy/${champion.id}`)
+    },
+    [router, addRecent]
+  )
+
+  // Keyboard shortcut for search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault()
+        document.getElementById('champion-search')?.focus()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <PageContainer>
+      {/* Hero Section */}
+      <div className="animate-fade-in mb-12 text-center">
+        <h1 className="mb-4 text-4xl font-bold tracking-tight">
+          <span className="text-white">LANE</span>
+          <span className="text-gradient">GAP</span>
+        </h1>
+        <p className="text-lg text-white/60">
+          {language === 'en'
+            ? 'Select the enemy champion you are facing'
+            : 'Sélectionne le champion ennemi que tu affrontes'}
+        </p>
+        <p className="mt-2 text-sm text-white/40">
+          Patch {meta.patchVersion} • {champions.length} champions
+        </p>
+      </div>
+
+      {/* Search Bar */}
+      <div className="animate-slide-up mx-auto mb-12 max-w-md">
+        <Input
+          id="champion-search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder={
+            language === 'en'
+              ? 'Search enemy champion... (Press /)'
+              : 'Chercher un ennemi... (Appuie /)'
+          }
+          icon={<LuSearch className="h-4 w-4" />}
+          className="h-12 text-base"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+      </div>
+
+      {/* Favorites Section */}
+      {!search && favoriteChampionsList.length > 0 && (
+        <section className="animate-slide-up mb-10" style={{ animationDelay: '100ms' }}>
+          <div className="mb-4 flex items-center gap-2">
+            <LuStar className="h-4 w-4 text-yellow-400" />
+            <h2 className="text-sm font-semibold text-white/80">
+              {language === 'en' ? 'Favorites' : 'Favoris'}
+            </h2>
+          </div>
+          <div className="grid grid-cols-4 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
+            {favoriteChampionsList.map((champ) => (
+              <ChampionCard
+                key={champ.id}
+                championId={champ.id}
+                name={champ.name}
+                onClick={() => handleSelect(champ)}
+                compact
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Recent Section */}
+      {!search && recentChampionsList.length > 0 && (
+        <section className="animate-slide-up mb-10" style={{ animationDelay: '150ms' }}>
+          <div className="mb-4 flex items-center gap-2">
+            <LuClock className="h-4 w-4 text-white/40" />
+            <h2 className="text-sm font-semibold text-white/80">
+              {language === 'en' ? 'Recent' : 'Récents'}
+            </h2>
+          </div>
+          <div className="grid grid-cols-4 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
+            {recentChampionsList.slice(0, 5).map((champ) => (
+              <ChampionCard
+                key={champ.id}
+                championId={champ.id}
+                name={champ.name}
+                onClick={() => handleSelect(champ)}
+                compact
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* All Champions Grid */}
+      <section className="animate-slide-up" style={{ animationDelay: '200ms' }}>
+        <div className="mb-4 flex items-center gap-2">
+          <LuTarget className="h-4 w-4 text-red-400" />
+          <h2 className="text-sm font-semibold text-white/80">
+            {search
+              ? `${filteredChampions.length} ${language === 'en' ? 'results' : 'résultats'}`
+              : language === 'en'
+                ? 'Enemy Champions'
+                : 'Champions Ennemis'}
+          </h2>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+
+        {filteredChampions.length === 0 ? (
+          <div className="rounded-xl border border-white/10 bg-white/5 p-8 text-center">
+            <p className="text-white/40">
+              {language === 'en' ? 'No champions found' : 'Aucun champion trouvé'}
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-4 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
+            {filteredChampions.map((champ, index) => (
+              <ChampionCard
+                key={champ.id}
+                championId={champ.id}
+                name={champ.name}
+                onClick={() => handleSelect(champ)}
+                compact
+                className={cn(
+                  'animate-scale-in',
+                  index < 10 && `stagger-${Math.min(index + 1, 6)}`
+                )}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+    </PageContainer>
+  )
 }
