@@ -1,0 +1,45 @@
+{
+  "common": {
+    "back": "Retour",
+    "backToHome": "Retour à l'accueil",
+    "comingSoon": "À venir...",
+    "tipsComingSoon": "Tips à venir...",
+    "specificTipsComingSoon": "Tips spécifiques à venir...",
+    "checkGeneralTips": "Consulte les tips généraux ci-dessous en attendant",
+    "counterPicksComingSoon": "Counter picks à venir...",
+    "noChampionsFound": "Aucun champion trouvé",
+    "championNotFound": "Champion non trouvé"
+  },
+  "home": {
+    "title": "LANEGAP",
+    "subtitle": "Sélectionne le champion ennemi que tu affrontes",
+    "searchPlaceholder": "Chercher un ennemi...",
+    "favorites": "Favoris",
+    "recent": "Récents",
+    "enemyChampions": "Champions Ennemis",
+    "results": "résultats"
+  },
+  "enemy": {
+    "facingEnemy": "Face à",
+    "updated": "MAJ",
+    "favorited": "Favori",
+    "addFavorite": "Ajouter favori",
+    "bestPicks": "Meilleurs picks contre {champion}",
+    "howToPlay": "Comment jouer contre {champion}",
+    "powerSpikes": "Power Spikes de {champion}",
+    "itemSpikes": "Item Spikes de {champion}"
+  },
+  "matchup": {
+    "playingAs": "Tu joues",
+    "enemy": "Ennemi",
+    "howToBeatWith": "Comment battre {enemy} avec {myChamp}",
+    "howToBeat": "Comment battre {enemy}",
+    "powerSpikes": "Power Spikes de {champion}",
+    "itemSpikes": "Item Spikes de {champion}"
+  },
+  "language": {
+    "en": "EN",
+    "fr": "FR"
+  }
+}
+

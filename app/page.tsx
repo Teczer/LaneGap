@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { ChampionCard } from '@/components/champion/champion-card.component'
 import { useDatabase } from '@/hooks/use-database.hook'
 import { useFavoritesStore } from '@/app/store/favorites.store'
-import { useSettingsStore } from '@/app/store/settings.store'
+import { useTranslations } from '@/hooks/use-translations.hook'
 import { cn } from '@/lib/utils'
 import { LuSearch, LuStar, LuClock, LuTarget } from 'react-icons/lu'
 import type { IChampion } from '@/lib/types'
@@ -16,7 +16,7 @@ export default function HomePage() {
   const router = useRouter()
   const { champions, meta } = useDatabase()
   const [search, setSearch] = useState('')
-  const language = useSettingsStore((s) => s.language)
+  const { t } = useTranslations()
 
   const favoriteChampions = useFavoritesStore((s) => s.favoriteChampions)
   const recentChampions = useFavoritesStore((s) => s.recentChampions)
@@ -59,11 +59,7 @@ export default function HomePage() {
           <span className="text-white">LANE</span>
           <span className="text-gradient">GAP</span>
         </h1>
-        <p className="text-lg text-white/60">
-          {language === 'en'
-            ? 'Select the enemy champion you are facing'
-            : 'Sélectionne le champion ennemi que tu affrontes'}
-        </p>
+        <p className="text-lg text-white/60">{t('home.subtitle')}</p>
         <p className="mt-2 text-sm text-white/40">
           Patch {meta.patchVersion} • {champions.length} champions
         </p>
@@ -75,7 +71,7 @@ export default function HomePage() {
           id="champion-search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder={language === 'en' ? 'Search enemy champion...' : 'Chercher un ennemi...'}
+          placeholder={t('home.searchPlaceholder')}
           icon={<LuSearch className="h-4 w-4" />}
           className="h-12 text-base"
         />
@@ -86,9 +82,7 @@ export default function HomePage() {
         <section className="animate-slide-up mb-10" style={{ animationDelay: '100ms' }}>
           <div className="mb-4 flex items-center gap-2">
             <LuStar className="h-4 w-4 text-yellow-400" />
-            <h2 className="text-sm font-semibold text-white/80">
-              {language === 'en' ? 'Favorites' : 'Favoris'}
-            </h2>
+            <h2 className="text-sm font-semibold text-white/80">{t('home.favorites')}</h2>
           </div>
           <div className="grid grid-cols-4 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
             {favoriteChampionsList.map((champ) => (
@@ -109,9 +103,7 @@ export default function HomePage() {
         <section className="animate-slide-up mb-10" style={{ animationDelay: '150ms' }}>
           <div className="mb-4 flex items-center gap-2">
             <LuClock className="h-4 w-4 text-white/40" />
-            <h2 className="text-sm font-semibold text-white/80">
-              {language === 'en' ? 'Recent' : 'Récents'}
-            </h2>
+            <h2 className="text-sm font-semibold text-white/80">{t('home.recent')}</h2>
           </div>
           <div className="grid grid-cols-4 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
             {recentChampionsList.slice(0, 5).map((champ) => (
@@ -132,19 +124,13 @@ export default function HomePage() {
         <div className="mb-4 flex items-center gap-2">
           <LuTarget className="h-4 w-4 text-red-400" />
           <h2 className="text-sm font-semibold text-white/80">
-            {search
-              ? `${filteredChampions.length} ${language === 'en' ? 'results' : 'résultats'}`
-              : language === 'en'
-                ? 'Enemy Champions'
-                : 'Champions Ennemis'}
+            {search ? `${filteredChampions.length} ${t('home.results')}` : t('home.enemyChampions')}
           </h2>
         </div>
 
         {filteredChampions.length === 0 ? (
           <div className="rounded-xl border border-white/10 bg-white/5 p-8 text-center">
-            <p className="text-white/40">
-              {language === 'en' ? 'No champions found' : 'Aucun champion trouvé'}
-            </p>
+            <p className="text-white/40">{t('common.noChampionsFound')}</p>
           </div>
         ) : (
           <div className="grid grid-cols-4 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">

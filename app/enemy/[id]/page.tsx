@@ -12,7 +12,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useDatabase } from '@/hooks/use-database.hook'
 import { useFavoritesStore } from '@/app/store/favorites.store'
-import { useSettingsStore } from '@/app/store/settings.store'
+import { useTranslations } from '@/hooks/use-translations.hook'
 import { cn } from '@/lib/utils'
 import {
   LuArrowLeft,
@@ -35,7 +35,7 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
   const { id } = use(params)
   const router = useRouter()
   const { champions, getChampion } = useDatabase()
-  const language = useSettingsStore((s) => s.language)
+  const { t, language } = useTranslations()
   const favoriteChampions = useFavoritesStore((s) => s.favoriteChampions)
   const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite)
 
@@ -65,10 +65,10 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
     return (
       <PageContainer>
         <div className="flex flex-col items-center justify-center py-20 text-center">
-          <p className="mb-4 text-lg text-white/60">Champion not found</p>
+          <p className="mb-4 text-lg text-white/60">{t('common.championNotFound')}</p>
           <Button variant="secondary" onClick={() => router.push('/')}>
             <LuArrowLeft className="h-4 w-4" />
-            {language === 'en' ? 'Back to home' : "Retour à l'accueil"}
+            {t('common.backToHome')}
           </Button>
         </div>
       </PageContainer>
@@ -86,11 +86,11 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
           <ChampionIcon championId={enemy.id} size="xl" />
           <div>
             <p className="mb-1 text-xs font-medium tracking-wider text-red-400 uppercase">
-              {language === 'en' ? 'Facing Enemy' : 'Face à'}
+              {t('enemy.facingEnemy')}
             </p>
             <h1 className="text-2xl font-bold">{enemy.name[language]}</h1>
             <p className="text-sm text-white/50">
-              {language === 'en' ? 'Updated' : 'MAJ'}: {enemy.dateEdited}
+              {t('enemy.updated')}: {enemy.dateEdited}
             </p>
           </div>
         </div>
@@ -99,13 +99,7 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
           onClick={() => toggleFavorite(enemy.id)}
         >
           <LuStar className={cn('h-4 w-4', isFavorite && 'fill-current')} />
-          {isFavorite
-            ? language === 'en'
-              ? 'Favorited'
-              : 'Favori'
-            : language === 'en'
-              ? 'Add favorite'
-              : 'Ajouter favori'}
+          {isFavorite ? t('enemy.favorited') : t('enemy.addFavorite')}
         </Button>
       </div>
 
@@ -115,18 +109,14 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <LuShield className="h-4 w-4 text-emerald-400" />
-              {language === 'en'
-                ? `Best picks against ${enemy.name[language]}`
-                : `Meilleurs picks contre ${enemy.name[language]}`}
+              {t('enemy.bestPicks', { champion: enemy.name[language] })}
             </CardTitle>
           </CardHeader>
           <CardContent>
             {countersWithData.length === 0 ? (
               <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
                 <LuSparkles className="mb-3 h-8 w-8 text-violet-400/60" />
-                <p className="text-sm text-white/50">
-                  {language === 'en' ? 'Counter picks coming soon...' : 'Counter picks à venir...'}
-                </p>
+                <p className="text-sm text-white/50">{t('common.counterPicksComingSoon')}</p>
               </div>
             ) : (
               <div className="grid grid-cols-4 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
@@ -150,9 +140,7 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <LuTarget className="h-4 w-4 text-red-400" />
-              {language === 'en'
-                ? `How to play against ${enemy.name[language]}`
-                : `Comment jouer contre ${enemy.name[language]}`}
+              {t('enemy.howToPlay', { champion: enemy.name[language] })}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -161,9 +149,7 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
             ) : (
               <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
                 <LuSparkles className="mb-3 h-8 w-8 text-violet-400/60" />
-                <p className="text-sm text-white/50">
-                  {language === 'en' ? 'Tips coming soon...' : 'Tips à venir...'}
-                </p>
+                <p className="text-sm text-white/50">{t('common.tipsComingSoon')}</p>
               </div>
             )}
           </CardContent>
@@ -174,9 +160,7 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <LuTrendingUp className="h-4 w-4 text-cyan-400" />
-              {language === 'en'
-                ? `${enemy.name[language]} Power Spikes`
-                : `Power Spikes de ${enemy.name[language]}`}
+              {t('enemy.powerSpikes', { champion: enemy.name[language] })}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -185,9 +169,7 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
             ) : (
               <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
                 <LuSparkles className="mb-2 h-6 w-6 text-violet-400/60" />
-                <p className="text-sm text-white/50">
-                  {language === 'en' ? 'Coming soon...' : 'À venir...'}
-                </p>
+                <p className="text-sm text-white/50">{t('common.comingSoon')}</p>
               </div>
             )}
           </CardContent>
@@ -198,9 +180,7 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <LuBox className="h-4 w-4 text-orange-400" />
-              {language === 'en'
-                ? `${enemy.name[language]} Item Spikes`
-                : `Item Spikes de ${enemy.name[language]}`}
+              {t('enemy.itemSpikes', { champion: enemy.name[language] })}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -209,9 +189,7 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
             ) : (
               <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
                 <LuSparkles className="mb-2 h-6 w-6 text-violet-400/60" />
-                <p className="text-sm text-white/50">
-                  {language === 'en' ? 'Coming soon...' : 'À venir...'}
-                </p>
+                <p className="text-sm text-white/50">{t('common.comingSoon')}</p>
               </div>
             )}
           </CardContent>

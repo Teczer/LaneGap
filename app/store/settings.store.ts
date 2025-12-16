@@ -12,9 +12,7 @@ export const useSettingsStore = create<ISettingsState>()(
   persist(
     (set) => ({
       language: 'en',
-
       setLanguage: (language) => set({ language }),
-
       toggleLanguage: () =>
         set((state) => ({
           language: state.language === 'en' ? 'fr' : 'en',

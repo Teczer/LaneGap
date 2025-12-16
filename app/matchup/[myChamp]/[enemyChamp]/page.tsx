@@ -11,7 +11,7 @@ import { TierBadge } from '@/components/matchup/tier-badge.component'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useDatabase } from '@/hooks/use-database.hook'
-import { useSettingsStore } from '@/app/store/settings.store'
+import { useTranslations } from '@/hooks/use-translations.hook'
 import {
   LuArrowLeft,
   LuSwords,
@@ -31,7 +31,7 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
   const { myChamp, enemyChamp } = use(params)
   const router = useRouter()
   const { getChampion, getMatchup } = useDatabase()
-  const language = useSettingsStore((s) => s.language)
+  const { t, language } = useTranslations()
 
   const myChampion = getChampion(myChamp)
   const enemy = getChampion(enemyChamp)
@@ -56,10 +56,10 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
       <PageContainer>
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <LuCircleAlert className="mb-4 h-12 w-12 text-red-500/60" />
-          <p className="mb-4 text-lg text-white/60">Champion not found</p>
+          <p className="mb-4 text-lg text-white/60">{t('common.championNotFound')}</p>
           <Button variant="secondary" onClick={() => router.push('/')}>
             <LuArrowLeft className="h-4 w-4" />
-            {language === 'en' ? 'Back to home' : "Retour à l'accueil"}
+            {t('common.backToHome')}
           </Button>
         </div>
       </PageContainer>
@@ -72,7 +72,7 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
       <div className="mb-8">
         <Button variant="ghost" size="sm" onClick={() => router.back()} className="mb-6">
           <LuArrowLeft className="h-4 w-4" />
-          {language === 'en' ? 'Back' : 'Retour'}
+          {t('common.back')}
         </Button>
 
         {/* VS Display */}
@@ -80,7 +80,7 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
           {/* My Champion */}
           <div className="flex flex-col items-center gap-3">
             <p className="text-xs font-medium tracking-wider text-emerald-400 uppercase">
-              {language === 'en' ? 'Playing as' : 'Tu joues'}
+              {t('matchup.playingAs')}
             </p>
             <ChampionIcon championId={myChampion.id} size="xl" />
             <span className="font-semibold text-white">{myChampion.name[language]}</span>
@@ -96,7 +96,7 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
           {/* Enemy Champion */}
           <div className="flex flex-col items-center gap-3">
             <p className="text-xs font-medium tracking-wider text-red-400 uppercase">
-              {language === 'en' ? 'Enemy' : 'Ennemi'}
+              {t('matchup.enemy')}
             </p>
             <ChampionIcon championId={enemy.id} size="xl" />
             <span className="font-semibold text-white">{enemy.name[language]}</span>
@@ -110,9 +110,10 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <LuSwords className="h-4 w-4 text-emerald-400" />
-              {language === 'en'
-                ? `How to beat ${enemy.name[language]} as ${myChampion.name[language]}`
-                : `Comment battre ${enemy.name[language]} avec ${myChampion.name[language]}`}
+              {t('matchup.howToBeatWith', {
+                enemy: enemy.name[language],
+                myChamp: myChampion.name[language],
+              })}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -121,16 +122,8 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
             ) : (
               <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
                 <LuSparkles className="mb-3 h-8 w-8 text-violet-400/60" />
-                <p className="text-sm text-white/50">
-                  {language === 'en'
-                    ? 'Specific tips coming soon...'
-                    : 'Tips spécifiques à venir...'}
-                </p>
-                <p className="mt-1 text-xs text-white/30">
-                  {language === 'en'
-                    ? 'Check the general tips below for now'
-                    : 'Consulte les tips généraux ci-dessous en attendant'}
-                </p>
+                <p className="text-sm text-white/50">{t('common.specificTipsComingSoon')}</p>
+                <p className="mt-1 text-xs text-white/30">{t('common.checkGeneralTips')}</p>
               </div>
             )}
           </CardContent>
@@ -141,9 +134,7 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <LuTarget className="h-4 w-4 text-red-400" />
-              {language === 'en'
-                ? `How to beat ${enemy.name[language]}`
-                : `Comment battre ${enemy.name[language]}`}
+              {t('matchup.howToBeat', { enemy: enemy.name[language] })}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -152,9 +143,7 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
             ) : (
               <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
                 <LuSparkles className="mb-3 h-8 w-8 text-violet-400/60" />
-                <p className="text-sm text-white/50">
-                  {language === 'en' ? 'Tips coming soon...' : 'Tips à venir...'}
-                </p>
+                <p className="text-sm text-white/50">{t('common.tipsComingSoon')}</p>
               </div>
             )}
           </CardContent>
@@ -165,9 +154,7 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <LuTrendingUp className="h-4 w-4 text-cyan-400" />
-              {language === 'en'
-                ? `${enemy.name[language]} Power Spikes`
-                : `Power Spikes de ${enemy.name[language]}`}
+              {t('matchup.powerSpikes', { champion: enemy.name[language] })}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -176,9 +163,7 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
             ) : (
               <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
                 <LuSparkles className="mb-2 h-6 w-6 text-violet-400/60" />
-                <p className="text-sm text-white/50">
-                  {language === 'en' ? 'Coming soon...' : 'À venir...'}
-                </p>
+                <p className="text-sm text-white/50">{t('common.comingSoon')}</p>
               </div>
             )}
           </CardContent>
@@ -189,9 +174,7 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <LuBox className="h-4 w-4 text-orange-400" />
-              {language === 'en'
-                ? `${enemy.name[language]} Item Spikes`
-                : `Item Spikes de ${enemy.name[language]}`}
+              {t('matchup.itemSpikes', { champion: enemy.name[language] })}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -200,9 +183,7 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
             ) : (
               <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
                 <LuSparkles className="mb-2 h-6 w-6 text-violet-400/60" />
-                <p className="text-sm text-white/50">
-                  {language === 'en' ? 'Coming soon...' : 'À venir...'}
-                </p>
+                <p className="text-sm text-white/50">{t('common.comingSoon')}</p>
               </div>
             )}
           </CardContent>

@@ -1,0 +1,45 @@
+{
+  "common": {
+    "back": "Back",
+    "backToHome": "Back to home",
+    "comingSoon": "Coming soon...",
+    "tipsComingSoon": "Tips coming soon...",
+    "specificTipsComingSoon": "Specific tips coming soon...",
+    "checkGeneralTips": "Check the general tips below for now",
+    "counterPicksComingSoon": "Counter picks coming soon...",
+    "noChampionsFound": "No champions found",
+    "championNotFound": "Champion not found"
+  },
+  "home": {
+    "title": "LANEGAP",
+    "subtitle": "Select the enemy champion you are facing",
+    "searchPlaceholder": "Search enemy champion...",
+    "favorites": "Favorites",
+    "recent": "Recent",
+    "enemyChampions": "Enemy Champions",
+    "results": "results"
+  },
+  "enemy": {
+    "facingEnemy": "Facing Enemy",
+    "updated": "Updated",
+    "favorited": "Favorited",
+    "addFavorite": "Add favorite",
+    "bestPicks": "Best picks against {champion}",
+    "howToPlay": "How to play against {champion}",
+    "powerSpikes": "{champion} Power Spikes",
+    "itemSpikes": "{champion} Item Spikes"
+  },
+  "matchup": {
+    "playingAs": "Playing as",
+    "enemy": "Enemy",
+    "howToBeatWith": "How to beat {enemy} as {myChamp}",
+    "howToBeat": "How to beat {enemy}",
+    "powerSpikes": "{champion} Power Spikes",
+    "itemSpikes": "{champion} Item Spikes"
+  },
+  "language": {
+    "en": "EN",
+    "fr": "FR"
+  }
+}
+
