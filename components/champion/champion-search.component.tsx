@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
-import { Input } from '@/components/ui/input'
-import { ChampionIcon } from './champion-icon.component'
-import { cn } from '@/lib/utils'
-import { useDatabase } from '@/hooks/use-database.hook'
-import { useSettingsStore } from '@/app/store/settings.store'
-import type { IChampion, TLanguage } from '@/lib/types'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { LuSearch, LuX } from 'react-icons/lu'
+import type { IChampion, TLanguage } from '@/lib/types'
+import { cn } from '@/lib/utils'
+import { useChampions } from '@/hooks/queries'
+import { Input } from '@/components/ui/input'
+import { useSettingsStore } from '@/app/store/settings.store'
+import { ChampionIcon } from './champion-icon.component'
 
 interface IChampionSearchProps {
   onSelect: (champion: IChampion) => void
@@ -28,7 +28,7 @@ export function ChampionSearch({
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
 
-  const { champions } = useDatabase()
+  const { data: champions = [] } = useChampions()
   const language = useSettingsStore((s) => s.language)
 
   const filteredChampions = useMemo(() => {
@@ -125,7 +125,7 @@ export function ChampionSearch({
             setQuery('')
             inputRef.current?.focus()
           }}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary transition-colors"
+          className="text-text-muted hover:text-text-primary absolute top-1/2 right-3 -translate-y-1/2 transition-colors"
         >
           <LuX className="h-4 w-4" />
         </button>
@@ -134,7 +134,7 @@ export function ChampionSearch({
       {isOpen && filteredChampions.length > 0 && (
         <ul
           ref={listRef}
-          className="absolute z-50 mt-2 max-h-64 w-full overflow-auto rounded-xl border border-border bg-surface shadow-lg animate-fade-in"
+          className="border-border bg-surface animate-fade-in absolute z-50 mt-2 max-h-64 w-full overflow-auto rounded-xl border shadow-lg"
         >
           {filteredChampions.map((champion, index) => (
             <li key={champion.id}>
@@ -148,7 +148,7 @@ export function ChampionSearch({
                 )}
               >
                 <ChampionIcon championId={champion.id} size="sm" showBorder={false} />
-                <span className="text-sm text-text-primary">
+                <span className="text-text-primary text-sm">
                   {champion.name[language as TLanguage] || champion.name.en}
                 </span>
               </button>
@@ -158,11 +158,10 @@ export function ChampionSearch({
       )}
 
       {isOpen && query && filteredChampions.length === 0 && (
-        <div className="absolute z-50 mt-2 w-full rounded-xl border border-border bg-surface p-4 text-center text-sm text-text-muted shadow-lg">
+        <div className="border-border bg-surface text-text-muted absolute z-50 mt-2 w-full rounded-xl border p-4 text-center text-sm shadow-lg">
           No champions found
         </div>
       )}
     </div>
   )
 }
-

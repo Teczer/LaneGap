@@ -1,9 +1,9 @@
 'use client'
 
+import { LuStar } from 'react-icons/lu'
+import type { ILevelSpike } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { useSettingsStore } from '@/app/store/settings.store'
-import type { ILevelSpike } from '@/lib/types'
-import { LuStar } from 'react-icons/lu'
 
 interface ILevelSpikeTimelineProps {
   spikes: ILevelSpike[]

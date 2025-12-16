@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { LanguageToggle } from '@/components/toggles/language-toggle.component'
-import { cn } from '@/lib/utils'
 import { LuSwords } from 'react-icons/lu'
+import { cn } from '@/lib/utils'
+import { LanguageToggle } from '@/components/toggles/language-toggle.component'
 
 interface IHeaderProps {
   className?: string

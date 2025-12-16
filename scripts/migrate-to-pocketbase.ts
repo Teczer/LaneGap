@@ -12,11 +12,14 @@
  * Usage:
  *   POCKETBASE_EMAIL=admin@example.com POCKETBASE_PASSWORD=password bun run scripts/migrate-to-pocketbase.ts
  */
-
 import PocketBase from 'pocketbase'
 import database from '../data/database.json'
+import type { IDatabase } from '../lib/types'
 
 const pb = new PocketBase('http://127.0.0.1:8090')
+
+// Type assertion for database since JSON import doesn't have full typing
+const typedDatabase = database as unknown as IDatabase
 
 interface ChampionMap {
   [key: string]: string // champion_id -> pocketbase record id
@@ -48,9 +51,27 @@ async function main() {
 
   const championMap: ChampionMap = {}
 
+  // Step 0: Get existing champions first
+  console.log('📋 Fetching existing champions...')
+  try {
+    const existingChampions = await pb.collection('champions').getFullList()
+    for (const champ of existingChampions) {
+      championMap[champ.champion_id] = champ.id
+    }
+    console.log(`   Found ${existingChampions.length} existing champions\n`)
+  } catch {
+    console.log('   No existing champions found\n')
+  }
+
   // Step 1: Create champions
   console.log('📦 Creating champions...')
-  for (const champion of database.champions) {
+  for (const champion of typedDatabase.champions) {
+    // Skip if already exists
+    if (championMap[champion.id]) {
+      console.log(`   ⏭️  ${champion.id} (already exists)`)
+      continue
+    }
+
     try {
       const record = await pb.collection('champions').create({
         champion_id: champion.id,
@@ -63,16 +84,7 @@ async function main() {
       championMap[champion.id] = record.id
       console.log(`   ✅ ${champion.id}`)
     } catch (error: unknown) {
-      // Check if already exists
-      if (error instanceof Error && error.message.includes('unique')) {
-        const existing = await pb
-          .collection('champions')
-          .getFirstListItem(`champion_id="${champion.id}"`)
-        championMap[champion.id] = existing.id
-        console.log(`   ⏭️  ${champion.id} (already exists)`)
-      } else {
-        console.error(`   ❌ ${champion.id}:`, error)
-      }
+      console.error(`   ❌ ${champion.id}:`, error)
     }
   }
   console.log(`\n   Total: ${Object.keys(championMap).length} champions\n`)
@@ -80,9 +92,12 @@ async function main() {
   // Step 2: Create level spikes
   console.log('📈 Creating level spikes...')
   let levelSpikeCount = 0
-  for (const champion of database.champions) {
+  for (const champion of typedDatabase.champions) {
     const championPbId = championMap[champion.id]
-    if (!championPbId) continue
+    if (!championPbId) {
+      console.log(`   ⚠️  ${champion.id} not in championMap, skipping level spikes`)
+      continue
+    }
 
     for (const spike of champion.levelSpikes) {
       try {
@@ -95,8 +110,15 @@ async function main() {
         })
         levelSpikeCount++
       } catch (error: unknown) {
-        if (error instanceof Error && !error.message.includes('unique')) {
-          console.error(`   ❌ ${champion.id} lvl ${spike.level}:`, error)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const pbError = error as any
+        if (pbError?.response?.data) {
+          console.error(
+            `   ❌ ${champion.id} lvl ${spike.level}:`,
+            JSON.stringify(pbError.response.data)
+          )
+        } else {
+          console.error(`   ❌ ${champion.id} lvl ${spike.level}:`, pbError?.message || error)
         }
       }
     }
@@ -106,7 +128,7 @@ async function main() {
   // Step 3: Create item spikes
   console.log('🎒 Creating item spikes...')
   let itemSpikeCount = 0
-  for (const champion of database.champions) {
+  for (const champion of typedDatabase.champions) {
     const championPbId = championMap[champion.id]
     if (!championPbId) continue
 
@@ -120,8 +142,15 @@ async function main() {
         })
         itemSpikeCount++
       } catch (error: unknown) {
-        if (error instanceof Error && !error.message.includes('unique')) {
-          console.error(`   ❌ ${champion.id} item ${spike.item}:`, error)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const pbError = error as any
+        if (pbError?.response?.data) {
+          console.error(
+            `   ❌ ${champion.id} item ${spike.item}:`,
+            JSON.stringify(pbError.response.data)
+          )
+        } else {
+          console.error(`   ❌ ${champion.id} item ${spike.item}:`, pbError?.message || error)
         }
       }
     }
@@ -131,7 +160,7 @@ async function main() {
   // Step 4: Create counters
   console.log('⚔️  Creating counters...')
   let counterCount = 0
-  for (const champion of database.champions) {
+  for (const champion of typedDatabase.champions) {
     const championPbId = championMap[champion.id]
     if (!championPbId || !champion.countersWholeGame) continue
 
@@ -164,12 +193,14 @@ async function main() {
   // Step 5: Create matchups (if any)
   console.log('🎯 Creating matchups...')
   let matchupCount = 0
-  for (const matchup of database.matchups) {
+  for (const matchup of typedDatabase.matchups) {
     const myChampPbId = championMap[matchup.myChampion]
     const enemyChampPbId = championMap[matchup.enemyChampion]
 
     if (!myChampPbId || !enemyChampPbId) {
-      console.log(`   ⚠️  Matchup ${matchup.myChampion} vs ${matchup.enemyChampion} - champion not found`)
+      console.log(
+        `   ⚠️  Matchup ${matchup.myChampion} vs ${matchup.enemyChampion} - champion not found`
+      )
       continue
     }
 
@@ -199,4 +230,3 @@ async function main() {
 }
 
 main().catch(console.error)
-

@@ -1,9 +1,7 @@
 import PocketBase from 'pocketbase'
 
 // PocketBase client instance
-export const pb = new PocketBase(
-  process.env.NEXT_PUBLIC_POCKETBASE_URL || 'http://127.0.0.1:8090'
-)
+export const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL || 'http://127.0.0.1:8090')
 
 // Disable auto-cancellation for better UX
 pb.autoCancellation(false)
@@ -121,4 +119,3 @@ export function getAuthState() {
 export function logout() {
   pb.authStore.clear()
 }
-

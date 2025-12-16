@@ -7,8 +7,7 @@
  *   bun run scripts/sync-champions.ts
  *   bun run scripts/sync-champions.ts --fresh
  */
-
-import { mkdir, writeFile, rm, access } from 'fs/promises'
+import { access, mkdir, rm, writeFile } from 'fs/promises'
 import { join } from 'path'
 
 const DDRAGON_BASE = 'https://ddragon.leagueoflegends.com'
@@ -49,9 +48,7 @@ async function main() {
 
   // Get champions list
   console.log('📋 Fetching champions list...')
-  const champDataResponse = await fetch(
-    `${DDRAGON_BASE}/cdn/${version}/data/en_US/champion.json`
-  )
+  const champDataResponse = await fetch(`${DDRAGON_BASE}/cdn/${version}/data/en_US/champion.json`)
   const champData = (await champDataResponse.json()) as { data: Record<string, Champion> }
 
   const champions = Object.values(champData.data)
@@ -109,14 +106,10 @@ async function main() {
     })),
   }
 
-  await writeFile(
-    join(OUTPUT_DIR, 'metadata.json'),
-    JSON.stringify(metadata, null, 2)
-  )
+  await writeFile(join(OUTPUT_DIR, 'metadata.json'), JSON.stringify(metadata, null, 2))
 
   console.log('\n✅ Sync complete!')
   console.log(`   Metadata saved to public/champions/metadata.json`)
 }
 
 main().catch(console.error)
-

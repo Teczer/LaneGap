@@ -75,10 +75,9 @@ export async function getLatestPatchVersion(): Promise<string> {
 export async function getAllChampions(): Promise<
   Record<string, { id: string; key: string; name: string }>
 > {
-  const response = await fetch(
-    `${DDRAGON_BASE}/cdn/${PATCH_VERSION}/data/en_US/champion.json`,
-    { next: { revalidate: 86400 } }
-  )
+  const response = await fetch(`${DDRAGON_BASE}/cdn/${PATCH_VERSION}/data/en_US/champion.json`, {
+    next: { revalidate: 86400 },
+  })
   const data = (await response.json()) as {
     data: Record<string, { id: string; key: string; name: string }>
   }

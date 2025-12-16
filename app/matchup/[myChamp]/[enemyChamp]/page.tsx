@@ -2,26 +2,28 @@
 
 import { use } from 'react'
 import { useRouter } from 'next/navigation'
-import { PageContainer } from '@/components/layout/page-container.component'
-import { ChampionIcon } from '@/components/champion/champion-icon.component'
-import { TipList } from '@/components/matchup/tip-list.component'
-import { LevelSpikeTimeline } from '@/components/matchup/level-spike-timeline.component'
-import { ItemSpikeList } from '@/components/matchup/item-spike-list.component'
-import { TierBadge } from '@/components/matchup/tier-badge.component'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { useDatabase } from '@/hooks/use-database.hook'
-import { useTranslations } from '@/hooks/use-translations.hook'
 import {
   LuArrowLeft,
+  LuBox,
+  LuCircleAlert,
+  LuLoader,
+  LuSparkles,
   LuSwords,
   LuTarget,
   LuTrendingUp,
-  LuBox,
-  LuCircleAlert,
-  LuSparkles,
 } from 'react-icons/lu'
 import type { TTier } from '@/lib/types'
+import { useChampion } from '@/hooks/queries'
+import { useMatchup } from '@/hooks/queries'
+import { useTranslations } from '@/hooks/use-translations.hook'
+import { ChampionIcon } from '@/components/champion/champion-icon.component'
+import { PageContainer } from '@/components/layout/page-container.component'
+import { ItemSpikeList } from '@/components/matchup/item-spike-list.component'
+import { LevelSpikeTimeline } from '@/components/matchup/level-spike-timeline.component'
+import { TierBadge } from '@/components/matchup/tier-badge.component'
+import { TipList } from '@/components/matchup/tip-list.component'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface IMatchupPageProps {
   params: Promise<{ myChamp: string; enemyChamp: string }>
@@ -30,12 +32,12 @@ interface IMatchupPageProps {
 export default function MatchupPage({ params }: IMatchupPageProps) {
   const { myChamp, enemyChamp } = use(params)
   const router = useRouter()
-  const { getChampion, getMatchup } = useDatabase()
+  const { data: myChampion, isLoading: isLoadingMyChamp } = useChampion(myChamp)
+  const { data: enemy, isLoading: isLoadingEnemy } = useChampion(enemyChamp)
+  const { data: matchup } = useMatchup(myChamp, enemyChamp)
   const { t, language } = useTranslations()
 
-  const myChampion = getChampion(myChamp)
-  const enemy = getChampion(enemyChamp)
-  const matchup = getMatchup(myChamp, enemyChamp)
+  const isLoading = isLoadingMyChamp || isLoadingEnemy
 
   // Find the tier for this matchup (from enemy's counter list)
   const getTier = (): TTier | null => {
@@ -50,6 +52,16 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
     return null
   }
   const tier = getTier()
+
+  if (isLoading) {
+    return (
+      <PageContainer>
+        <div className="flex items-center justify-center py-20">
+          <LuLoader className="h-8 w-8 animate-spin text-violet-400" />
+        </div>
+      </PageContainer>
+    )
+  }
 
   if (!myChampion || !enemy) {
     return (

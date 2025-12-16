@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
-import { Header } from '@/components/layout/header.component'
+import { QueryProvider } from '@/lib/providers/query-provider'
 import { Footer } from '@/components/layout/footer.component'
+import { Header } from '@/components/layout/header.component'
+import './globals.css'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -24,9 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body suppressHydrationWarning className="flex min-h-screen flex-col">
-        <Header />
-        {children}
-        <Footer />
+        <QueryProvider>
+          <Header />
+          {children}
+          <Footer />
+        </QueryProvider>
       </body>
     </html>
   )

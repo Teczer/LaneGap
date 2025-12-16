@@ -1,6 +1,7 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import nextVitals from 'eslint-config-next/core-web-vitals'
+import nextTs from 'eslint-config-next/typescript'
+import unusedImports from 'eslint-plugin-unused-imports'
+import { defineConfig, globalIgnores } from 'eslint/config'
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -8,11 +9,32 @@ const eslintConfig = defineConfig([
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
+    '.next/**',
+    'out/**',
+    'build/**',
+    'next-env.d.ts',
+    // PocketBase generated files
+    'pocketbase/**',
   ]),
-]);
+  {
+    plugins: {
+      'unused-imports': unusedImports,
+    },
+    rules: {
+      // Remove unused imports automatically
+      '@typescript-eslint/no-unused-vars': 'off',
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+        },
+      ],
+    },
+  },
+])
 
-export default eslintConfig;
+export default eslintConfig

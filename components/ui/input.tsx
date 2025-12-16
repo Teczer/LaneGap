@@ -1,4 +1,4 @@
-import { forwardRef, type InputHTMLAttributes } from 'react'
+import { type InputHTMLAttributes, forwardRef } from 'react'
 import { cn } from '@/lib/utils'
 
 export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -11,7 +11,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
     return (
       <div className="relative w-full">
         {icon && (
-          <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40">
+          <div className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-white/40">
             {icon}
           </div>
         )}
@@ -23,7 +23,7 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
             'bg-white/5 text-white placeholder:text-white/40',
             'border-white/10 focus:border-violet-500',
             'transition-all duration-200',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/20',
+            'focus-visible:ring-2 focus-visible:ring-violet-500/20 focus-visible:outline-none',
             'disabled:cursor-not-allowed disabled:opacity-50',
             icon && 'pl-10',
             error && 'border-red-500 focus:border-red-500 focus-visible:ring-red-500/20',

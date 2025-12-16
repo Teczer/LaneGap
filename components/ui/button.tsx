@@ -1,4 +1,4 @@
-import { forwardRef, type ButtonHTMLAttributes } from 'react'
+import { type ButtonHTMLAttributes, forwardRef } from 'react'
 import { cn } from '@/lib/utils'
 
 export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -14,9 +14,9 @@ const Button = forwardRef<HTMLButtonElement, IButtonProps>(
   ) => {
     const baseStyles = cn(
       'inline-flex items-center justify-center gap-2',
-      'font-medium rounded-lg transition-all duration-200',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/50',
-      'disabled:opacity-50 disabled:pointer-events-none',
+      'rounded-lg font-medium transition-all duration-200',
+      'focus-visible:ring-2 focus-visible:ring-violet-500/50 focus-visible:outline-none',
+      'disabled:pointer-events-none disabled:opacity-50',
       'active:scale-[0.98]',
       'whitespace-nowrap'
     )
@@ -28,8 +28,8 @@ const Button = forwardRef<HTMLButtonElement, IButtonProps>(
         'shadow-lg shadow-violet-500/20'
       ),
       secondary: cn(
-        'bg-white/5 text-white border border-white/10',
-        'hover:bg-white/10 hover:border-white/20'
+        'border border-white/10 bg-white/5 text-white',
+        'hover:border-white/20 hover:bg-white/10'
       ),
       ghost: cn('bg-transparent text-white/70', 'hover:bg-white/5 hover:text-white'),
       danger: cn('bg-red-600 text-white', 'hover:bg-red-500'),

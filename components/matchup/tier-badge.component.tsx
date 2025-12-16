@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils'
 import type { TTier } from '@/lib/types'
+import { cn } from '@/lib/utils'
 
 interface ITierBadgeProps {
   tier: TTier

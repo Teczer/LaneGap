@@ -1,20 +1,20 @@
 'use client'
 
-import { useState, useMemo, useCallback } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { LuClock, LuLoader, LuSearch, LuStar, LuTarget } from 'react-icons/lu'
+import type { IChampion } from '@/lib/types'
+import { cn } from '@/lib/utils'
+import { useChampions } from '@/hooks/queries'
+import { useTranslations } from '@/hooks/use-translations.hook'
+import { ChampionCard } from '@/components/champion/champion-card.component'
 import { PageContainer } from '@/components/layout/page-container.component'
 import { Input } from '@/components/ui/input'
-import { ChampionCard } from '@/components/champion/champion-card.component'
-import { useDatabase } from '@/hooks/use-database.hook'
 import { useFavoritesStore } from '@/app/store/favorites.store'
-import { useTranslations } from '@/hooks/use-translations.hook'
-import { cn } from '@/lib/utils'
-import { LuSearch, LuStar, LuClock, LuTarget } from 'react-icons/lu'
-import type { IChampion } from '@/lib/types'
 
 export default function HomePage() {
   const router = useRouter()
-  const { champions, meta } = useDatabase()
+  const { data: champions = [], isLoading } = useChampions()
   const [search, setSearch] = useState('')
   const { t } = useTranslations()
 
@@ -60,9 +60,7 @@ export default function HomePage() {
           <span className="text-gradient">GAP</span>
         </h1>
         <p className="text-lg text-white/60">{t('home.subtitle')}</p>
-        <p className="mt-2 text-sm text-white/40">
-          Patch {meta.patchVersion} • {champions.length} champions
-        </p>
+        <p className="mt-2 text-sm text-white/40">Patch 14.24 • {champions.length} champions</p>
       </div>
 
       {/* Search Bar */}
@@ -128,7 +126,11 @@ export default function HomePage() {
           </h2>
         </div>
 
-        {filteredChampions.length === 0 ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <LuLoader className="h-8 w-8 animate-spin text-violet-400" />
+          </div>
+        ) : filteredChampions.length === 0 ? (
           <div className="rounded-xl border border-white/10 bg-white/5 p-8 text-center">
             <p className="text-white/40">{t('common.noChampionsFound')}</p>
           </div>

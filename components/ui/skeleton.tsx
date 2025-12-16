@@ -13,11 +13,7 @@ export function Skeleton({ className, variant = 'default', ...props }: ISkeleton
 
   return (
     <div
-      className={cn(
-        'animate-pulse bg-surface-hover',
-        variants[variant],
-        className
-      )}
+      className={cn('bg-surface-hover animate-pulse', variants[variant], className)}
       {...props}
     />
   )
@@ -28,7 +24,11 @@ export function SkeletonText({ className, ...props }: React.HTMLAttributes<HTMLD
   return <Skeleton variant="text" className={cn('w-full', className)} {...props} />
 }
 
-export function SkeletonCircle({ className, size = 48, ...props }: React.HTMLAttributes<HTMLDivElement> & { size?: number }) {
+export function SkeletonCircle({
+  className,
+  size = 48,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { size?: number }) {
   return (
     <Skeleton
       variant="circular"
@@ -48,4 +48,3 @@ export function SkeletonCard({ className, ...props }: React.HTMLAttributes<HTMLD
     </div>
   )
 }
-

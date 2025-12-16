@@ -1,11 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { ChampionIcon } from './champion-icon.component'
-import { TierBadge } from '@/components/matchup/tier-badge.component'
+import type { TLanguage, TTier } from '@/lib/types'
 import { cn } from '@/lib/utils'
-import type { TTier, TLanguage } from '@/lib/types'
+import { TierBadge } from '@/components/matchup/tier-badge.component'
 import { useSettingsStore } from '@/app/store/settings.store'
+import { ChampionIcon } from './champion-icon.component'
 
 interface IChampionCardProps {
   championId: string
@@ -34,7 +34,7 @@ export function ChampionCard({
       className={cn(
         'group relative flex flex-col items-center',
         'rounded-xl bg-white/[0.03] transition-all duration-200',
-        'hover:bg-white/[0.08] border border-transparent hover:border-white/10',
+        'border border-transparent hover:border-white/10 hover:bg-white/[0.08]',
         'cursor-pointer',
         compact ? 'gap-2 p-2.5' : 'gap-3 p-4',
         className
@@ -45,18 +45,18 @@ export function ChampionCard({
         <ChampionIcon
           championId={championId}
           size={compact ? 'md' : 'lg'}
-          className="group-hover:ring-violet-500/50 transition-all duration-200"
+          className="transition-all duration-200 group-hover:ring-violet-500/50"
         />
         {tier && (
-          <div className="absolute -bottom-1 -right-1">
+          <div className="absolute -right-1 -bottom-1">
             <TierBadge tier={tier} size="sm" />
           </div>
         )}
       </div>
       <span
         className={cn(
-          'text-center font-medium text-white/60 leading-tight',
-          'group-hover:text-white transition-colors duration-200',
+          'text-center leading-tight font-medium text-white/60',
+          'transition-colors duration-200 group-hover:text-white',
           compact ? 'text-xs' : 'text-sm'
         )}
       >

@@ -2,28 +2,29 @@
 
 import { use, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
-import { PageContainer } from '@/components/layout/page-container.component'
-import { ChampionIcon } from '@/components/champion/champion-icon.component'
-import { ChampionCard } from '@/components/champion/champion-card.component'
-import { TipList } from '@/components/matchup/tip-list.component'
-import { LevelSpikeTimeline } from '@/components/matchup/level-spike-timeline.component'
-import { ItemSpikeList } from '@/components/matchup/item-spike-list.component'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { useDatabase } from '@/hooks/use-database.hook'
-import { useFavoritesStore } from '@/app/store/favorites.store'
-import { useTranslations } from '@/hooks/use-translations.hook'
-import { cn } from '@/lib/utils'
 import {
   LuArrowLeft,
-  LuStar,
-  LuShield,
-  LuTrendingUp,
   LuBox,
-  LuTarget,
+  LuLoader,
+  LuShield,
   LuSparkles,
+  LuStar,
+  LuTarget,
+  LuTrendingUp,
 } from 'react-icons/lu'
 import type { TTier } from '@/lib/types'
+import { cn } from '@/lib/utils'
+import { useChampion, useChampions } from '@/hooks/queries'
+import { useTranslations } from '@/hooks/use-translations.hook'
+import { ChampionCard } from '@/components/champion/champion-card.component'
+import { ChampionIcon } from '@/components/champion/champion-icon.component'
+import { PageContainer } from '@/components/layout/page-container.component'
+import { ItemSpikeList } from '@/components/matchup/item-spike-list.component'
+import { LevelSpikeTimeline } from '@/components/matchup/level-spike-timeline.component'
+import { TipList } from '@/components/matchup/tip-list.component'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useFavoritesStore } from '@/app/store/favorites.store'
 
 interface IEnemyPageProps {
   params: Promise<{ id: string }>
@@ -34,12 +35,12 @@ const TIER_ORDER: TTier[] = ['S', 'A+', 'A', 'B+', 'B', 'B-', 'C']
 export default function EnemyPage({ params }: IEnemyPageProps) {
   const { id } = use(params)
   const router = useRouter()
-  const { champions, getChampion } = useDatabase()
+  const { data: champions = [] } = useChampions()
+  const { data: enemy, isLoading } = useChampion(id)
   const { t, language } = useTranslations()
   const favoriteChampions = useFavoritesStore((s) => s.favoriteChampions)
   const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite)
 
-  const enemy = getChampion(id)
   const isFavorite = favoriteChampions.includes(id)
 
   // Get counters (champions that are GOOD against this enemy)
@@ -60,6 +61,16 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
 
     return result
   }, [enemy, champions])
+
+  if (isLoading) {
+    return (
+      <PageContainer>
+        <div className="flex items-center justify-center py-20">
+          <LuLoader className="h-8 w-8 animate-spin text-violet-400" />
+        </div>
+      </PageContainer>
+    )
+  }
 
   if (!enemy) {
     return (

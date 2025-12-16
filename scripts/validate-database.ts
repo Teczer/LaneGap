@@ -6,7 +6,6 @@
  * Usage:
  *   bun run scripts/validate-database.ts
  */
-
 import { readFile } from 'fs/promises'
 import { join } from 'path'
 import { DatabaseSchema } from '../data/schema'
@@ -51,14 +50,18 @@ async function main() {
       console.log(`\n🎮 Champions in database:`)
       for (const champ of data.champions) {
         const counterCount = Object.values(champ.countersWholeGame ?? {}).flat().length
-        console.log(`   - ${champ.name.en} (${champ.id}): ${counterCount} counters, ${champ.tips.en.length} tips`)
+        console.log(
+          `   - ${champ.name.en} (${champ.id}): ${counterCount} counters, ${champ.tips.en.length} tips`
+        )
       }
 
       // List matchups
       if (data.matchups.length > 0) {
         console.log(`\n⚔️ Matchups documented:`)
         for (const matchup of data.matchups) {
-          console.log(`   - ${matchup.myChampion} vs ${matchup.enemyChampion}: ${matchup.tips.en.length} tips, ${matchup.clips.length} clips`)
+          console.log(
+            `   - ${matchup.myChampion} vs ${matchup.enemyChampion}: ${matchup.tips.en.length} tips, ${matchup.clips.length} clips`
+          )
         }
       }
     } else {
@@ -79,4 +82,3 @@ async function main() {
 }
 
 main()
-

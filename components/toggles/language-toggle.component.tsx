@@ -1,7 +1,7 @@
 'use client'
 
-import { useSettingsStore } from '@/app/store/settings.store'
 import { cn } from '@/lib/utils'
+import { useSettingsStore } from '@/app/store/settings.store'
 
 export function LanguageToggle() {
   const language = useSettingsStore((s) => s.language)

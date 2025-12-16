@@ -7,8 +7,7 @@
  *   bun run scripts/sync-items.ts
  *   bun run scripts/sync-items.ts --fresh
  */
-
-import { mkdir, writeFile, rm, access } from 'fs/promises'
+import { access, mkdir, rm, writeFile } from 'fs/promises'
 import { join } from 'path'
 
 const DDRAGON_BASE = 'https://ddragon.leagueoflegends.com'
@@ -54,9 +53,7 @@ async function main() {
 
   // Get items list
   console.log('📋 Fetching items list...')
-  const itemDataResponse = await fetch(
-    `${DDRAGON_BASE}/cdn/${version}/data/en_US/item.json`
-  )
+  const itemDataResponse = await fetch(`${DDRAGON_BASE}/cdn/${version}/data/en_US/item.json`)
   const itemData = (await itemDataResponse.json()) as { data: Record<string, Item> }
 
   const items = Object.entries(itemData.data)
@@ -120,14 +117,10 @@ async function main() {
     })),
   }
 
-  await writeFile(
-    join(OUTPUT_DIR, 'metadata.json'),
-    JSON.stringify(metadata, null, 2)
-  )
+  await writeFile(join(OUTPUT_DIR, 'metadata.json'), JSON.stringify(metadata, null, 2))
 
   console.log('\n✅ Sync complete!')
   console.log(`   Metadata saved to public/items/metadata.json`)
 }
 
 main().catch(console.error)
-

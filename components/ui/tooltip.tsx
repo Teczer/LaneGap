@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type ReactNode } from 'react'
+import { type ReactNode, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 interface ITooltipProps {
@@ -40,9 +40,11 @@ export function Tooltip({
 
   const arrows = {
     top: 'top-full left-1/2 -translate-x-1/2 border-t-card-hover border-x-transparent border-b-transparent',
-    bottom: 'bottom-full left-1/2 -translate-x-1/2 border-b-card-hover border-x-transparent border-t-transparent',
+    bottom:
+      'bottom-full left-1/2 -translate-x-1/2 border-b-card-hover border-x-transparent border-t-transparent',
     left: 'left-full top-1/2 -translate-y-1/2 border-l-card-hover border-y-transparent border-r-transparent',
-    right: 'right-full top-1/2 -translate-y-1/2 border-r-card-hover border-y-transparent border-l-transparent',
+    right:
+      'right-full top-1/2 -translate-y-1/2 border-r-card-hover border-y-transparent border-l-transparent',
   }
 
   return (
@@ -55,22 +57,16 @@ export function Tooltip({
       {isVisible && (
         <div
           className={cn(
-            'absolute z-50 whitespace-nowrap rounded-lg bg-card-hover px-3 py-1.5 text-sm text-text-primary shadow-lg',
+            'bg-card-hover text-text-primary absolute z-50 rounded-lg px-3 py-1.5 text-sm whitespace-nowrap shadow-lg',
             'animate-fade-in',
             positions[position],
             className
           )}
         >
           {content}
-          <div
-            className={cn(
-              'absolute h-0 w-0 border-4',
-              arrows[position]
-            )}
-          />
+          <div className={cn('absolute h-0 w-0 border-4', arrows[position])} />
         </div>
       )}
     </div>
   )
 }
-

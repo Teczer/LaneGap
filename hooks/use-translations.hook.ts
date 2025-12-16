@@ -1,20 +1,9 @@
 import { useCallback } from 'react'
-import { useSettingsStore } from '@/app/store/settings.store'
 import en from '@/lib/i18n/en.json'
 import fr from '@/lib/i18n/fr.json'
+import { useSettingsStore } from '@/app/store/settings.store'
 
 type TTranslations = typeof en
-type TNestedKeyOf<T> = T extends object
-  ? {
-      [K in keyof T]: K extends string
-        ? T[K] extends object
-          ? `${K}.${TNestedKeyOf<T[K]>}`
-          : K
-        : never
-    }[keyof T]
-  : never
-
-type TTranslationKey = TNestedKeyOf<TTranslations>
 
 const translations = { en, fr } as const
 
@@ -88,4 +77,3 @@ export function useNamespacedTranslations(namespace: keyof TTranslations) {
 
   return { t, language }
 }
-

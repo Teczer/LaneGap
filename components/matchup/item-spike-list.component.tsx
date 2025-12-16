@@ -1,9 +1,9 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import { getItemIconUrl } from '@/lib/data-dragon'
-import { useSettingsStore } from '@/app/store/settings.store'
 import type { IItemSpike } from '@/lib/types'
+import { cn } from '@/lib/utils'
+import { useSettingsStore } from '@/app/store/settings.store'
 
 interface IItemSpikeListProps {
   spikes: IItemSpike[]
@@ -14,7 +14,7 @@ export function ItemSpikeList({ spikes, className }: IItemSpikeListProps) {
   const language = useSettingsStore((s) => s.language)
 
   if (spikes.length === 0) {
-    return <p className="text-sm italic text-white/40">No item spikes documented</p>
+    return <p className="text-sm text-white/40 italic">No item spikes documented</p>
   }
 
   return (
@@ -40,7 +40,7 @@ export function ItemSpikeList({ spikes, className }: IItemSpikeListProps) {
           </div>
 
           {/* Description */}
-          <p className="text-sm text-white/70 leading-relaxed">{spike.text[language]}</p>
+          <p className="text-sm leading-relaxed text-white/70">{spike.text[language]}</p>
         </div>
       ))}
     </div>
