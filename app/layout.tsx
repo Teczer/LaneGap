@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="flex min-h-screen flex-col">
+      <body suppressHydrationWarning className="flex min-h-screen flex-col">
         <Header />
         {children}
         <Footer />

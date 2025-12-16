@@ -21,6 +21,7 @@ import {
   LuTrendingUp,
   LuBox,
   LuTarget,
+  LuSparkles,
 } from 'react-icons/lu'
 import type { TTier } from '@/lib/types'
 
@@ -84,7 +85,7 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
           </Button>
           <ChampionIcon championId={enemy.id} size="xl" />
           <div>
-            <p className="mb-1 text-xs font-medium uppercase tracking-wider text-red-400">
+            <p className="mb-1 text-xs font-medium tracking-wider text-red-400 uppercase">
               {language === 'en' ? 'Facing Enemy' : 'Face à'}
             </p>
             <h1 className="text-2xl font-bold">{enemy.name[language]}</h1>
@@ -121,9 +122,12 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
           </CardHeader>
           <CardContent>
             {countersWithData.length === 0 ? (
-              <p className="text-sm italic text-white/40">
-                {language === 'en' ? 'No counters documented' : 'Aucun counter documenté'}
-              </p>
+              <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
+                <LuSparkles className="mb-3 h-8 w-8 text-violet-400/60" />
+                <p className="text-sm text-white/50">
+                  {language === 'en' ? 'Counter picks coming soon...' : 'Counter picks à venir...'}
+                </p>
+              </div>
             ) : (
               <div className="grid grid-cols-4 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
                 {countersWithData.map(({ champion: c, tier }) => (
@@ -152,7 +156,16 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <TipList tips={enemy.tips} />
+            {enemy.tips[language].length > 0 ? (
+              <TipList tips={enemy.tips} />
+            ) : (
+              <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
+                <LuSparkles className="mb-3 h-8 w-8 text-violet-400/60" />
+                <p className="text-sm text-white/50">
+                  {language === 'en' ? 'Tips coming soon...' : 'Tips à venir...'}
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -167,7 +180,16 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <LevelSpikeTimeline spikes={enemy.levelSpikes} />
+            {enemy.levelSpikes.length > 0 ? (
+              <LevelSpikeTimeline spikes={enemy.levelSpikes} />
+            ) : (
+              <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
+                <LuSparkles className="mb-2 h-6 w-6 text-violet-400/60" />
+                <p className="text-sm text-white/50">
+                  {language === 'en' ? 'Coming soon...' : 'À venir...'}
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -182,11 +204,19 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ItemSpikeList spikes={enemy.itemSpikes} />
+            {enemy.itemSpikes.length > 0 ? (
+              <ItemSpikeList spikes={enemy.itemSpikes} />
+            ) : (
+              <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
+                <LuSparkles className="mb-2 h-6 w-6 text-violet-400/60" />
+                <p className="text-sm text-white/50">
+                  {language === 'en' ? 'Coming soon...' : 'À venir...'}
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
     </PageContainer>
   )
 }
-

@@ -1,104 +1,205 @@
-# LANEGAP 🎮
+# 🎮 LANEGAP
 
-> **Midlane Coaching Tool** - Get counters, tips, and power spikes in < 5 seconds
+> **Personal midlane coaching app for League of Legends**
+>
+> Access critical matchup information in **< 5 seconds**.
+
+```
+Think like a pro player building his own tool.
+```
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38B2AC?logo=tailwind-css)
-![Bun](https://img.shields.io/badge/Bun-1.1-F9F1E1?logo=bun)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)
+![Bun](https://img.shields.io/badge/Bun-1.1-fbf0df?logo=bun)
+
+---
 
 ## ✨ Features
 
-- 🎯 **Instant Counter Lookup** - Find who counters the enemy midlaner
-- 💡 **Smart Tips** - Actionable coaching tips for any matchup
-- ⚡ **Power Spikes** - Level and item breakpoints visualized
-- 🏆 **Scrim Mode** - Ultra-compact view for competitive play
-- 🌍 **Bilingual** - English & French support
-- 🌙 **Dark Mode** - Easy on the eyes during long sessions
+- 🎯 **Counter Picks** — Find the best champions to play against any enemy
+- 📝 **Matchup Tips** — Coaching tips written in natural language (EN/FR)
+- ⚡ **Power Spikes** — Know when enemies are strong (levels & items)
+- 🌍 **Bilingual** — Full support for English and French
+- ⌨️ **Keyboard First** — Navigate quickly with keyboard shortcuts
+- 🌙 **Dark Mode Only** — DPM-inspired gaming aesthetic
+
+---
 
 ## 🚀 Quick Start
 
 ```bash
-# Prerequisites: Bun 1.1+
-curl -fsSL https://bun.sh/install | bash
-
-# Clone & Install
-git clone https://github.com/yourusername/lanegap.git
-cd lanegap
+# Install dependencies
 bun install
 
-# Sync champion data from Riot API
+# Sync assets from Data Dragon
 bun run sync:champions
+bun run sync:items
 
 # Start development server
 bun dev
+
+# Open http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) 🎉
+---
 
-## 📦 Scripts
+## 📖 User Flow
+
+```
+1. Home Page     → Select the ENEMY champion you're facing
+2. Enemy Page    → View counters, tips, and power spikes
+3. Matchup Page  → Detailed tips for YOUR CHAMP vs ENEMY
+```
+
+---
+
+## 📊 Contributing Data
+
+All champion data is stored in `data/database.json`. Here's how to contribute:
+
+### Adding a Champion
+
+```json
+{
+  "id": "Orianna",
+  "name": { "en": "Orianna", "fr": "Orianna" },
+  "dateEdited": "2025-12-16",
+  "countersWholeGame": {
+    "S": ["Yasuo", "Kassadin"],
+    "A+": ["Fizz", "Zed"]
+  },
+  "tips": {
+    "en": ["Punish her level 1 - Q is weak with 6 sec CD"],
+    "fr": ["Punish son level 1 - Q est faible avec 6 sec CD"]
+  },
+  "levelSpikes": [...],
+  "itemSpikes": [...]
+}
+```
+
+### Level Spikes
+
+```json
+{
+  "level": 1,
+  "text": {
+    "en": "WEAK LVL 1 - Q does 40 dmg with 6 sec CD, abuse it",
+    "fr": "FAIBLE LVL 1 - Q fait 40 dmg avec 6 sec CD, abuse ça"
+  },
+  "important": true  // Optional: highlights this spike
+}
+```
+
+### Item Spikes
+
+```json
+{
+  "item": "2503",
+  "text": {
+    "en": "Blackfire Torch - Champion comes online",
+    "fr": "Blackfire Torch - Le champion devient fort"
+  }
+}
+```
+
+### 🔍 Finding Item IDs
+
+Item icons are synced from Riot's Data Dragon. To find the correct item ID:
+
+```bash
+# Search by name in metadata
+grep -i "blackfire" public/items/metadata.json
+
+# Output: "id": "2503", "name": "Blackfire Torch"
+```
+
+Common items reference:
+
+| Item | ID |
+|------|-----|
+| Blackfire Torch | `2503` |
+| Liandry's Torment | `6653` |
+| Rabadon's Deathcap | `3089` |
+| Zhonya's Hourglass | `3157` |
+| Luden's Companion | `6655` |
+| Stormsurge | `6657` |
+| Rod of Ages | `3003` |
+| Seraph's Embrace | `3040` |
+
+Full list available in `public/items/metadata.json`.
+
+---
+
+## 🛠️ Commands
 
 | Command | Description |
 |---------|-------------|
-| `bun dev` | Start dev server with Turbopack |
+| `bun dev` | Start dev server (Turbopack) |
 | `bun run build` | Production build |
 | `bun start` | Start production server |
 | `bun run sync:champions` | Download champion icons |
 | `bun run sync:items` | Download item icons |
 | `bun run validate` | Validate database.json |
 | `bun run lint` | Run ESLint |
-| `bun run type-check` | TypeScript check |
+| `bun run format` | Format with Prettier |
 
-## 🐳 Docker
+---
 
-```bash
-# Build & run
-bun run docker:build
-bun run docker:up
+## 🏗️ Tech Stack
 
-# View logs
-bun run docker:logs
+| Category | Technology |
+|----------|------------|
+| Runtime | Bun 1.1+ |
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript 5.9 (strict) |
+| Styling | Tailwind CSS 4 |
+| State | Zustand 5 |
+| Icons | React Icons (Lucide) |
+| Validation | Zod 4 |
 
-# Stop
-bun run docker:down
-```
+---
 
 ## 📁 Project Structure
 
 ```
 lanegap/
-├── app/                # Next.js App Router
-├── components/         # React components
-├── lib/               # Utilities & types
-├── data/              # Local JSON database
-├── hooks/             # Custom React hooks
-├── scripts/           # CLI tools
-└── docker/            # Docker config
+├── app/                    # Next.js App Router
+│   ├── page.tsx           # Home - Select enemy
+│   ├── enemy/[id]/        # Enemy details
+│   └── matchup/[my]/[vs]/ # Matchup details
+├── components/            # React components
+├── data/                  # JSON database
+│   └── database.json      # All champion data
+├── public/
+│   ├── champions/icons/   # Champion icons
+│   └── items/             # Item icons + metadata
+├── lib/                   # Utils & types
+├── hooks/                 # Custom hooks
+└── scripts/               # Sync scripts
 ```
-
-## 🎨 Tech Stack
-
-- **Framework**: Next.js 16 (App Router + Turbopack)
-- **Runtime**: Bun 1.1+
-- **Language**: TypeScript 5.9+ (Strict mode)
-- **Styling**: Tailwind CSS 4+
-- **State**: Zustand 5+
-- **Icons**: React Icons (Lucide)
-- **Data**: Riot Data Dragon API
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feat/amazing-feature`)
-3. Commit changes (`git commit -m ':sparkles: feat: add amazing feature'`)
-4. Push to branch (`git push origin feat/amazing-feature`)
-5. Open a Pull Request
-
-## 📜 License
-
-This project is a fan-made tool for League of Legends players.
-League of Legends and all associated properties are trademarks of Riot Games, Inc.
 
 ---
 
-Built with ❤️ for the midlane community
+## 🌍 Internationalization
+
+Tips should be written in **natural coaching language**:
+
+✅ **Do:**
+- "Punish quand son E est down"
+- "Trade when he wastes Q on wave"
+- "Respect his zone pre-6"
+
+❌ **Don't:**
+- "Punissez lorsque le E est en temps de recharge"
+- Overly formal language
+
+---
+
+## 📜 License
+
+MIT © LaneGap Team
+
+---
+
+**Version**: 1.0.0 • **Last Updated**: December 2025
