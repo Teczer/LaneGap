@@ -18,6 +18,7 @@ export const TierSchema = z.enum(['S', 'A+', 'A', 'B+', 'B', 'B-', 'C'])
 export const LevelSpikeSchema = z.object({
   level: z.number().int().min(1).max(18),
   text: LocalizedTextSchema,
+  important: z.boolean().optional(),
 })
 
 export const ItemSpikeSchema = z.object({

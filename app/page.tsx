@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useCallback, useEffect } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { PageContainer } from '@/components/layout/page-container.component'
 import { Input } from '@/components/ui/input'
@@ -51,18 +51,6 @@ export default function HomePage() {
     [router, addRecent]
   )
 
-  // Keyboard shortcut for search
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
-        e.preventDefault()
-        document.getElementById('champion-search')?.focus()
-      }
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
-
   return (
     <PageContainer>
       {/* Hero Section */}
@@ -87,11 +75,7 @@ export default function HomePage() {
           id="champion-search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder={
-            language === 'en'
-              ? 'Search enemy champion... (Press /)'
-              : 'Chercher un ennemi... (Appuie /)'
-          }
+          placeholder={language === 'en' ? 'Search enemy champion...' : 'Chercher un ennemi...'}
           icon={<LuSearch className="h-4 w-4" />}
           className="h-12 text-base"
         />

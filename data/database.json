@@ -32,14 +32,15 @@
           "level": 1,
           "text": {
             "en": "WEAK LVL 1 - Q does 40 dmg with 6 sec CD, abuse it",
-            "fr": "FAIBLE LVL 1 - Q fait 40 dmg avec 6 sec CD, abuse ça"
-          }
+            "fr": "FAIBLE LVL 1 - Q fait 40 dmg avec 6 sec CD, abuse de ça"
+          },
+          "important": true
         },
         { "level": 4, "text": { "en": "W hurts now", "fr": "W fait mal maintenant" } },
         {
           "level": 6,
           "text": {
-            "en": "Kill threat now if you misposition",
+            "en": "Kill threat now if you missposition",
             "fr": "Kill threat si tu te missposition"
           }
         },
@@ -60,10 +61,10 @@
           }
         },
         {
-          "item": "6653",
+          "item": "2503",
           "text": {
-            "en": "Blackfire/1st item - Champion comes online",
-            "fr": "Blackfire/1st item - Le champion devient fort"
+            "en": "Blackfire Torch/1st item - Champion comes online",
+            "fr": "Blackfire Torch/1st item - Le champion devient fort"
           }
         }
       ]

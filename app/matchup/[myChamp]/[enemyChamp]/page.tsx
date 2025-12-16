@@ -12,7 +12,15 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useDatabase } from '@/hooks/use-database.hook'
 import { useSettingsStore } from '@/app/store/settings.store'
-import { LuArrowLeft, LuSwords, LuTarget, LuTrendingUp, LuBox, LuCircleAlert } from 'react-icons/lu'
+import {
+  LuArrowLeft,
+  LuSwords,
+  LuTarget,
+  LuTrendingUp,
+  LuBox,
+  LuCircleAlert,
+  LuSparkles,
+} from 'react-icons/lu'
 import type { TTier } from '@/lib/types'
 
 interface IMatchupPageProps {
@@ -22,11 +30,12 @@ interface IMatchupPageProps {
 export default function MatchupPage({ params }: IMatchupPageProps) {
   const { myChamp, enemyChamp } = use(params)
   const router = useRouter()
-  const { getChampion } = useDatabase()
+  const { getChampion, getMatchup } = useDatabase()
   const language = useSettingsStore((s) => s.language)
 
   const myChampion = getChampion(myChamp)
   const enemy = getChampion(enemyChamp)
+  const matchup = getMatchup(myChamp, enemyChamp)
 
   // Find the tier for this matchup (from enemy's counter list)
   const getTier = (): TTier | null => {
@@ -70,7 +79,7 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
         <div className="flex items-center justify-center gap-8">
           {/* My Champion */}
           <div className="flex flex-col items-center gap-3">
-            <p className="text-xs font-medium uppercase tracking-wider text-emerald-400">
+            <p className="text-xs font-medium tracking-wider text-emerald-400 uppercase">
               {language === 'en' ? 'Playing as' : 'Tu joues'}
             </p>
             <ChampionIcon championId={myChampion.id} size="xl" />
@@ -86,7 +95,7 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
 
           {/* Enemy Champion */}
           <div className="flex flex-col items-center gap-3">
-            <p className="text-xs font-medium uppercase tracking-wider text-red-400">
+            <p className="text-xs font-medium tracking-wider text-red-400 uppercase">
               {language === 'en' ? 'Enemy' : 'Ennemi'}
             </p>
             <ChampionIcon championId={enemy.id} size="xl" />
@@ -96,7 +105,38 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* Tips vs Enemy */}
+        {/* Specific Matchup Tips */}
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <LuSwords className="h-4 w-4 text-emerald-400" />
+              {language === 'en'
+                ? `How to beat ${enemy.name[language]} as ${myChampion.name[language]}`
+                : `Comment battre ${enemy.name[language]} avec ${myChampion.name[language]}`}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {matchup && matchup.tips[language].length > 0 ? (
+              <TipList tips={matchup.tips} />
+            ) : (
+              <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
+                <LuSparkles className="mb-3 h-8 w-8 text-violet-400/60" />
+                <p className="text-sm text-white/50">
+                  {language === 'en'
+                    ? 'Specific tips coming soon...'
+                    : 'Tips spécifiques à venir...'}
+                </p>
+                <p className="mt-1 text-xs text-white/30">
+                  {language === 'en'
+                    ? 'Check the general tips below for now'
+                    : 'Consulte les tips généraux ci-dessous en attendant'}
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* General Tips vs Enemy */}
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -107,11 +147,20 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <TipList tips={enemy.tips} />
+            {enemy.tips[language].length > 0 ? (
+              <TipList tips={enemy.tips} />
+            ) : (
+              <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
+                <LuSparkles className="mb-3 h-8 w-8 text-violet-400/60" />
+                <p className="text-sm text-white/50">
+                  {language === 'en' ? 'Tips coming soon...' : 'Tips à venir...'}
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
-        {/* Enemy Level Spikes - Know when they're strong */}
+        {/* Enemy Level Spikes */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -122,7 +171,16 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <LevelSpikeTimeline spikes={enemy.levelSpikes} />
+            {enemy.levelSpikes.length > 0 ? (
+              <LevelSpikeTimeline spikes={enemy.levelSpikes} />
+            ) : (
+              <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
+                <LuSparkles className="mb-2 h-6 w-6 text-violet-400/60" />
+                <p className="text-sm text-white/50">
+                  {language === 'en' ? 'Coming soon...' : 'À venir...'}
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -137,26 +195,18 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ItemSpikeList spikes={enemy.itemSpikes} />
+            {enemy.itemSpikes.length > 0 ? (
+              <ItemSpikeList spikes={enemy.itemSpikes} />
+            ) : (
+              <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
+                <LuSparkles className="mb-2 h-6 w-6 text-violet-400/60" />
+                <p className="text-sm text-white/50">
+                  {language === 'en' ? 'Coming soon...' : 'À venir...'}
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
-
-        {/* My Champion Tips - General tips for my champ */}
-        {myChampion.tips && (
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <LuSwords className="h-4 w-4 text-emerald-400" />
-                {language === 'en'
-                  ? `${myChampion.name[language]} General Tips`
-                  : `Tips généraux ${myChampion.name[language]}`}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <TipList tips={myChampion.tips} />
-            </CardContent>
-          </Card>
-        )}
       </div>
     </PageContainer>
   )

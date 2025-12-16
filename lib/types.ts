@@ -57,6 +57,7 @@ export interface IChampion {
 export interface ILevelSpike {
   level: number
   text: ILocalizedText
+  important?: boolean
 }
 
 export interface IItemSpike {
@@ -154,4 +155,3 @@ export interface IDataDragonItem {
   tags: string[]
   maps: Record<string, boolean>
 }
-
