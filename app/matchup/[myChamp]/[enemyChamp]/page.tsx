@@ -13,8 +13,14 @@ import {
   LuTrendingUp,
 } from 'react-icons/lu'
 import type { TTier } from '@/lib/types'
-import { useChampion } from '@/hooks/queries'
-import { useMatchup } from '@/hooks/queries'
+import {
+  useChampion,
+  useCreateMatchupNote,
+  useDeleteNote,
+  useMatchup,
+  useMatchupNotes,
+  useUpdateNote,
+} from '@/hooks/queries'
 import { useTranslations } from '@/hooks/use-translations.hook'
 import { ChampionIcon } from '@/components/champion/champion-icon.component'
 import { PageContainer } from '@/components/layout/page-container.component'
@@ -22,6 +28,7 @@ import { ItemSpikeList } from '@/components/matchup/item-spike-list.component'
 import { LevelSpikeTimeline } from '@/components/matchup/level-spike-timeline.component'
 import { TierBadge } from '@/components/matchup/tier-badge.component'
 import { TipList } from '@/components/matchup/tip-list.component'
+import { PersonalNotes } from '@/components/notes'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
@@ -36,6 +43,12 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
   const { data: enemy, isLoading: isLoadingEnemy } = useChampion(enemyChamp)
   const { data: matchup } = useMatchup(myChamp, enemyChamp)
   const { t, language } = useTranslations()
+
+  // Notes hooks
+  const { data: notes = [], isLoading: isLoadingNotes } = useMatchupNotes(myChamp, enemyChamp)
+  const createNoteMutation = useCreateMatchupNote(myChamp, enemyChamp)
+  const updateNoteMutation = useUpdateNote()
+  const deleteNoteMutation = useDeleteNote()
 
   const isLoading = isLoadingMyChamp || isLoadingEnemy
 
@@ -200,6 +213,23 @@ export default function MatchupPage({ params }: IMatchupPageProps) {
             )}
           </CardContent>
         </Card>
+
+        {/* Personal Notes */}
+        <PersonalNotes
+          notes={notes}
+          isLoading={isLoadingNotes}
+          onAddNote={async (content) => {
+            await createNoteMutation.mutateAsync(content)
+          }}
+          onUpdateNote={async (noteId, content) => {
+            await updateNoteMutation.mutateAsync({ noteId, content })
+          }}
+          onDeleteNote={async (noteId) => {
+            await deleteNoteMutation.mutateAsync(noteId)
+          }}
+          title={t('notes.myNotesMatchup')}
+          className="lg:col-span-2"
+        />
       </div>
     </PageContainer>
   )

@@ -14,7 +14,14 @@ import {
 } from 'react-icons/lu'
 import type { TTier } from '@/lib/types'
 import { cn } from '@/lib/utils'
-import { useChampion, useChampions } from '@/hooks/queries'
+import {
+  useChampion,
+  useChampions,
+  useCreateEnemyNote,
+  useDeleteNote,
+  useEnemyNotes,
+  useUpdateNote,
+} from '@/hooks/queries'
 import { useTranslations } from '@/hooks/use-translations.hook'
 import { ChampionCard } from '@/components/champion/champion-card.component'
 import { ChampionIcon } from '@/components/champion/champion-icon.component'
@@ -22,6 +29,7 @@ import { PageContainer } from '@/components/layout/page-container.component'
 import { ItemSpikeList } from '@/components/matchup/item-spike-list.component'
 import { LevelSpikeTimeline } from '@/components/matchup/level-spike-timeline.component'
 import { TipList } from '@/components/matchup/tip-list.component'
+import { PersonalNotes } from '@/components/notes'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useFavoritesStore } from '@/app/store/favorites.store'
@@ -42,6 +50,12 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
   const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite)
 
   const isFavorite = favoriteChampions.includes(id)
+
+  // Notes hooks
+  const { data: notes = [], isLoading: isLoadingNotes } = useEnemyNotes(id)
+  const createNoteMutation = useCreateEnemyNote(id)
+  const updateNoteMutation = useUpdateNote()
+  const deleteNoteMutation = useDeleteNote()
 
   // Get counters (champions that are GOOD against this enemy)
   const countersWithData = useMemo(() => {
@@ -205,6 +219,23 @@ export default function EnemyPage({ params }: IEnemyPageProps) {
             )}
           </CardContent>
         </Card>
+
+        {/* Personal Notes */}
+        <PersonalNotes
+          notes={notes}
+          isLoading={isLoadingNotes}
+          onAddNote={async (content) => {
+            await createNoteMutation.mutateAsync(content)
+          }}
+          onUpdateNote={async (noteId, content) => {
+            await updateNoteMutation.mutateAsync({ noteId, content })
+          }}
+          onDeleteNote={async (noteId) => {
+            await deleteNoteMutation.mutateAsync(noteId)
+          }}
+          title={t('notes.myNotesEnemy', { champion: enemy.name[language] })}
+          className="lg:col-span-2"
+        />
       </div>
     </PageContainer>
   )

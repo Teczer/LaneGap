@@ -198,6 +198,18 @@
   }
 }
 
+@keyframes caret-blink {
+  0%,
+  70%,
+  100% {
+    opacity: 1;
+  }
+  20%,
+  50% {
+    opacity: 0;
+  }
+}
+
 /* =============================================================================
    Components Layer
    ============================================================================= */
@@ -212,6 +224,9 @@
   }
   .animate-scale-in {
     animation: scale-in 0.2s ease-out both;
+  }
+  .animate-caret-blink {
+    animation: caret-blink 1.25s ease-out infinite;
   }
 
   /* Stagger delays */
