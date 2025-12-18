@@ -18,7 +18,7 @@
     "type-check": "tsc --noEmit",
     "sync:champions": "bun run scripts/sync-champions.ts",
     "sync:items": "bun run scripts/sync-items.ts",
-    "validate": "bun run scripts/validate-database.ts",
+    "seed:champions": "bun run scripts/seed-champions.ts",
     "docker:build": "docker compose build",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",

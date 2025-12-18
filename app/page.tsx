@@ -1,8 +1,10 @@
 'use client'
 
 import { useCallback, useMemo, useState } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { LuClock, LuLoader, LuSearch, LuStar, LuTarget } from 'react-icons/lu'
+import { LANE_ICONS, LANE_LABELS, type TLane, championPlaysLane } from '@/lib/data/champion-roles'
 import type { IChampion } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { useChampions } from '@/hooks/queries'
@@ -12,36 +14,54 @@ import { PageContainer } from '@/components/layout/page-container.component'
 import { Input } from '@/components/ui/input'
 import { useFavoritesStore } from '@/app/store/favorites.store'
 
+const LANES: TLane[] = ['top', 'jungle', 'mid', 'adc', 'support']
+
 export default function HomePage() {
   const router = useRouter()
   const { data: champions = [], isLoading } = useChampions()
   const [search, setSearch] = useState('')
-  const { t } = useTranslations()
+  const [selectedLane, setSelectedLane] = useState<TLane>('mid')
+  const { t, language } = useTranslations()
 
   const favoriteChampions = useFavoritesStore((s) => s.favoriteChampions)
   const recentChampions = useFavoritesStore((s) => s.recentChampions)
   const addRecent = useFavoritesStore((s) => s.addRecent)
 
+  // Filter by search and lane
   const filteredChampions = useMemo(() => {
-    if (!search.trim()) return champions
-    const lowerQuery = search.toLowerCase()
-    return champions.filter(
-      (c) =>
-        c.name.en.toLowerCase().includes(lowerQuery) ||
-        c.name.fr.toLowerCase().includes(lowerQuery) ||
-        c.id.toLowerCase().includes(lowerQuery)
-    )
-  }, [champions, search])
+    let result = champions
 
+    // Filter by lane
+    result = result.filter((c) => championPlaysLane(c.id, selectedLane))
+
+    // Filter by search
+    if (search.trim()) {
+      const lowerQuery = search.toLowerCase()
+      result = result.filter(
+        (c) =>
+          c.name.en.toLowerCase().includes(lowerQuery) ||
+          c.name.fr.toLowerCase().includes(lowerQuery) ||
+          c.id.toLowerCase().includes(lowerQuery)
+      )
+    }
+
+    return result
+  }, [champions, search, selectedLane])
+
+  // Filter favorites by selected lane
   const favoriteChampionsList = useMemo(() => {
-    return champions.filter((c) => favoriteChampions.includes(c.id))
-  }, [champions, favoriteChampions])
+    return champions
+      .filter((c) => favoriteChampions.includes(c.id))
+      .filter((c) => championPlaysLane(c.id, selectedLane))
+  }, [champions, favoriteChampions, selectedLane])
 
+  // Filter recents by selected lane
   const recentChampionsList = useMemo(() => {
     return recentChampions
       .map((id) => champions.find((c) => c.id === id))
       .filter((c): c is IChampion => c !== undefined)
-  }, [champions, recentChampions])
+      .filter((c) => championPlaysLane(c.id, selectedLane))
+  }, [champions, recentChampions, selectedLane])
 
   const handleSelect = useCallback(
     (champion: IChampion) => {
@@ -54,17 +74,19 @@ export default function HomePage() {
   return (
     <PageContainer>
       {/* Hero Section */}
-      <div className="animate-fade-in mb-12 text-center">
+      <div className="animate-fade-in mb-8 text-center">
         <h1 className="mb-4 text-4xl font-bold tracking-tight">
           <span className="text-white">LANE</span>
           <span className="text-gradient">GAP</span>
         </h1>
         <p className="text-lg text-white/60">{t('home.subtitle')}</p>
-        <p className="mt-2 text-sm text-white/40">Patch 14.24 • {champions.length} champions</p>
+        <p className="mt-2 text-sm text-white/40">
+          Patch 14.24 • {filteredChampions.length} champions
+        </p>
       </div>
 
       {/* Search Bar */}
-      <div className="animate-slide-up mx-auto mb-12 max-w-md">
+      <div className="animate-slide-up mx-auto mb-10 max-w-md" style={{ animationDelay: '50ms' }}>
         <Input
           id="champion-search"
           value={search}
@@ -73,6 +95,30 @@ export default function HomePage() {
           icon={<LuSearch className="h-4 w-4" />}
           className="h-12 text-base"
         />
+      </div>
+
+      {/* Lane Filter */}
+      <div className="animate-slide-up mx-auto flex justify-center gap-x-4">
+        {LANES.map((lane) => {
+          const isSelected = selectedLane === lane
+          return (
+            <button
+              key={lane}
+              onClick={() => setSelectedLane(lane)}
+              className={cn(
+                'relative size-20 cursor-pointer transition-all',
+                isSelected ? 'scale-125 opacity-100' : 'opacity-30 grayscale hover:scale-125'
+              )}
+            >
+              <Image
+                src={LANE_ICONS[lane]}
+                alt={LANE_LABELS[lane][language]}
+                fill
+                className="object-contain"
+              />
+            </button>
+          )
+        })}
       </div>
 
       {/* Favorites Section */}
