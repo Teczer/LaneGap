@@ -24,6 +24,10 @@ interface IAuthActions {
   login: (email: string, password: string) => Promise<void>
   register: (email: string, password: string, username: string) => Promise<void>
   logout: () => void
+  updateProfile: (username: string) => Promise<void>
+  updateAvatar: (file: File | null) => Promise<void>
+  updatePassword: (currentPassword: string, newPassword: string) => Promise<void>
+  deleteAccount: () => Promise<void>
   setLoading: (loading: boolean) => void
   setHasHydrated: (hasHydrated: boolean) => void
 }
@@ -96,6 +100,93 @@ export const useAuthStore = create<TAuthStore>()(
           isAuthenticated: false,
         })
         showSuccessToast('logoutSuccess')
+      },
+
+      updateProfile: async (username: string) => {
+        const state = useAuthStore.getState()
+        if (!state.user) throw new Error('Not authenticated')
+        
+        set({ isLoading: true })
+        try {
+          const record = await pb.collection('users').update(state.user.id, { username })
+          set({
+            user: mapUser(record),
+            isLoading: false,
+          })
+          showSuccessToast('profileUpdated')
+        } catch (error) {
+          set({ isLoading: false })
+          showErrorToast('profileUpdateError')
+          throw error
+        }
+      },
+
+      updateAvatar: async (file: File | null) => {
+        const state = useAuthStore.getState()
+        if (!state.user) throw new Error('Not authenticated')
+        
+        set({ isLoading: true })
+        try {
+          const formData = new FormData()
+          if (file) {
+            formData.append('avatar', file)
+          } else {
+            // Remove avatar by setting empty
+            formData.append('avatar', '')
+          }
+          const record = await pb.collection('users').update(state.user.id, formData)
+          set({
+            user: mapUser(record),
+            isLoading: false,
+          })
+          showSuccessToast(file ? 'avatarUploaded' : 'avatarRemoved')
+        } catch (error) {
+          set({ isLoading: false })
+          showErrorToast('avatarUploadError')
+          throw error
+        }
+      },
+
+      updatePassword: async (currentPassword: string, newPassword: string) => {
+        const state = useAuthStore.getState()
+        if (!state.user) throw new Error('Not authenticated')
+        
+        set({ isLoading: true })
+        try {
+          await pb.collection('users').update(state.user.id, {
+            oldPassword: currentPassword,
+            password: newPassword,
+            passwordConfirm: newPassword,
+          })
+          set({ isLoading: false })
+          showSuccessToast('passwordUpdated')
+        } catch (error) {
+          set({ isLoading: false })
+          showErrorToast('passwordUpdateError')
+          throw error
+        }
+      },
+
+      deleteAccount: async () => {
+        const state = useAuthStore.getState()
+        if (!state.user) throw new Error('Not authenticated')
+        
+        set({ isLoading: true })
+        try {
+          await pb.collection('users').delete(state.user.id)
+          pb.authStore.clear()
+          set({
+            user: null,
+            token: null,
+            isAuthenticated: false,
+            isLoading: false,
+          })
+          showSuccessToast('accountDeleted')
+        } catch (error) {
+          set({ isLoading: false })
+          showErrorToast('accountDeleteError')
+          throw error
+        }
       },
 
       setLoading: (loading: boolean) => set({ isLoading: loading }),

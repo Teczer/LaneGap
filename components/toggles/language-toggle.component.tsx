@@ -11,7 +11,7 @@ export function LanguageToggle() {
     <button
       onClick={toggleLanguage}
       className={cn(
-        'flex h-9 items-center rounded-lg bg-white/5 p-1',
+        'flex h-9 cursor-pointer items-center rounded-lg bg-white/5 p-1',
         'text-sm font-medium transition-all duration-200',
         'hover:bg-white/10'
       )}

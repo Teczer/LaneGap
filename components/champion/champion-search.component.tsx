@@ -125,7 +125,7 @@ export function ChampionSearch({
             setQuery('')
             inputRef.current?.focus()
           }}
-          className="text-text-muted hover:text-text-primary absolute top-1/2 right-3 -translate-y-1/2 transition-colors"
+          className="text-text-muted hover:text-text-primary absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer transition-colors"
         >
           <LuX className="h-4 w-4" />
         </button>
@@ -142,7 +142,7 @@ export function ChampionSearch({
                 onClick={() => handleSelect(champion)}
                 onMouseEnter={() => setSelectedIndex(index)}
                 className={cn(
-                  'flex w-full items-center gap-3 px-3 py-2 text-left transition-colors',
+                  'flex w-full cursor-pointer items-center gap-3 px-3 py-2 text-left transition-colors',
                   index === selectedIndex && 'bg-surface-hover',
                   'hover:bg-surface-hover'
                 )}

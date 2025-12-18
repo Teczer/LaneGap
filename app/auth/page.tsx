@@ -177,7 +177,7 @@ export default function AuthPage() {
               <button
                 onClick={handleResendOTP}
                 disabled={sendOTPMutation.isPending}
-                className="inline-flex items-center gap-1 font-medium text-violet-400 transition-colors hover:text-violet-300 disabled:opacity-50"
+                className="inline-flex cursor-pointer items-center gap-1 font-medium text-violet-400 transition-colors hover:text-violet-300 disabled:opacity-50"
               >
                 {sendOTPMutation.isPending ? (
                   <LuLoader className="h-3 w-3 animate-spin" />
@@ -301,7 +301,7 @@ export default function AuthPage() {
             </span>{' '}
             <button
               onClick={() => switchMode(mode === 'login' ? 'register' : 'login')}
-              className="font-medium text-violet-400 transition-colors hover:text-violet-300"
+              className="cursor-pointer font-medium text-violet-400 transition-colors hover:text-violet-300"
             >
               {mode === 'login' ? t('auth.registerLink') : t('auth.loginLink')}
             </button>

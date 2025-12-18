@@ -1,10 +1,12 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { LuLogIn, LuLogOut, LuSwords, LuUser } from 'react-icons/lu'
-import { cn } from '@/lib/utils'
+import { LuChevronDown, LuLogIn, LuLogOut, LuSettings, LuSwords } from 'react-icons/lu'
+import { cn, getAvatarUrl } from '@/lib/utils'
 import { useTranslations } from '@/hooks/use-translations.hook'
 import { LanguageToggle } from '@/components/toggles/language-toggle.component'
+import { Avatar } from '@/components/ui'
 import { useAuthStore } from '@/app/store/auth.store'
 
 interface IHeaderProps {
@@ -13,7 +15,44 @@ interface IHeaderProps {
 
 export function Header({ className }: IHeaderProps) {
   const { t } = useTranslations()
-  const { user, isAuthenticated, logout } = useAuthStore()
+  const { user, isAuthenticated, logout, _hasHydrated } = useAuthStore()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false)
+      }
+    }
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isMenuOpen])
+
+  // Close menu on escape
+  useEffect(() => {
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setIsMenuOpen(false)
+      }
+    }
+
+    if (isMenuOpen) {
+      document.addEventListener('keydown', handleEscape)
+      return () => document.removeEventListener('keydown', handleEscape)
+    }
+  }, [isMenuOpen])
+
+  const avatarUrl = user ? getAvatarUrl(user.id, user.avatar) : null
+
+  const handleLogout = () => {
+    setIsMenuOpen(false)
+    logout()
+  }
 
   return (
     <header
@@ -41,21 +80,87 @@ export function Header({ className }: IHeaderProps) {
         <div className="flex items-center gap-3">
           <LanguageToggle />
 
-          {isAuthenticated && user ? (
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-2 rounded-full bg-white/5 py-1.5 pr-3 pl-1.5">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-purple-600">
-                  <LuUser className="h-3 w-3 text-white" />
-                </div>
-                <span className="text-sm font-medium text-white/80">{user.username}</span>
-              </div>
+          {/* Show skeleton while hydrating */}
+          {!_hasHydrated ? (
+            <div className="h-9 w-24 animate-pulse rounded-lg bg-white/5" />
+          ) : isAuthenticated && user ? (
+            <div ref={menuRef} className="relative">
+              {/* User Button */}
               <button
-                onClick={logout}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-white/5 hover:text-white/80"
-                title={t('auth.logout')}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className={cn(
+                  'flex items-center gap-2 rounded-full py-1 pr-2.5 pl-1',
+                  'cursor-pointer bg-white/5 transition-all duration-200',
+                  'hover:bg-white/10',
+                  isMenuOpen && 'bg-white/10 ring-2 ring-violet-500/30'
+                )}
               >
-                <LuLogOut className="h-4 w-4" />
+                {/* Avatar */}
+                <Avatar src={avatarUrl} alt={user.username} size="sm" />
+
+                {/* Username */}
+                <span className="max-w-[100px] truncate text-sm font-medium text-white/80">
+                  {user.username}
+                </span>
+
+                {/* Chevron */}
+                <LuChevronDown
+                  className={cn(
+                    'h-4 w-4 text-white/40 transition-transform duration-200',
+                    isMenuOpen && 'rotate-180'
+                  )}
+                />
               </button>
+
+              {/* Dropdown Menu */}
+              {isMenuOpen && (
+                <div
+                  className={cn(
+                    'absolute right-0 top-full mt-2 w-52',
+                    'rounded-xl border border-white/10 bg-[#1a1f35] shadow-2xl shadow-black/20',
+                    'animate-scale-in origin-top-right',
+                    'overflow-hidden'
+                  )}
+                >
+                  {/* User Info Header */}
+                  <div className="border-b border-white/5 p-3">
+                    <div className="flex items-center gap-3">
+                      <Avatar src={avatarUrl} alt={user.username} size="md" className="shrink-0 ring-2" />
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium text-white">{user.username}</p>
+                        <p className="truncate text-xs text-white/50">{user.email}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Menu Items */}
+                  <div className="p-1.5">
+                    <Link
+                      href="/settings"
+                      onClick={() => setIsMenuOpen(false)}
+                      className={cn(
+                        'flex items-center gap-3 rounded-lg px-3 py-2.5',
+                        'text-sm text-white/70 transition-colors',
+                        'hover:bg-white/5 hover:text-white'
+                      )}
+                    >
+                      <LuSettings className="h-4 w-4" />
+                      {t('settings.title')}
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className={cn(
+                        'flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5',
+                        'text-sm text-red-400 transition-colors',
+                        'hover:bg-red-500/10'
+                      )}
+                    >
+                      <LuLogOut className="h-4 w-4" />
+                      {t('auth.logout')}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <Link

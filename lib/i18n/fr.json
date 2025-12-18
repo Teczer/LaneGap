@@ -71,7 +71,16 @@
     "noteUpdated": "Note mise à jour",
     "noteDeleted": "Note supprimée",
     "noteError": "Échec de la sauvegarde",
-    "error": "Une erreur est survenue"
+    "error": "Une erreur est survenue",
+    "profileUpdated": "Profil mis à jour !",
+    "profileUpdateError": "Échec de la mise à jour du profil",
+    "passwordUpdated": "Mot de passe mis à jour !",
+    "passwordUpdateError": "Échec du changement de mot de passe",
+    "accountDeleted": "Compte supprimé",
+    "accountDeleteError": "Échec de la suppression du compte",
+    "avatarUploaded": "Avatar uploadé !",
+    "avatarUploadError": "Échec de l'upload de l'avatar",
+    "avatarRemoved": "Avatar supprimé"
   },
   "notes": {
     "myNotes": "Mes Notes",
@@ -115,5 +124,35 @@
   "language": {
     "en": "EN",
     "fr": "FR"
+  },
+  "settings": {
+    "title": "Paramètres du compte",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "confirm": "Confirmer la suppression",
+    "avatar": "Avatar",
+    "avatarDescription": "Clique sur l'avatar pour en upload un depuis tes fichiers.",
+    "avatarHint": "Un avatar est optionnel mais fortement recommandé.",
+    "removeAvatar": "Supprimer",
+    "username": "Pseudo",
+    "usernameDescription": "C'est ton nom d'affichage sur LaneGap.",
+    "usernameHint": "32 caractères maximum.",
+    "email": "Email",
+    "emailDescription": "Ton email est utilisé pour te connecter.",
+    "emailHint": "Contacte le support pour changer ton email.",
+    "verified": "Vérifié",
+    "password": "Mot de passe",
+    "passwordDescription": "Change ton mot de passe.",
+    "currentPasswordPlaceholder": "Mot de passe actuel",
+    "newPasswordPlaceholder": "Nouveau mot de passe (min. 8 caractères)",
+    "confirmNewPasswordPlaceholder": "Confirmer le nouveau mot de passe",
+    "passwordHint": "Le mot de passe doit faire au moins 8 caractères.",
+    "deleteAccount": "Supprimer le compte",
+    "deleteAccountDescription": "Supprime définitivement ton compte et toutes tes données.",
+    "deleteAccountWarning": "Cette action est irréversible. Toutes tes notes et préférences seront supprimées définitivement.",
+    "deleteAccountButton": "Supprimer le compte",
+    "deleteConfirmTitle": "T'es sûr ?",
+    "deleteConfirmMessage": "Tape DELETE pour confirmer la suppression.",
+    "deleteConfirmPlaceholder": "Tape DELETE"
   }
 }

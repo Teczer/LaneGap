@@ -7,6 +7,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:full": "concurrently -n \"next,pb\" -c \"cyan,magenta\" \"bun dev\" \"cd pocketbase && ./pocketbase serve\"",
+    "pb": "cd pocketbase && ./pocketbase serve",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -41,6 +43,7 @@
     "zustand": "^5.0.9"
   },
   "devDependencies": {
+    "concurrently": "^9.1.2",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",
     "@trivago/prettier-plugin-sort-imports": "^6.0.0",

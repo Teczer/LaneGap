@@ -18,7 +18,8 @@ const Button = forwardRef<HTMLButtonElement, IButtonProps>(
       'focus-visible:ring-2 focus-visible:ring-violet-500/50 focus-visible:outline-none',
       'disabled:pointer-events-none disabled:opacity-50',
       'active:scale-[0.98]',
-      'whitespace-nowrap'
+      'whitespace-nowrap',
+      'cursor-pointer'
     )
 
     const variants = {

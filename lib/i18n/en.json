@@ -71,7 +71,16 @@
     "noteUpdated": "Note updated",
     "noteDeleted": "Note deleted",
     "noteError": "Failed to save note",
-    "error": "Something went wrong"
+    "error": "Something went wrong",
+    "profileUpdated": "Profile updated!",
+    "profileUpdateError": "Failed to update profile",
+    "passwordUpdated": "Password updated!",
+    "passwordUpdateError": "Failed to update password",
+    "accountDeleted": "Account deleted",
+    "accountDeleteError": "Failed to delete account",
+    "avatarUploaded": "Avatar uploaded!",
+    "avatarUploadError": "Failed to upload avatar",
+    "avatarRemoved": "Avatar removed"
   },
   "notes": {
     "myNotes": "My Notes",
@@ -115,5 +124,35 @@
   "language": {
     "en": "EN",
     "fr": "FR"
+  },
+  "settings": {
+    "title": "Account Settings",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm deletion",
+    "avatar": "Avatar",
+    "avatarDescription": "Click on the avatar to upload a custom one from your files.",
+    "avatarHint": "An avatar is optional but strongly recommended.",
+    "removeAvatar": "Remove",
+    "username": "Username",
+    "usernameDescription": "This is your display name within LaneGap.",
+    "usernameHint": "Please use 32 characters at maximum.",
+    "email": "Email",
+    "emailDescription": "Your email address is used to log in.",
+    "emailHint": "Contact support to change your email address.",
+    "verified": "Verified",
+    "password": "Password",
+    "passwordDescription": "Update your account password.",
+    "currentPasswordPlaceholder": "Current password",
+    "newPasswordPlaceholder": "New password (min. 8 characters)",
+    "confirmNewPasswordPlaceholder": "Confirm new password",
+    "passwordHint": "Password must be at least 8 characters.",
+    "deleteAccount": "Delete Account",
+    "deleteAccountDescription": "Permanently remove your account and all data.",
+    "deleteAccountWarning": "This action is not reversible. All your notes and preferences will be permanently deleted.",
+    "deleteAccountButton": "Delete Account",
+    "deleteConfirmTitle": "Are you sure?",
+    "deleteConfirmMessage": "Type DELETE to confirm account deletion.",
+    "deleteConfirmPlaceholder": "Type DELETE"
   }
 }

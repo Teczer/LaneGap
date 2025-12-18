@@ -82,3 +82,12 @@ export function normalizeChampionId(id: string): string {
 export function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
+
+/**
+ * Get PocketBase file URL for user avatar
+ */
+export function getAvatarUrl(userId: string, avatarFilename: string | undefined): string | null {
+  if (!avatarFilename) return null
+  const baseUrl = process.env.NEXT_PUBLIC_POCKETBASE_URL || 'http://127.0.0.1:8090'
+  return `${baseUrl}/api/files/users/${userId}/${avatarFilename}`
+}

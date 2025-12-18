@@ -1,3 +1,4 @@
+export { Avatar, type IAvatarProps } from './avatar'
 export { Badge, type IBadgeProps } from './badge'
 export { Button, type IButtonProps } from './button'
 export { Card, CardContent, CardDescription, CardHeader, CardTitle, type ICardProps } from './card'
