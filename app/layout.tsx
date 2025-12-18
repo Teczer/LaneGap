@@ -34,10 +34,13 @@ export default function RootLayout({
             theme="dark"
             position="bottom-right"
             toastOptions={{
-              style: {
-                background: '#1a1f35',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#fff',
+              unstyled: true,
+              classNames: {
+                toast: 'flex items-center gap-3 rounded-lg border px-4 py-3 text-sm shadow-lg',
+                error: 'bg-red-950/90 border-red-500/40 text-red-100',
+                success: 'bg-[#1a1f35] border-white/10 text-white',
+                default: 'bg-[#1a1f35] border-white/10 text-white',
+                description: 'text-white/60',
               },
             }}
           />

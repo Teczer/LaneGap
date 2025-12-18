@@ -201,6 +201,15 @@ export const useAuthStore = create<TAuthStore>()(
 
         set({ isLoading: true })
         try {
+          // Delete all user's notes first (cascade delete)
+          const userNotes = await pb.collection('user_notes').getFullList({
+            filter: `user = "${state.user.id}"`,
+          })
+          await Promise.all(
+            userNotes.map((note) => pb.collection('user_notes').delete(note.id))
+          )
+
+          // Now delete the user
           await pb.collection('users').delete(state.user.id)
           pb.authStore.clear()
           clearAuthCookie()

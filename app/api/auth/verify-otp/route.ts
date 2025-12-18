@@ -1,10 +1,19 @@
 import { NextResponse } from 'next/server'
 import PocketBase from 'pocketbase'
 
-const pb = new PocketBase('http://127.0.0.1:8090')
+const POCKETBASE_URL = process.env.POCKETBASE_URL || 'http://127.0.0.1:8090'
+const POCKETBASE_ADMIN_EMAIL = process.env.POCKETBASE_ADMIN_EMAIL || ''
+const POCKETBASE_ADMIN_PASSWORD = process.env.POCKETBASE_ADMIN_PASSWORD || ''
 
 export async function POST(request: Request) {
+  // Create a fresh PocketBase instance for each request
+  const pb = new PocketBase(POCKETBASE_URL)
+
   try {
+    // Authenticate as admin to bypass API rules
+    if (POCKETBASE_ADMIN_EMAIL && POCKETBASE_ADMIN_PASSWORD) {
+      await pb.collection('_superusers').authWithPassword(POCKETBASE_ADMIN_EMAIL, POCKETBASE_ADMIN_PASSWORD)
+    }
     const { email, code } = await request.json()
 
     if (!email || !code) {
@@ -43,7 +52,16 @@ export async function POST(request: Request) {
 
     const user = users.items[0]
     if (user) {
-      await pb.collection('users').update(user.id, { verified: true })
+      console.log(`[OTP] Marking user ${user.id} (${email}) as verified...`)
+      try {
+        const updatedUser = await pb.collection('users').update(user.id, { verified: true })
+        console.log(`[OTP] User verified successfully:`, updatedUser.verified)
+      } catch (updateError) {
+        console.error(`[OTP] Failed to update user verified status:`, updateError)
+        // Continue anyway - OTP was valid
+      }
+    } else {
+      console.warn(`[OTP] User not found for email: ${email}`)
     }
 
     return NextResponse.json({
