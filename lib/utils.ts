@@ -1,3 +1,4 @@
+import { type ReactNode, createElement } from 'react'
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -90,4 +91,17 @@ export function getAvatarUrl(userId: string, avatarFilename: string | undefined)
   if (!avatarFilename) return null
   const baseUrl = process.env.NEXT_PUBLIC_POCKETBASE_URL || 'http://127.0.0.1:8090'
   return `${baseUrl}/api/files/users/${userId}/${avatarFilename}`
+}
+
+/**
+ * Parse markdown bold (**text**) to React elements
+ * @example parseBold("This is **bold** text") → ["This is ", <strong>bold</strong>, " text"]
+ */
+export function parseBold(text: string): ReactNode[] {
+  const parts = text.split(/\*\*(.*?)\*\*/g)
+  return parts.map((part, index) =>
+    index % 2 === 1
+      ? createElement('strong', { key: index, className: 'font-semibold text-white' }, part)
+      : part
+  )
 }

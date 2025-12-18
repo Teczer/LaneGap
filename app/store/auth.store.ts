@@ -1,13 +1,14 @@
 import type { RecordModel } from 'pocketbase'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { clearAuthCookie, setAuthCookie } from '@/lib/cookies'
 import { pb } from '@/lib/pocketbase'
 import { showErrorToast, showSuccessToast } from '@/lib/toast'
 
 export interface IUser {
   id: string
   email: string
-  username: string
+  name: string
   avatar?: string
   created: string
 }
@@ -20,13 +21,30 @@ interface IAuthState {
   _hasHydrated: boolean
 }
 
+// Action parameter types (exported for reuse)
+export interface ILoginParams {
+  email: string
+  password: string
+}
+
+export interface IRegisterParams {
+  email: string
+  password: string
+  name: string
+}
+
+export interface IUpdatePasswordParams {
+  currentPassword: string
+  newPassword: string
+}
+
 interface IAuthActions {
-  login: (email: string, password: string) => Promise<void>
-  register: (email: string, password: string, username: string) => Promise<void>
+  login: (params: ILoginParams) => Promise<void>
+  register: (params: IRegisterParams) => Promise<void>
   logout: () => void
-  updateProfile: (username: string) => Promise<void>
+  updateProfile: (params: { name: string }) => Promise<void>
   updateAvatar: (file: File | null) => Promise<void>
-  updatePassword: (currentPassword: string, newPassword: string) => Promise<void>
+  updatePassword: (params: IUpdatePasswordParams) => Promise<void>
   deleteAccount: () => Promise<void>
   setLoading: (loading: boolean) => void
   setHasHydrated: (hasHydrated: boolean) => void
@@ -35,10 +53,14 @@ interface IAuthActions {
 type TAuthStore = IAuthState & IAuthActions
 
 function mapUser(record: RecordModel): IUser {
+  const email = record.email as string
+  // Use 'name' field, fallback to email prefix
+  const name: string = (record.name as string) || email.split('@')[0] || 'User'
+
   return {
     id: record.id,
-    email: record.email as string,
-    username: record.username as string,
+    email,
+    name,
     avatar: record.avatar as string | undefined,
     created: record.created,
   }
@@ -55,12 +77,17 @@ export const useAuthStore = create<TAuthStore>()(
       _hasHydrated: false,
 
       // Actions
-      login: async (email: string, password: string) => {
+      login: async ({ email, password }) => {
         set({ isLoading: true })
         try {
           const authData = await pb.collection('users').authWithPassword(email, password)
+          const user = mapUser(authData.record)
+
+          // Set cookie for middleware auth
+          setAuthCookie(authData.token, user.id)
+
           set({
-            user: mapUser(authData.record),
+            user,
             token: authData.token,
             isAuthenticated: true,
             isLoading: false,
@@ -73,7 +100,7 @@ export const useAuthStore = create<TAuthStore>()(
         }
       },
 
-      register: async (email: string, password: string, username: string) => {
+      register: async ({ email, password, name }) => {
         set({ isLoading: true })
         try {
           // Create user (but don't login yet - wait for OTP verification)
@@ -81,7 +108,7 @@ export const useAuthStore = create<TAuthStore>()(
             email,
             password,
             passwordConfirm: password,
-            username,
+            name,
           })
           set({ isLoading: false })
           // Don't show success toast here - OTP flow will handle it
@@ -94,6 +121,7 @@ export const useAuthStore = create<TAuthStore>()(
 
       logout: () => {
         pb.authStore.clear()
+        clearAuthCookie()
         set({
           user: null,
           token: null,
@@ -102,13 +130,13 @@ export const useAuthStore = create<TAuthStore>()(
         showSuccessToast('logoutSuccess')
       },
 
-      updateProfile: async (username: string) => {
+      updateProfile: async ({ name }) => {
         const state = useAuthStore.getState()
         if (!state.user) throw new Error('Not authenticated')
-        
+
         set({ isLoading: true })
         try {
-          const record = await pb.collection('users').update(state.user.id, { username })
+          const record = await pb.collection('users').update(state.user.id, { name })
           set({
             user: mapUser(record),
             isLoading: false,
@@ -124,7 +152,7 @@ export const useAuthStore = create<TAuthStore>()(
       updateAvatar: async (file: File | null) => {
         const state = useAuthStore.getState()
         if (!state.user) throw new Error('Not authenticated')
-        
+
         set({ isLoading: true })
         try {
           const formData = new FormData()
@@ -147,10 +175,10 @@ export const useAuthStore = create<TAuthStore>()(
         }
       },
 
-      updatePassword: async (currentPassword: string, newPassword: string) => {
+      updatePassword: async ({ currentPassword, newPassword }) => {
         const state = useAuthStore.getState()
         if (!state.user) throw new Error('Not authenticated')
-        
+
         set({ isLoading: true })
         try {
           await pb.collection('users').update(state.user.id, {
@@ -170,11 +198,12 @@ export const useAuthStore = create<TAuthStore>()(
       deleteAccount: async () => {
         const state = useAuthStore.getState()
         if (!state.user) throw new Error('Not authenticated')
-        
+
         set({ isLoading: true })
         try {
           await pb.collection('users').delete(state.user.id)
           pb.authStore.clear()
+          clearAuthCookie()
           set({
             user: null,
             token: null,
@@ -201,13 +230,13 @@ export const useAuthStore = create<TAuthStore>()(
         isAuthenticated: state.isAuthenticated,
       }),
       onRehydrateStorage: () => (state) => {
-        // Restore PocketBase auth store from persisted state
+        // Restore PocketBase auth store and cookie from persisted state
         if (state?.token && state?.user) {
           // Create a minimal record object for PocketBase
           const record = {
             id: state.user.id,
             email: state.user.email,
-            username: state.user.username,
+            name: state.user.name,
             avatar: state.user.avatar,
             created: state.user.created,
             collectionId: 'users',
@@ -215,6 +244,9 @@ export const useAuthStore = create<TAuthStore>()(
             updated: '',
           }
           pb.authStore.save(state.token, record)
+
+          // Sync cookie for middleware auth
+          setAuthCookie(state.token, state.user.id)
         }
         state?.setHasHydrated(true)
       },

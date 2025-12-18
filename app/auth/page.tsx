@@ -56,12 +56,12 @@ export default function AuthPage() {
 
   const registerForm = useForm<TRegisterForm>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { username: '', email: '', password: '', confirmPassword: '' },
+    defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
   })
 
   const onLoginSubmit = async (data: TLoginForm) => {
     try {
-      await login(data.email, data.password)
+      await login({ email: data.email, password: data.password })
       router.push('/')
     } catch {
       loginForm.setError('root', { message: t('auth.loginError') })
@@ -70,7 +70,7 @@ export default function AuthPage() {
 
   const onRegisterSubmit = async (data: TRegisterForm) => {
     try {
-      await registerUser(data.email, data.password, data.username)
+      await registerUser({ email: data.email, password: data.password, name: data.name })
       await sendOTPMutation.mutateAsync(data.email)
       setRegisteredEmail(data.email)
       setRegisteredPassword(data.password) // Store for auto-login after OTP
@@ -91,7 +91,7 @@ export default function AuthPage() {
     try {
       await verifyOTPMutation.mutateAsync({ email: registeredEmail, code: otpValue })
       // Auto-login after successful OTP verification
-      await login(registeredEmail, registeredPassword)
+      await login({ email: registeredEmail, password: registeredPassword })
       setRegisteredPassword('') // Clear password from memory
       router.push('/')
     } catch (err) {
@@ -221,6 +221,7 @@ export default function AuthPage() {
               <Input
                 type="email"
                 placeholder={t('auth.emailPlaceholder')}
+                autoComplete="email"
                 icon={<LuMail className="h-5 w-5" />}
                 error={loginForm.formState.errors.email?.message}
                 {...loginForm.register('email')}
@@ -228,6 +229,7 @@ export default function AuthPage() {
 
               <PasswordInput
                 placeholder={t('auth.passwordPlaceholder')}
+                autoComplete="current-password"
                 icon={<LuLock className="h-5 w-5" />}
                 error={loginForm.formState.errors.password?.message}
                 {...loginForm.register('password')}
@@ -249,15 +251,17 @@ export default function AuthPage() {
             <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
               <Input
                 type="text"
-                placeholder={t('auth.usernamePlaceholder')}
+                placeholder={t('auth.namePlaceholder')}
+                autoComplete="name"
                 icon={<LuUser className="h-5 w-5" />}
-                error={registerForm.formState.errors.username?.message}
-                {...registerForm.register('username')}
+                error={registerForm.formState.errors.name?.message}
+                {...registerForm.register('name')}
               />
 
               <Input
                 type="email"
                 placeholder={t('auth.emailPlaceholder')}
+                autoComplete="email"
                 icon={<LuMail className="h-5 w-5" />}
                 error={registerForm.formState.errors.email?.message}
                 {...registerForm.register('email')}
@@ -265,6 +269,7 @@ export default function AuthPage() {
 
               <PasswordInput
                 placeholder={t('auth.passwordPlaceholder')}
+                autoComplete="new-password"
                 icon={<LuLock className="h-5 w-5" />}
                 error={registerForm.formState.errors.password?.message}
                 {...registerForm.register('password')}
@@ -272,6 +277,7 @@ export default function AuthPage() {
 
               <PasswordInput
                 placeholder={t('auth.confirmPasswordPlaceholder')}
+                autoComplete="new-password"
                 icon={<LuLock className="h-5 w-5" />}
                 error={registerForm.formState.errors.confirmPassword?.message}
                 {...registerForm.register('confirmPassword')}

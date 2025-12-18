@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { LuChevronDown, LuLogIn, LuLogOut, LuSettings, LuSwords } from 'react-icons/lu'
 import { cn, getAvatarUrl } from '@/lib/utils'
 import { useTranslations } from '@/hooks/use-translations.hook'
+import { useAuthReady } from '@/hooks/use-require-auth.hook'
 import { LanguageToggle } from '@/components/toggles/language-toggle.component'
 import { Avatar } from '@/components/ui'
 import { useAuthStore } from '@/app/store/auth.store'
@@ -15,7 +17,9 @@ interface IHeaderProps {
 
 export function Header({ className }: IHeaderProps) {
   const { t } = useTranslations()
-  const { user, isAuthenticated, logout, _hasHydrated } = useAuthStore()
+  const router = useRouter()
+  const { isHydrated, isAuthenticated, user } = useAuthReady()
+  const logout = useAuthStore((s) => s.logout)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -52,6 +56,7 @@ export function Header({ className }: IHeaderProps) {
   const handleLogout = () => {
     setIsMenuOpen(false)
     logout()
+    router.push('/')
   }
 
   return (
@@ -81,7 +86,7 @@ export function Header({ className }: IHeaderProps) {
           <LanguageToggle />
 
           {/* Show skeleton while hydrating */}
-          {!_hasHydrated ? (
+          {!isHydrated ? (
             <div className="h-9 w-24 animate-pulse rounded-lg bg-white/5" />
           ) : isAuthenticated && user ? (
             <div ref={menuRef} className="relative">
@@ -96,11 +101,11 @@ export function Header({ className }: IHeaderProps) {
                 )}
               >
                 {/* Avatar */}
-                <Avatar src={avatarUrl} alt={user.username} size="sm" />
+                <Avatar src={avatarUrl} alt={user.name} size="sm" />
 
                 {/* Username */}
                 <span className="max-w-[100px] truncate text-sm font-medium text-white/80">
-                  {user.username}
+                  {user.name}
                 </span>
 
                 {/* Chevron */}
@@ -125,9 +130,9 @@ export function Header({ className }: IHeaderProps) {
                   {/* User Info Header */}
                   <div className="border-b border-white/5 p-3">
                     <div className="flex items-center gap-3">
-                      <Avatar src={avatarUrl} alt={user.username} size="md" className="shrink-0 ring-2" />
+                      <Avatar src={avatarUrl} alt={user.name} size="md" className="shrink-0 ring-2" />
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-white">{user.username}</p>
+                        <p className="truncate text-sm font-medium text-white">{user.name}</p>
                         <p className="truncate text-xs text-white/50">{user.email}</p>
                       </div>
                     </div>
