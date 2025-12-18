@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware'
 import { clearAuthCookie, setAuthCookie } from '@/lib/cookies'
 import { pb } from '@/lib/pocketbase'
 import { showErrorToast, showSuccessToast } from '@/lib/toast'
+import { useFavoritesStore } from './favorites.store'
 
 export interface IUser {
   id: string
@@ -92,6 +93,10 @@ export const useAuthStore = create<TAuthStore>()(
             isAuthenticated: true,
             isLoading: false,
           })
+
+          // Sync favorites: merge localStorage with server data
+          useFavoritesStore.getState().mergeAndSync(user.id)
+
           showSuccessToast('loginSuccess')
         } catch (error) {
           set({ isLoading: false })
@@ -209,6 +214,9 @@ export const useAuthStore = create<TAuthStore>()(
             userNotes.map((note) => pb.collection('user_notes').delete(note.id))
           )
 
+          // Delete user's favorites
+          await useFavoritesStore.getState().clearServerData(state.user.id)
+
           // Now delete the user
           await pb.collection('users').delete(state.user.id)
           pb.authStore.clear()
@@ -256,6 +264,9 @@ export const useAuthStore = create<TAuthStore>()(
 
           // Sync cookie for middleware auth
           setAuthCookie(state.token, state.user.id)
+
+          // Sync favorites from server (non-blocking)
+          useFavoritesStore.getState().syncFromServer(state.user.id)
         }
         state?.setHasHydrated(true)
       },

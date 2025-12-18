@@ -18,13 +18,17 @@ export const metadata: Metadata = {
   keywords: ['League of Legends', 'LoL', 'midlane', 'coaching', 'matchups', 'counters'],
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+  params,
+}: {
   children: React.ReactNode
-}>) {
+  params: Promise<{ lang: string }>
+}) {
+  const { lang } = await params
+
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang={lang} className={inter.variable}>
       <body suppressHydrationWarning className="flex min-h-screen flex-col">
         <QueryProvider>
           <Header />

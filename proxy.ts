@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { parseAuthCookie } from '@/lib/cookies'
 
 /**
- * Next.js Middleware for auth protection
+ * Next.js Proxy for auth protection
  *
  * Auth token is stored in a cookie (set by auth store on login/hydrate).
  * This allows server-side auth checks before page render.
@@ -15,7 +15,7 @@ const PROTECTED_ROUTES = ['/settings']
 // Routes that should redirect to home if already authenticated
 const AUTH_ROUTES = ['/auth']
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Parse auth cookie
