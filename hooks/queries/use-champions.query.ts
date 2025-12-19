@@ -1,14 +1,14 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { fetchChampions } from '@/lib/api/pocketbase.api'
+import { type IFetchChampionsOptions, fetchChampions } from '@/lib/api/pocketbase.api'
 
 // =============================================================================
 // Query Keys
 // =============================================================================
 
 export const championKeys = {
-  all: ['champions'] as const,
+  all: (options?: IFetchChampionsOptions) => ['champions', options] as const,
   detail: (id: string) => ['champions', id] as const,
 }
 
@@ -19,10 +19,10 @@ export const championKeys = {
 /**
  * Fetch all champions
  */
-export function useChampions() {
+export function useChampions(options?: IFetchChampionsOptions) {
   return useQuery({
-    queryKey: championKeys.all,
-    queryFn: fetchChampions,
+    queryKey: championKeys.all(options),
+    queryFn: () => fetchChampions(options),
   })
 }
 

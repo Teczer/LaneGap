@@ -15,7 +15,7 @@ export default function SettingsPage() {
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
       <div className="mb-8 flex items-center gap-4">
-        <h1 className="text-2xl font-bold text-white">{t('settings.title')}</h1>
+          <h1 className="text-2xl font-bold text-white">{t('settings.title')}</h1>
       </div>
 
       {/* Settings Sections */}

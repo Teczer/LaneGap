@@ -72,13 +72,19 @@ function transformItemSpike(spike: PBItemSpike): IItemSpike {
 // API Functions
 // =============================================================================
 
+export interface IFetchChampionsOptions {
+  sort?: string
+}
+
 /**
  * Fetch all champions with their related data
  */
-export async function fetchChampions(): Promise<IChampion[]> {
+export async function fetchChampions(options?: IFetchChampionsOptions): Promise<IChampion[]> {
+  const { sort } = options || {}
+
   // Fetch all data in parallel
   const [allChampions, levelSpikes, itemSpikes, counters] = await Promise.all([
-    pb.collection('champions').getFullList<PBChampion>(),
+    pb.collection('champions').getFullList<PBChampion>(sort ? { sort } : {}),
     pb.collection('level_spikes').getFullList<PBLevelSpike>(),
     pb.collection('item_spikes').getFullList<PBItemSpike>(),
     pb.collection('counters').getFullList<PBCounter>(),

@@ -138,7 +138,7 @@ export const useAuthStore = create<TAuthStore>()(
       updateProfile: async ({ name }) => {
         const state = useAuthStore.getState()
         if (!state.user) throw new Error('Not authenticated')
-
+        
         set({ isLoading: true })
         try {
           const record = await pb.collection('users').update(state.user.id, { name })
@@ -157,7 +157,7 @@ export const useAuthStore = create<TAuthStore>()(
       updateAvatar: async (file: File | null) => {
         const state = useAuthStore.getState()
         if (!state.user) throw new Error('Not authenticated')
-
+        
         set({ isLoading: true })
         try {
           const formData = new FormData()
@@ -183,7 +183,7 @@ export const useAuthStore = create<TAuthStore>()(
       updatePassword: async ({ currentPassword, newPassword }) => {
         const state = useAuthStore.getState()
         if (!state.user) throw new Error('Not authenticated')
-
+        
         set({ isLoading: true })
         try {
           await pb.collection('users').update(state.user.id, {
@@ -203,7 +203,7 @@ export const useAuthStore = create<TAuthStore>()(
       deleteAccount: async () => {
         const state = useAuthStore.getState()
         if (!state.user) throw new Error('Not authenticated')
-
+        
         set({ isLoading: true })
         try {
           // Delete all user's notes first (cascade delete)

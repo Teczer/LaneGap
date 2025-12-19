@@ -18,7 +18,7 @@ const LANES: TLane[] = ['top', 'jungle', 'mid', 'adc', 'support']
 
 export default function HomePage() {
   const router = useRouter()
-  const { data: champions = [], isLoading } = useChampions()
+  const { data: champions = [], isLoading } = useChampions({ sort: 'name_en' })
   const [search, setSearch] = useState('')
   const [selectedLane, setSelectedLane] = useState<TLane>('mid')
   const { t, language } = useTranslations()
@@ -27,7 +27,7 @@ export default function HomePage() {
   const recentChampions = useFavoritesStore((s) => s.recentChampions)
   const addRecent = useFavoritesStore((s) => s.addRecent)
 
-  // Filter by search and lane
+  // Filter by search and lane (already sorted alphabetically from API)
   const filteredChampions = useMemo(() => {
     let result = champions
 
@@ -48,7 +48,7 @@ export default function HomePage() {
     return result
   }, [champions, search, selectedLane])
 
-  // Filter favorites by selected lane
+  // Filter favorites by selected lane (already sorted from API)
   const favoriteChampionsList = useMemo(() => {
     return champions
       .filter((c) => favoriteChampions.includes(c.id))
@@ -106,7 +106,7 @@ export default function HomePage() {
               key={lane}
               onClick={() => setSelectedLane(lane)}
               className={cn(
-                'relative size-20 cursor-pointer transition-all',
+                'relative size-16 cursor-pointer transition-all',
                 isSelected ? 'scale-125 opacity-100' : 'opacity-30 grayscale hover:scale-125'
               )}
             >
