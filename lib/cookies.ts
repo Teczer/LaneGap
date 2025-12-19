@@ -42,6 +42,7 @@ export function getAuthCookie(): IAuthCookieData | null {
 
   try {
     const value = authCookie.split('=')[1]
+    if (!value) return null
     return JSON.parse(atob(value)) as IAuthCookieData
   } catch {
     return null
@@ -68,6 +69,7 @@ export function parseAuthCookie(cookieString: string | undefined): IAuthCookieDa
 
   try {
     const value = authCookie.split('=')[1]
+    if (!value) return null
     return JSON.parse(atob(value)) as IAuthCookieData
   } catch {
     return null

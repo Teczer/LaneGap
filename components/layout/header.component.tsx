@@ -25,30 +25,30 @@ export function Header({ className }: IHeaderProps) {
 
   // Close menu when clicking outside
   useEffect(() => {
+    if (!isMenuOpen) return
+
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false)
       }
     }
 
-    if (isMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
-      return () => document.removeEventListener('mousedown', handleClickOutside)
-    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isMenuOpen])
 
   // Close menu on escape
   useEffect(() => {
+    if (!isMenuOpen) return
+
     function handleEscape(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         setIsMenuOpen(false)
       }
     }
 
-    if (isMenuOpen) {
-      document.addEventListener('keydown', handleEscape)
-      return () => document.removeEventListener('keydown', handleEscape)
-    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
   }, [isMenuOpen])
 
   const avatarUrl = user ? getAvatarUrl(user.id, user.avatar) : null

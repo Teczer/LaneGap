@@ -20,9 +20,9 @@ export const passwordSchema = z
 export type TPasswordFormData = z.infer<typeof passwordSchema>
 
 export const deleteAccountSchema = z.object({
-  confirmText: z.literal('DELETE', {
-    errorMap: () => ({ message: 'Please type DELETE to confirm' }),
-  }),
+  confirmText: z
+    .string()
+    .refine((val) => val === 'DELETE', { message: 'Please type DELETE to confirm' }),
 })
 
 export type TDeleteAccountFormData = z.infer<typeof deleteAccountSchema>

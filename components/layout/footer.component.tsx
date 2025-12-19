@@ -1,3 +1,5 @@
+'use client'
+
 import { LuTimer } from 'react-icons/lu'
 import { cn } from '@/lib/utils'
 import { useTranslations } from '@/hooks/use-translations.hook'

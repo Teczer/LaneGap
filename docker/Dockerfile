@@ -1,7 +1,7 @@
 # ================================
-# Stage 1: Dependencies
+# Stage 1: Dependencies (Bun for fast install)
 # ================================
-FROM oven/bun:1.1-alpine AS deps
+FROM oven/bun:1.2-alpine AS deps
 
 WORKDIR /app
 
@@ -12,9 +12,9 @@ COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
 # ================================
-# Stage 2: Build
+# Stage 2: Build (Node.js for compatibility)
 # ================================
-FROM oven/bun:1.1-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
@@ -28,7 +28,7 @@ ENV NEXT_PUBLIC_POCKETBASE_URL=$NEXT_PUBLIC_POCKETBASE_URL
 ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
 ENV NEXT_PUBLIC_PATCH_VERSION=$NEXT_PUBLIC_PATCH_VERSION
 
-# Copy dependencies
+# Copy dependencies from bun stage
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
@@ -36,13 +36,13 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
-# Build the application
-RUN bun run build
+# Build the application with Node.js
+RUN npm run build
 
 # ================================
-# Stage 3: Runner
+# Stage 3: Runner (Node.js for stability)
 # ================================
-FROM oven/bun:1.1-alpine AS runner
+FROM node:22-alpine AS runner
 
 WORKDIR /app
 
@@ -78,5 +78,5 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Start the server
-CMD ["bun", "run", "server.js"]
+# Start the server with Node.js
+CMD ["node", "server.js"]
