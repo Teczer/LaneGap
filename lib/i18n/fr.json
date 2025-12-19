@@ -124,6 +124,9 @@
     "en": "EN",
     "fr": "FR"
   },
+  "footer": {
+    "loltimeflash": "Track les summs avec"
+  },
   "settings": {
     "title": "Paramètres du compte",
     "save": "Sauvegarder",

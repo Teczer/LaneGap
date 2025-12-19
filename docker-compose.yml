@@ -1,15 +1,38 @@
+# =============================================================================
+# LANEGAP - Docker Compose Production
+# =============================================================================
+# Usage:
+#   docker compose up -d --build
+#   docker compose logs -f
+#   docker compose down
+# =============================================================================
+
 services:
+  # ===========================================================================
+  # Frontend - Next.js Application
+  # ===========================================================================
   web:
     container_name: lanegap-web
     build:
       context: .
       dockerfile: docker/Dockerfile
+      args:
+        - NEXT_PUBLIC_POCKETBASE_URL=${NEXT_PUBLIC_POCKETBASE_URL}
+        - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
+        - NEXT_PUBLIC_PATCH_VERSION=${NEXT_PUBLIC_PATCH_VERSION:-15.1.1}
     ports:
-      - '${PORT:-3000}:3000'
+      - '${FRONTEND_PORT:-2124}:3000'
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_PATCH_VERSION=${PATCH_VERSION:-15.1.1}
+      - NEXT_PUBLIC_POCKETBASE_URL=${NEXT_PUBLIC_POCKETBASE_URL}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
+      - NEXT_PUBLIC_PATCH_VERSION=${NEXT_PUBLIC_PATCH_VERSION:-15.1.1}
+    depends_on:
+      pocketbase:
+        condition: service_healthy
     restart: unless-stopped
+    networks:
+      - lanegap-network
     healthcheck:
       test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:3000']
       interval: 30s
@@ -17,6 +40,41 @@ services:
       retries: 3
       start_period: 40s
 
+  # ===========================================================================
+  # Backend - PocketBase
+  # ===========================================================================
+  pocketbase:
+    container_name: lanegap-pocketbase
+    image: ghcr.io/muchobien/pocketbase:latest
+    ports:
+      - '${POCKETBASE_PORT:-2123}:8090'
+    volumes:
+      # Persist data and migrations
+      - ./pocketbase/pb_data:/pb_data
+      - ./pocketbase/pb_migrations:/pb_migrations
+    environment:
+      # Encryption key for data (optional but recommended)
+      - PB_ENCRYPTION_KEY=${PB_ENCRYPTION_KEY:-}
+    restart: unless-stopped
+    networks:
+      - lanegap-network
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:8090/api/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+# =============================================================================
+# Networks
+# =============================================================================
 networks:
-  default:
+  lanegap-network:
     driver: bridge
+
+# =============================================================================
+# Volumes (optional - for named volumes instead of bind mounts)
+# =============================================================================
+# volumes:
+#   pocketbase_data:
+#   pocketbase_migrations:

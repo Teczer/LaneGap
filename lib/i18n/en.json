@@ -124,6 +124,9 @@
     "en": "EN",
     "fr": "FR"
   },
+  "footer": {
+    "loltimeflash": "Track summoner spells with"
+  },
   "settings": {
     "title": "Account Settings",
     "save": "Save",

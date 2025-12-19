@@ -18,6 +18,16 @@ FROM oven/bun:1.1-alpine AS builder
 
 WORKDIR /app
 
+# Build arguments for NEXT_PUBLIC_* variables (must be set at build time)
+ARG NEXT_PUBLIC_POCKETBASE_URL
+ARG NEXT_PUBLIC_APP_URL
+ARG NEXT_PUBLIC_PATCH_VERSION=15.1.1
+
+# Set environment variables from build args
+ENV NEXT_PUBLIC_POCKETBASE_URL=$NEXT_PUBLIC_POCKETBASE_URL
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+ENV NEXT_PUBLIC_PATCH_VERSION=$NEXT_PUBLIC_PATCH_VERSION
+
 # Copy dependencies
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -38,6 +48,15 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+
+# Runtime environment variables
+ARG NEXT_PUBLIC_POCKETBASE_URL
+ARG NEXT_PUBLIC_APP_URL
+ARG NEXT_PUBLIC_PATCH_VERSION=15.1.1
+
+ENV NEXT_PUBLIC_POCKETBASE_URL=$NEXT_PUBLIC_POCKETBASE_URL
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+ENV NEXT_PUBLIC_PATCH_VERSION=$NEXT_PUBLIC_PATCH_VERSION
 
 # Create non-root user
 RUN addgroup --system --gid 1001 nodejs
@@ -61,4 +80,3 @@ ENV HOSTNAME="0.0.0.0"
 
 # Start the server
 CMD ["bun", "run", "server.js"]
-
