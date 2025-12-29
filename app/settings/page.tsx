@@ -1,14 +1,16 @@
-import { getTranslations } from '@/lib/i18n'
+import { getLanguage, getTranslations } from '@/lib/i18n'
 import {
   AvatarSection,
   DeleteAccountSection,
   EmailSection,
+  LanguageSection,
   NameSection,
   PasswordSection,
 } from '@/components/settings'
 
 const SettingsPage = async () => {
   const t = await getTranslations()
+  const language = await getLanguage()
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
@@ -22,6 +24,7 @@ const SettingsPage = async () => {
         <NameSection translations={t.settings} />
         <EmailSection translations={t.settings} />
         <PasswordSection translations={t.settings} />
+        <LanguageSection translations={t.settings} currentLanguage={language} />
         <DeleteAccountSection translations={t.settings} />
       </div>
     </main>

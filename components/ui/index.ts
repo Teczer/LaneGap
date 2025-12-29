@@ -13,6 +13,7 @@ export {
 } from './dropdown-menu'
 export { Image } from './image.component'
 export { Input, type IInputProps } from './input'
+export { Logo } from './logo'
 export { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from './input-otp'
 export { PasswordInput, type IPasswordInputProps } from './password-input'
 export { Skeleton, SkeletonCard, SkeletonCircle, SkeletonText } from './skeleton'

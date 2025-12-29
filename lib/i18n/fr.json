@@ -125,6 +125,8 @@
     "fr": "FR"
   },
   "footer": {
+    "tagline": "La laning phase, c'est un puzzle. Chaque matchup a sa solution — trouve la tienne.",
+    "disclaimer": "Non affilié à Riot Games.",
     "loltimeflash": "Track les summs avec"
   },
   "settings": {
@@ -155,6 +157,9 @@
     "deleteAccountButton": "Supprimer le compte",
     "deleteConfirmTitle": "T'es sûr ?",
     "deleteConfirmMessage": "Tape DELETE pour confirmer la suppression.",
-    "deleteConfirmPlaceholder": "Tape DELETE"
+    "deleteConfirmPlaceholder": "Tape DELETE",
+    "language": "Langue",
+    "languageDescription": "Choisis ta langue préférée.",
+    "languageHint": "Ça changera la langue de l'interface."
   }
 }

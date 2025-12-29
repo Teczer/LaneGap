@@ -2,11 +2,10 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { LuChevronDown, LuLogIn, LuLogOut, LuSettings, LuSwords } from 'react-icons/lu'
+import { LuChevronDown, LuLogIn, LuLogOut, LuSettings } from 'react-icons/lu'
 import type { TAuthTranslations } from '@/lib/i18n'
 import { cn, getAvatarUrl } from '@/lib/utils'
 import { useAuthReady } from '@/hooks/use-require-auth.hook'
-import { LanguageToggle } from '@/components/toggles/language-toggle.component'
 import {
   Avatar,
   DropdownMenu,
@@ -17,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui'
+import { Logo } from '@/components/ui/logo'
 import { useAuthStore } from '@/app/store/auth.store'
 
 interface IHeaderTranslations {
@@ -43,30 +43,22 @@ export const Header = ({ translations: t, className }: IHeaderProps) => {
 
   return (
     <header
-      className={cn(
-        'sticky top-0 z-40 w-full',
-        'border-border-muted bg-background/80 border-b backdrop-blur-xl',
-        className
-      )}
+      className={cn('sticky top-0 z-40 w-full', 'bg-background/80 backdrop-blur-xl', className)}
     >
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
         {/* Logo */}
         <Link
           href="/"
-          className="hover:text-primary-light flex items-center gap-2.5 font-bold text-white transition-colors"
+          className="flex items-center gap-2.5 text-white transition-transform hover:scale-105"
         >
-          <div className="from-accent-pink to-accent-purple flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br">
-            <LuSwords className="h-4 w-4 text-white" />
-          </div>
-          <span className="text-lg tracking-tight">
+          <Logo size="lg" />
+          <span className="text-lg font-bold tracking-tight">
             LANE<span className="text-primary-light">GAP</span>
           </span>
         </Link>
 
         {/* Controls */}
         <div className="flex items-center gap-3">
-          <LanguageToggle />
-
           {/* Show skeleton while hydrating */}
           {!isHydrated ? (
             <div className="h-9 w-24 animate-pulse rounded-lg bg-white/5" />
@@ -90,7 +82,6 @@ export const Header = ({ translations: t, className }: IHeaderProps) => {
               </DropdownMenuTrigger>
 
               <DropdownMenuContent align="end" className="w-52">
-                {/* User Info Header */}
                 <DropdownMenuLabel className="p-3">
                   <div className="flex items-center gap-3">
                     <Avatar src={avatarUrl} alt={user.name} size="md" className="shrink-0 ring-2" />

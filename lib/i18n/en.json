@@ -125,6 +125,8 @@
     "fr": "FR"
   },
   "footer": {
+    "tagline": "Laning phase is a puzzle. Every matchup has a solution — find yours.",
+    "disclaimer": "Not affiliated with Riot Games.",
     "loltimeflash": "Track summoner spells with"
   },
   "settings": {
@@ -155,6 +157,9 @@
     "deleteAccountButton": "Delete Account",
     "deleteConfirmTitle": "Are you sure?",
     "deleteConfirmMessage": "Type DELETE to confirm account deletion.",
-    "deleteConfirmPlaceholder": "Type DELETE"
+    "deleteConfirmPlaceholder": "Type DELETE",
+    "language": "Language",
+    "languageDescription": "Choose your preferred language.",
+    "languageHint": "This will change the interface language."
   }
 }
