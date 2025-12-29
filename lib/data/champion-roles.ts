@@ -1,13 +1,13 @@
 /**
  * Champion role mappings
  * Each champion can have multiple roles, ordered by popularity
+ * Note: Jungle role is excluded - this app focuses on lane matchups
  */
 
-export type TLane = 'top' | 'jungle' | 'mid' | 'adc' | 'support'
+export type TLane = 'top' | 'mid' | 'adc' | 'support'
 
 export const LANE_LABELS: Record<TLane, { en: string; fr: string }> = {
   top: { en: 'Top', fr: 'Top' },
-  jungle: { en: 'Jungle', fr: 'Jungle' },
   mid: { en: 'Mid', fr: 'Mid' },
   adc: { en: 'ADC', fr: 'ADC' },
   support: { en: 'Support', fr: 'Support' },
@@ -15,7 +15,6 @@ export const LANE_LABELS: Record<TLane, { en: string; fr: string }> = {
 
 export const LANE_ICONS: Record<TLane, string> = {
   top: '/roles/icon-position-top.png',
-  jungle: '/roles/icon-position-jungle.png',
   mid: '/roles/icon-position-middle.png',
   adc: '/roles/icon-position-bottom.png',
   support: '/roles/icon-position-utility.png',
@@ -34,7 +33,7 @@ export const CHAMPION_ROLES: Record<string, TLane[]> = {
   Akshan: ['mid'],
   Alistar: ['support'],
   Ambessa: ['top'],
-  Amumu: ['jungle', 'support'],
+  Amumu: ['support'],
   Anivia: ['mid'],
   Annie: ['mid', 'support'],
   Aphelios: ['adc'],
@@ -45,11 +44,9 @@ export const CHAMPION_ROLES: Record<string, TLane[]> = {
 
   // B
   Bard: ['support'],
-  Belveth: ['jungle'],
   Blitzcrank: ['support'],
   Brand: ['support', 'mid'],
   Braum: ['support'],
-  Briar: ['jungle'],
   Caitlyn: ['adc'],
   Camille: ['top'],
   Cassiopeia: ['mid', 'top'],
@@ -58,18 +55,16 @@ export const CHAMPION_ROLES: Record<string, TLane[]> = {
 
   // D
   Darius: ['top'],
-  Diana: ['jungle', 'mid'],
+  Diana: ['mid'],
   Draven: ['adc'],
-  DrMundo: ['top', 'jungle'],
+  DrMundo: ['top'],
 
   // E
-  Ekko: ['jungle', 'mid'],
-  Elise: ['jungle'],
-  Evelynn: ['jungle'],
+  Ekko: ['mid'],
   Ezreal: ['adc'],
 
   // F
-  Fiddlesticks: ['jungle', 'support'],
+  Fiddlesticks: ['support'],
   Fiora: ['top'],
   Fizz: ['mid'],
 
@@ -78,24 +73,20 @@ export const CHAMPION_ROLES: Record<string, TLane[]> = {
   Gangplank: ['top'],
   Garen: ['top'],
   Gnar: ['top'],
-  Gragas: ['jungle', 'top', 'mid'],
-  Graves: ['jungle'],
+  Gragas: ['top', 'mid'],
   Gwen: ['top'],
 
   // H
-  Hecarim: ['jungle'],
   Heimerdinger: ['top', 'support'],
   Hwei: ['mid', 'support'],
 
   // I
   Illaoi: ['top'],
   Irelia: ['top', 'mid'],
-  Ivern: ['jungle'],
 
   // J
   Janna: ['support'],
-  JarvanIV: ['jungle'],
-  Jax: ['top', 'jungle'],
+  Jax: ['top'],
   Jayce: ['top', 'mid'],
   Jhin: ['adc'],
   Jinx: ['adc'],
@@ -104,23 +95,17 @@ export const CHAMPION_ROLES: Record<string, TLane[]> = {
   Kaisa: ['adc'],
   Kalista: ['adc'],
   Karma: ['support'],
-  Karthus: ['jungle'],
   Kassadin: ['mid'],
   Katarina: ['mid'],
   Kayle: ['top', 'mid'],
-  Kayn: ['jungle'],
   Kennen: ['top'],
-  Khazix: ['jungle'],
-  Kindred: ['jungle'],
   Kled: ['top'],
   KogMaw: ['adc'],
   KSante: ['top'],
 
   // L
   Leblanc: ['mid'],
-  LeeSin: ['jungle'],
   Leona: ['support'],
-  Lillia: ['jungle'],
   Lissandra: ['mid'],
   Lucian: ['adc', 'mid'],
   Lulu: ['support'],
@@ -130,86 +115,74 @@ export const CHAMPION_ROLES: Record<string, TLane[]> = {
   Malphite: ['top'],
   Mel: ['mid', 'support'],
   Malzahar: ['mid'],
-  Maokai: ['support', 'jungle'],
-  MasterYi: ['jungle'],
+  Maokai: ['support'],
   Milio: ['support'],
   MissFortune: ['adc'],
-  MonkeyKing: ['jungle'], // Wukong
   Mordekaiser: ['top'],
   Morgana: ['support', 'mid'],
 
   // N
-  Naafiri: ['mid', 'jungle'],
+  Naafiri: ['mid'],
   Nami: ['support'],
   Nasus: ['top'],
   Nautilus: ['support'],
   Neeko: ['support'],
-  Nidalee: ['jungle'],
   Nilah: ['adc'],
-  Nocturne: ['jungle'],
-  Nunu: ['jungle'],
 
   // O
-  Olaf: ['jungle', 'top'],
+  Olaf: ['top'],
   Orianna: ['mid'],
   Ornn: ['top'],
 
   // P
   Pantheon: ['support', 'top'],
-  Poppy: ['jungle', 'top', 'support'],
+  Poppy: ['top', 'support'],
   Pyke: ['support'],
 
   // Q
-  Qiyana: ['mid', 'jungle'],
+  Qiyana: ['mid'],
   Quinn: ['top'],
 
   // R
   Rakan: ['support'],
-  Rammus: ['jungle'],
-  RekSai: ['jungle'],
   Rell: ['support'],
   Renata: ['support'],
   Renekton: ['top'],
-  Rengar: ['jungle', 'top'],
+  Rengar: ['top'],
   Riven: ['top'],
   Rumble: ['top'],
   Ryze: ['mid', 'top'],
 
   // S
   Samira: ['adc'],
-  Sejuani: ['jungle'],
   Senna: ['support', 'adc'],
   Seraphine: ['support', 'adc'],
   Sett: ['top'],
-  Shaco: ['jungle'],
   Shen: ['top'],
-  Shyvana: ['jungle'],
   Singed: ['top'],
   Sion: ['top'],
   Sivir: ['adc'],
-  Skarner: ['jungle'],
   Smolder: ['adc', 'mid'],
   Sona: ['support'],
   Soraka: ['support'],
   Swain: ['support', 'mid', 'adc'],
-  Sylas: ['mid', 'jungle'],
+  Sylas: ['mid'],
   Syndra: ['mid'],
 
   // T
   TahmKench: ['top', 'support'],
-  Taliyah: ['jungle', 'mid'],
-  Talon: ['mid', 'jungle'],
+  Taliyah: ['mid'],
+  Talon: ['mid'],
   Taric: ['support'],
   Teemo: ['top'],
   Thresh: ['support'],
   Tristana: ['adc', 'mid'],
-  Trundle: ['jungle', 'top'],
+  Trundle: ['top'],
   Tryndamere: ['top'],
   TwistedFate: ['mid'],
   Twitch: ['adc'],
 
   // U
-  Udyr: ['jungle'],
   Urgot: ['top'],
 
   // V
@@ -218,19 +191,16 @@ export const CHAMPION_ROLES: Record<string, TLane[]> = {
   Veigar: ['mid', 'support'],
   Velkoz: ['support', 'mid'],
   Vex: ['mid'],
-  Vi: ['jungle'],
-  Viego: ['jungle'],
   Viktor: ['mid'],
   Vladimir: ['mid', 'top'],
-  Volibear: ['top', 'jungle'],
+  Volibear: ['top'],
 
   // W
-  Warwick: ['jungle', 'top'],
+  Warwick: ['top'],
 
   // X
   Xayah: ['adc'],
   Xerath: ['support', 'mid'],
-  XinZhao: ['jungle'],
 
   // Y
   Yasuo: ['mid', 'top', 'adc'],
@@ -240,8 +210,6 @@ export const CHAMPION_ROLES: Record<string, TLane[]> = {
   Yunara: ['adc'],
 
   // Z
-  Zaahen: ['jungle'],
-  Zac: ['jungle'],
   Zed: ['mid'],
   Zeri: ['adc'],
   Ziggs: ['adc', 'mid'],

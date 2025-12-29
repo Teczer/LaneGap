@@ -27,7 +27,7 @@ const itemVariants = {
   visible: { opacity: 1, scale: 1, transition: { duration: 0.2 } },
 }
 
-const LANES: TLane[] = ['top', 'jungle', 'mid', 'adc', 'support']
+const LANES: TLane[] = ['top', 'mid', 'adc', 'support']
 
 interface IHomePageClientProps {
   translations: TTranslations
