@@ -68,7 +68,7 @@ export const Header = ({ translations: t, className }: IHeaderProps) => {
     <header
       className={cn(
         'sticky top-0 z-40 w-full',
-        'border-b border-white/5 bg-[#0a0d17]/80 backdrop-blur-xl',
+        'border-b border-border-muted bg-background/80 backdrop-blur-xl',
         className
       )}
     >
@@ -76,13 +76,13 @@ export const Header = ({ translations: t, className }: IHeaderProps) => {
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2.5 font-bold text-white transition-colors hover:text-violet-400"
+          className="flex items-center gap-2.5 font-bold text-white transition-colors hover:text-primary-light"
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-cyan-400">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-accent-pink to-accent-purple">
             <LuSwords className="h-4 w-4 text-white" />
           </div>
           <span className="text-lg tracking-tight">
-            LANE<span className="text-violet-400">GAP</span>
+            LANE<span className="text-primary-light">GAP</span>
           </span>
         </Link>
 
@@ -102,7 +102,7 @@ export const Header = ({ translations: t, className }: IHeaderProps) => {
                   'flex items-center gap-2 rounded-full py-1 pr-2.5 pl-1',
                   'cursor-pointer bg-white/5 transition-all duration-200',
                   'hover:bg-white/10',
-                  isMenuOpen && 'bg-white/10 ring-2 ring-violet-500/30'
+                  isMenuOpen && 'bg-secondary ring-2 ring-primary/30'
                 )}
               >
                 {/* Avatar */}
@@ -127,7 +127,7 @@ export const Header = ({ translations: t, className }: IHeaderProps) => {
                 <div
                   className={cn(
                     'absolute top-full right-0 mt-2 w-52',
-                    'rounded-xl border border-white/10 bg-[#1a1f35] shadow-2xl shadow-black/20',
+                    'rounded-xl border border-border bg-card shadow-2xl shadow-black/20',
                     'animate-scale-in origin-top-right',
                     'overflow-hidden'
                   )}
@@ -166,8 +166,8 @@ export const Header = ({ translations: t, className }: IHeaderProps) => {
                       onClick={handleLogout}
                       className={cn(
                         'flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5',
-                        'text-sm text-red-400 transition-colors',
-                        'hover:bg-red-500/10'
+                        'text-sm text-danger transition-colors',
+                        'hover:bg-danger/10'
                       )}
                     >
                       <LuLogOut className="h-4 w-4" />
@@ -180,7 +180,7 @@ export const Header = ({ translations: t, className }: IHeaderProps) => {
           ) : (
             <Link
               href="/auth"
-              className="flex items-center gap-2 rounded-lg bg-violet-600/20 px-3 py-1.5 text-sm font-medium text-violet-400 transition-colors hover:bg-violet-600/30"
+              className="flex items-center gap-2 rounded-lg bg-primary-muted px-3 py-1.5 text-sm font-medium text-primary-light transition-colors hover:bg-primary/30"
             >
               <LuLogIn className="h-4 w-4" />
               {t.auth.loginButton}

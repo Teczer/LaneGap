@@ -13,17 +13,17 @@ const Textarea = forwardRef<HTMLTextAreaElement, ITextareaProps>(
           ref={ref}
           className={cn(
             'flex min-h-[100px] w-full resize-none rounded-lg border px-4 py-3 text-sm',
-            'bg-white/5 text-white placeholder:text-white/40',
-            'border-white/10 focus:border-violet-500',
+            'bg-input text-foreground placeholder:text-foreground-subtle',
+            'border-border-muted focus:border-border',
             'transition-all duration-200',
-            'focus-visible:ring-2 focus-visible:ring-violet-500/20 focus-visible:outline-none',
+            'focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none',
             'disabled:cursor-not-allowed disabled:opacity-50',
-            error && 'border-red-500 focus:border-red-500 focus-visible:ring-red-500/20',
+            error && 'border-danger focus:border-danger focus-visible:ring-danger/20',
             className
           )}
           {...props}
         />
-        {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
+        {error && <p className="mt-1 text-xs text-danger">{error}</p>}
       </div>
     )
   }

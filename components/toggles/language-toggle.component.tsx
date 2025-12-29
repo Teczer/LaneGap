@@ -38,7 +38,7 @@ export const LanguageToggle = () => {
       <span
         className={cn(
           'flex h-7 w-9 items-center justify-center rounded-md transition-all duration-200',
-          language === 'en' ? 'bg-violet-600 text-white' : 'text-white/50'
+          language === 'en' ? 'bg-primary text-primary-foreground' : 'text-foreground-subtle'
         )}
       >
         EN
@@ -46,7 +46,7 @@ export const LanguageToggle = () => {
       <span
         className={cn(
           'flex h-7 w-9 items-center justify-center rounded-md transition-all duration-200',
-          language === 'fr' ? 'bg-violet-600 text-white' : 'text-white/50'
+          language === 'fr' ? 'bg-primary text-primary-foreground' : 'text-foreground-subtle'
         )}
       >
         FR

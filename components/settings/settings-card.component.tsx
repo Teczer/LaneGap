@@ -10,7 +10,7 @@ export const SettingsCard = ({ children, variant = 'default' }: ISettingsCardPro
     <div
       className={cn(
         'rounded-lg border border-white/6 bg-transparent',
-        variant === 'danger' && 'border-red-500/20 bg-red-500/2'
+        variant === 'danger' && 'border-danger/20 bg-danger/5'
       )}
     >
       {children}
@@ -34,7 +34,7 @@ export const SettingsCardHeader = ({
       <h3
         className={cn(
           'text-base font-semibold',
-          variant === 'danger' ? 'text-red-400' : 'text-white'
+          variant === 'danger' ? 'text-danger' : 'text-foreground'
         )}
       >
         {title}
@@ -64,7 +64,7 @@ export const SettingsCardFooter = ({
       className={cn(
         'flex items-center justify-between rounded-b-lg px-4 py-3',
         'border-t',
-        variant === 'danger' ? 'border-red-500/20 bg-red-500/5' : 'border-white/6 bg-white/2'
+        variant === 'danger' ? 'border-danger/20 bg-danger/5' : 'border-border-muted bg-muted/50'
       )}
     >
       {hint && <p className="text-xs text-white/40">{hint}</p>}

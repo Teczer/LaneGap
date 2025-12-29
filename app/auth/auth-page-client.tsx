@@ -127,14 +127,14 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
         <div className="w-full max-w-md">
           <div className="text-center">
             {/* Icon */}
-            <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-violet-500/10">
-              <LuMailCheck className="h-10 w-10 text-violet-400" />
+            <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-primary-muted">
+              <LuMailCheck className="h-10 w-10 text-primary-light" />
             </div>
 
             {/* Title */}
             <h1 className="mb-2 text-2xl font-bold text-white">{t.verifyEmailTitle}</h1>
             <p className="mb-1 text-white/60">{t.otpSentTo}</p>
-            <p className="mb-8 font-medium text-violet-400">{registeredEmail}</p>
+            <p className="mb-8 font-medium text-primary-light">{registeredEmail}</p>
 
             {/* OTP Input */}
             <div className="mb-6 flex justify-center">
@@ -161,7 +161,7 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
             </div>
 
             {/* Error */}
-            {otpError && <p className="mb-4 text-sm text-red-400">{otpError}</p>}
+            {otpError && <p className="mb-4 text-sm text-danger">{otpError}</p>}
 
             {/* Verify Button */}
             <Button
@@ -180,7 +180,7 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
               <button
                 onClick={handleResendOTP}
                 disabled={sendOTPMutation.isPending}
-                className="inline-flex cursor-pointer items-center gap-1 font-medium text-violet-400 transition-colors hover:text-violet-300 disabled:opacity-50"
+                className="inline-flex cursor-pointer items-center gap-1 font-medium text-primary-light transition-colors hover:text-primary disabled:opacity-50"
               >
                 {sendOTPMutation.isPending ? (
                   <LuLoader className="h-3 w-3 animate-spin" />
@@ -204,7 +204,7 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="mb-8 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-violet-500/10 px-4 py-2 text-sm text-violet-400">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary-muted px-4 py-2 text-sm text-primary-light">
             <LuSparkles className="h-4 w-4" />
             {t.personalNotes}
           </div>
@@ -237,7 +237,7 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
               />
 
               {loginForm.formState.errors.root && (
-                <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+                <div className="rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
                   {loginForm.formState.errors.root.message}
                 </div>
               )}
@@ -285,7 +285,7 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
               />
 
               {registerForm.formState.errors.root && (
-                <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+                <div className="rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
                   {registerForm.formState.errors.root.message}
                 </div>
               )}
@@ -306,7 +306,7 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
             <span className="text-white/60">{mode === 'login' ? t.noAccount : t.hasAccount}</span>{' '}
             <button
               onClick={() => switchMode(mode === 'login' ? 'register' : 'login')}
-              className="cursor-pointer font-medium text-violet-400 transition-colors hover:text-violet-300"
+              className="cursor-pointer font-medium text-primary-light transition-colors hover:text-primary"
             >
               {mode === 'login' ? t.registerLink : t.loginLink}
             </button>

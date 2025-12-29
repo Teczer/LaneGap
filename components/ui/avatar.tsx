@@ -36,11 +36,11 @@ const iconSizes = {
 }
 
 const ringSizes = {
-  xs: 'ring-1 ring-white/10',
-  sm: 'ring-1 ring-white/10',
-  md: 'ring-2 ring-white/10',
-  lg: 'ring-2 ring-white/10 ring-offset-2 ring-offset-[#0a0d17]',
-  xl: 'ring-2 ring-white/10 ring-offset-2 ring-offset-[#0a0d17]',
+  xs: 'ring-1 ring-border-muted',
+  sm: 'ring-1 ring-border-muted',
+  md: 'ring-2 ring-border-muted',
+  lg: 'ring-2 ring-border-muted ring-offset-2 ring-offset-background',
+  xl: 'ring-2 ring-border-muted ring-offset-2 ring-offset-background',
 }
 
 const loaderSizes = {
@@ -63,7 +63,7 @@ export const Avatar = ({
     <div
       className={cn(
         'relative overflow-hidden rounded-full',
-        'bg-gradient-to-br from-violet-500/30 to-purple-600/30',
+        'bg-gradient-to-br from-primary/30 to-accent-purple/30',
         sizes[size],
         showRing && ringSizes[size],
         className

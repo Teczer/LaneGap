@@ -9,13 +9,13 @@ interface ITierBadgeProps {
 }
 
 const TIER_STYLES: Record<TTier, string> = {
-  S: 'bg-gradient-to-r from-emerald-400 to-cyan-400 text-slate-900',
-  'A+': 'bg-gradient-to-r from-cyan-400 to-blue-400 text-slate-900',
-  A: 'bg-gradient-to-r from-blue-500 to-blue-400 text-white',
-  'B+': 'bg-gradient-to-r from-violet-500 to-purple-400 text-white',
-  B: 'bg-gradient-to-r from-violet-600 to-violet-400 text-white',
-  'B-': 'bg-gradient-to-r from-indigo-600 to-indigo-400 text-white',
-  C: 'bg-gradient-to-r from-slate-500 to-slate-400 text-white',
+  S: 'bg-gradient-to-r from-tier-s to-tier-a-plus text-background',
+  'A+': 'bg-gradient-to-r from-tier-a-plus to-tier-a text-background',
+  A: 'bg-gradient-to-r from-tier-a to-tier-a text-white',
+  'B+': 'bg-gradient-to-r from-tier-b-plus to-tier-b text-white',
+  B: 'bg-gradient-to-r from-tier-b to-tier-b text-white',
+  'B-': 'bg-gradient-to-r from-tier-b-minus to-tier-b-minus text-white',
+  C: 'bg-gradient-to-r from-tier-c to-tier-c text-white',
 }
 
 const TIER_LABELS: Record<TTier, string> = {

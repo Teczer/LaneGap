@@ -8,7 +8,7 @@ export default function NotFound() {
       <p className="mb-8 text-lg text-white/60">Page not found</p>
       <Link
         href="/"
-        className="flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 font-medium text-white transition-colors hover:bg-violet-500"
+        className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 font-medium text-primary-foreground transition-colors hover:bg-primary-light"
       >
         <LuHouse className="h-4 w-4" />
         Back to home

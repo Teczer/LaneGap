@@ -80,7 +80,7 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
     return (
       <PageContainer>
         <div className="flex items-center justify-center py-20">
-          <LuLoader className="h-8 w-8 animate-spin text-violet-400" />
+          <LuLoader className="text-primary-light h-8 w-8 animate-spin" />
         </div>
       </PageContainer>
     )
@@ -112,7 +112,7 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
           </Button>
           <ChampionIcon championId={enemy.id} size="xl" />
           <div>
-            <p className="mb-1 text-xs font-medium tracking-wider text-red-400 uppercase">
+            <p className="text-danger mb-1 text-xs font-medium tracking-wider uppercase">
               {t.enemy.facingEnemy}
             </p>
             <h1 className="text-2xl font-bold">{championName}</h1>
@@ -135,14 +135,14 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <LuShield className="h-4 w-4 text-emerald-400" />
+              <LuShield className="text-success h-4 w-4" />
               {t.enemy.bestPicks.replace('{champion}', championName)}
             </CardTitle>
           </CardHeader>
           <CardContent>
             {countersWithData.length === 0 ? (
               <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
-                <LuSparkles className="mb-3 h-8 w-8 text-violet-400/60" />
+                <LuSparkles className="text-primary-light/60 mb-3 h-8 w-8" />
                 <p className="text-sm text-white/50">{t.common.counterPicksComingSoon}</p>
               </div>
             ) : (
@@ -166,7 +166,7 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <LuTarget className="h-4 w-4 text-red-400" />
+              <LuTarget className="text-danger h-4 w-4" />
               {t.enemy.howToPlay.replace('{champion}', championName)}
             </CardTitle>
           </CardHeader>
@@ -175,7 +175,7 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
               <TipList tips={enemy.tips} language={language} />
             ) : (
               <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
-                <LuSparkles className="mb-3 h-8 w-8 text-violet-400/60" />
+                <LuSparkles className="text-primary-light/60 mb-3 h-8 w-8" />
                 <p className="text-sm text-white/50">{t.common.tipsComingSoon}</p>
               </div>
             )}
@@ -186,7 +186,7 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <LuTrendingUp className="h-4 w-4 text-cyan-400" />
+              <LuTrendingUp className="text-info h-4 w-4" />
               {t.enemy.powerSpikes.replace('{champion}', championName)}
             </CardTitle>
           </CardHeader>
@@ -195,7 +195,7 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
               <LevelSpikeTimeline spikes={enemy.levelSpikes} language={language} />
             ) : (
               <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
-                <LuSparkles className="mb-2 h-6 w-6 text-violet-400/60" />
+                <LuSparkles className="text-primary-light/60 mb-2 h-6 w-6" />
                 <p className="text-sm text-white/50">{t.common.comingSoon}</p>
               </div>
             )}
@@ -206,7 +206,7 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <LuBox className="h-4 w-4 text-orange-400" />
+              <LuBox className="text-accent-gold h-4 w-4" />
               {t.enemy.itemSpikes.replace('{champion}', championName)}
             </CardTitle>
           </CardHeader>
@@ -215,7 +215,7 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
               <ItemSpikeList spikes={enemy.itemSpikes} language={language} />
             ) : (
               <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
-                <LuSparkles className="mb-2 h-6 w-6 text-violet-400/60" />
+                <LuSparkles className="text-primary-light/60 mb-2 h-6 w-6" />
                 <p className="text-sm text-white/50">{t.common.comingSoon}</p>
               </div>
             )}

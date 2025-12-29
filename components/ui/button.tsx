@@ -15,7 +15,7 @@ const Button = forwardRef<HTMLButtonElement, IButtonProps>(
     const baseStyles = cn(
       'inline-flex items-center justify-center gap-2',
       'rounded-lg font-medium transition-all duration-200',
-      'focus-visible:ring-2 focus-visible:ring-violet-500/50 focus-visible:outline-none',
+      'focus-visible:ring-primary/50 focus-visible:ring-2 focus-visible:outline-none',
       'disabled:pointer-events-none disabled:opacity-50',
       'active:scale-[0.98]',
       'whitespace-nowrap',
@@ -24,16 +24,18 @@ const Button = forwardRef<HTMLButtonElement, IButtonProps>(
 
     const variants = {
       primary: cn(
-        'bg-gradient-to-r from-violet-600 to-violet-500 text-white',
-        'hover:from-violet-500 hover:to-violet-400',
-        'shadow-lg shadow-violet-500/20'
+        'bg-[oklch(45%_0.15_240)] font-semibold text-white',
+        'border border-[oklch(60%_0.12_240/0.4)]',
+        'hover:bg-[oklch(52%_0.16_240)]',
+        'shadow-[0_0_16px_oklch(50%_0.15_240/0.3)]',
+        'hover:shadow-[0_0_24px_oklch(55%_0.18_240/0.5)]'
       ),
       secondary: cn(
-        'border border-white/10 bg-white/5 text-white',
-        'hover:border-white/20 hover:bg-white/10'
+        'bg-muted text-foreground border-border-muted border',
+        'hover:bg-secondary hover:border-border'
       ),
-      ghost: cn('bg-transparent text-white/70', 'hover:bg-white/5 hover:text-white'),
-      danger: cn('bg-red-600 text-white', 'hover:bg-red-500'),
+      ghost: cn('text-foreground-muted bg-transparent', 'hover:bg-muted hover:text-foreground'),
+      danger: cn('bg-danger text-white', 'hover:bg-danger/80'),
     }
 
     const sizes = {

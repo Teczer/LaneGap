@@ -28,7 +28,7 @@ export const TipList = ({ tips, language, className, maxItems }: ITipListProps) 
           className={cn('flex items-start gap-2.5 text-white/80', 'animate-slide-up')}
           style={{ animationDelay: `${index * 40}ms` }}
         >
-          <LuChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-violet-400" />
+          <LuChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-primary-light" />
           <span className="leading-relaxed">{tip}</span>
         </li>
       ))}

@@ -1,39 +1,95 @@
 @import 'tailwindcss';
 
 /* =============================================================================
-   LANEGAP Design System - Inspired by DPM.lol
-   Deep blue/purple dark theme with cyan/violet accents
+   LANEGAP Design System - League of Legends Gold Theme
+   Deep navy dark theme with gold/bronze accents
    ============================================================================= */
 
 @theme {
-  /* Colors - DPM-inspired palette */
-  --color-background: #0a0d17;
-  --color-surface: #111827;
-  --color-card: #1a1f35;
-  --color-card-hover: #232942;
+  /* ==========================================================================
+     Core Colors - LolTimeFlash Palette
+     ========================================================================== */
 
-  /* Tier Colors - Vibrant and gaming-inspired */
-  --color-tier-s: #00d4aa;
-  --color-tier-a-plus: #22d3ee;
-  --color-tier-a: #3b82f6;
-  --color-tier-b-plus: #a855f7;
-  --color-tier-b: #8b5cf6;
-  --color-tier-b-minus: #6366f1;
-  --color-tier-c: #64748b;
+  /* Background layers (from darkest to lightest) */
+  --color-background: oklch(14.8% 0.054 255); /* Deep navy blue #03101e */
+  --color-surface: oklch(18% 0.02 280); /* Mauve dark #1a1824 */
+  --color-card: oklch(22% 0.015 280); /* Card background #242230 */
+  --color-card-hover: oklch(26% 0.02 280); /* Card hover #2e2b3d */
+  --color-popover: oklch(20% 0.018 280); /* Popover/dropdown #1f1d2a */
 
-  /* Accent */
-  --color-accent: #8b5cf6;
-  --color-accent-hover: #a78bfa;
-  --color-accent-cyan: #22d3ee;
+  /* Border & Input */
+  --color-border: oklch(35% 0.02 270); /* Subtle border #3d3850 */
+  --color-border-muted: oklch(28% 0.015 270); /* Very subtle border */
+  --color-input: oklch(25% 0.02 257); /* Input background */
+  --color-ring: oklch(73% 0.11 85); /* Okra gold focus ring #C4A15B */
+
+  /* Text */
+  --color-foreground: oklch(93% 0.01 240); /* Primary text #eef0f4 */
+  --color-foreground-muted: oklch(65% 0.01 240); /* Muted text */
+  --color-foreground-subtle: oklch(50% 0.01 240); /* Very muted text */
+
+  /* Primary - Official League of Legends Gold */
+  --color-primary: oklch(73% 0.11 85); /* Okra #C4A15B */
+  --color-primary-light: oklch(88% 0.09 95); /* Light Yellow #EDDC91 */
+  --color-primary-dark: oklch(58% 0.1 75); /* Darker bronze */
+  --color-primary-muted: oklch(73% 0.11 85 / 0.2); /* 20% opacity */
+  --color-primary-foreground: oklch(15% 0.02 60); /* Dark text on gold */
+
+  /* Secondary - Muted/ghost elements */
+  --color-secondary: oklch(40% 0.015 270); /* Muted purple-gray */
+  --color-secondary-hover: oklch(45% 0.02 270);
+  --color-secondary-foreground: oklch(90% 0.01 240);
+
+  /* Muted - For subtle backgrounds */
+  --color-muted: oklch(25% 0.015 270); /* Subtle bg */
+  --color-muted-foreground: oklch(60% 0.01 240); /* Muted text */
+
+  /* Accent - Official League of Legends Gold */
+  --color-accent: oklch(73% 0.11 85); /* Okra #C4A15B */
+  --color-accent-gold: oklch(73% 0.11 85); /* Okra #C4A15B */
+  --color-accent-gold-light: oklch(88% 0.09 95); /* Light Yellow #EDDC91 */
+  --color-accent-gold-dark: oklch(55% 0.1 70); /* Dark bronze */
+
+  /* Info - For informational elements */
+  --color-info: oklch(75% 0.14 220); /* Soft blue-cyan */
+  --color-info-muted: oklch(75% 0.14 220 / 0.15);
+
+  /* Gradient variables (LoL Gold style) */
+  --gradient-primary: linear-gradient(
+    135deg,
+    var(--color-accent-gold-light) 0%,
+    var(--color-accent-gold-dark) 100%
+  );
+  --gradient-card: linear-gradient(
+    180deg,
+    oklch(22% 0.015 280 / 0.9) 0%,
+    oklch(18% 0.02 280 / 0.7) 100%
+  );
+
+  /* Tier Colors - Gaming-inspired */
+  --color-tier-s: oklch(80% 0.18 165); /* Emerald #00d4aa */
+  --color-tier-a-plus: oklch(82% 0.14 195); /* Cyan #22d3ee */
+  --color-tier-a: oklch(62% 0.2 260); /* Blue #3b82f6 */
+  --color-tier-b-plus: oklch(65% 0.25 295); /* Magenta #a855f7 */
+  --color-tier-b: oklch(60% 0.22 285); /* Purple #8b5cf6 */
+  --color-tier-b-minus: oklch(55% 0.2 270); /* Indigo #6366f1 */
+  --color-tier-c: oklch(50% 0.02 250); /* Slate #64748b */
 
   /* Status */
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
+  --color-success: oklch(70% 0.18 155); /* Green #10b981 */
+  --color-warning: oklch(75% 0.15 70); /* Amber #f59e0b */
+  --color-danger: oklch(60% 0.22 25); /* Red #ef4444 */
+  --color-destructive: oklch(45% 0.18 25); /* Dark red */
 
   /* Font */
   --font-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
   --font-mono: ui-monospace, monospace;
+
+  /* Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
 }
 
 /* =============================================================================
@@ -45,6 +101,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    border-color: var(--color-border-muted);
   }
 
   html {
@@ -53,8 +110,8 @@
   }
 
   body {
-    background: #0a0d17;
-    color: #e2e8f0;
+    background: var(--color-background);
+    color: var(--color-foreground);
     font-family: var(--font-sans);
     font-size: 14px;
     line-height: 1.6;
@@ -63,14 +120,14 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Subtle grid pattern background */
+  /* Subtle gradient background */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.15), transparent),
-      radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
+      radial-gradient(ellipse 80% 50% at 50% -20%, oklch(77% 0.18 292 / 0.12), transparent),
+      radial-gradient(circle at 1px 1px, oklch(100% 0 0 / 0.02) 1px, transparent 0);
     background-size:
       100% 100%,
       24px 24px;
@@ -85,9 +142,11 @@
   h4,
   h5,
   h6 {
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: #f8fafc;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
   }
 
   h1 {
@@ -101,65 +160,73 @@
   }
 
   a {
-    color: #8b5cf6;
+    color: var(--color-primary);
     text-decoration: none;
     transition: color 0.15s ease;
   }
 
   a:hover {
-    color: #a78bfa;
+    color: var(--color-primary-hover);
   }
 
-  /* Scrollbar */
+  /* Scrollbar - LolTimeFlash style */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 2px;
+    height: 2px;
+    background-color: var(--color-background);
   }
 
   ::-webkit-scrollbar-track {
-    background: transparent;
+    border-radius: 10px;
+    background-color: var(--color-background);
+    box-shadow: inset 0 0 6px oklch(0% 0 0 / 0.3);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background-color: var(--color-accent-gold);
+    box-shadow: inset 0 0 6px oklch(0% 0 0 / 0.3);
   }
 
   /* Focus & Selection */
   :focus-visible {
-    outline: 2px solid #8b5cf6;
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
 
   ::selection {
-    background: rgba(139, 92, 246, 0.3);
-    color: #f8fafc;
+    background: oklch(77% 0.18 292 / 0.3);
+    color: var(--color-foreground);
   }
 
-  /* Inputs */
+  /* Remove list bullets */
+  li {
+    list-style-type: none;
+  }
+
+  /* Inputs base style */
   input[type='text'],
-  input[type='search'] {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    color: #f8fafc;
+  input[type='search'],
+  input[type='email'],
+  input[type='password'] {
+    background: var(--color-input);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-foreground);
     padding: 10px 14px;
     transition: all 0.15s ease;
   }
 
   input[type='text']:focus,
-  input[type='search']:focus {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: #8b5cf6;
+  input[type='search']:focus,
+  input[type='email']:focus,
+  input[type='password']:focus {
+    background: var(--color-surface);
+    border-color: var(--color-primary);
     outline: none;
   }
 
   input::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--color-foreground-subtle);
   }
 }
 
@@ -251,18 +318,26 @@
 
   /* Cards */
   .card {
-    background: linear-gradient(180deg, rgba(26, 31, 53, 0.8) 0%, rgba(26, 31, 53, 0.6) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
+    background: linear-gradient(
+      180deg,
+      oklch(22% 0.015 280 / 0.9) 0%,
+      oklch(22% 0.015 280 / 0.7) 100%
+    );
+    border: 1px solid var(--color-border-muted);
+    border-radius: var(--radius-lg);
     backdrop-filter: blur(8px);
   }
 
   /* Buttons */
   .btn-primary {
-    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-accent-pink) 0%,
+      var(--color-accent-purple) 100%
+    );
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     padding: 8px 16px;
     font-weight: 500;
     cursor: pointer;
@@ -271,45 +346,58 @@
 
   .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 4px 12px oklch(77% 0.18 292 / 0.3);
   }
 
   /* Tier Badge Colors */
   .tier-s {
-    background: linear-gradient(135deg, #00d4aa 0%, #00b894 100%);
-    color: #0a0d17;
+    background: linear-gradient(135deg, var(--color-tier-s) 0%, oklch(70% 0.16 160) 100%);
+    color: var(--color-background);
   }
   .tier-a-plus {
-    background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
-    color: #0a0d17;
+    background: linear-gradient(135deg, var(--color-tier-a-plus) 0%, oklch(75% 0.12 190) 100%);
+    color: var(--color-background);
   }
   .tier-a {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: linear-gradient(135deg, var(--color-tier-a) 0%, oklch(55% 0.18 255) 100%);
     color: white;
   }
   .tier-b-plus {
-    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+    background: linear-gradient(135deg, var(--color-tier-b-plus) 0%, oklch(55% 0.22 290) 100%);
     color: white;
   }
   .tier-b {
-    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    background: linear-gradient(135deg, var(--color-tier-b) 0%, oklch(50% 0.2 280) 100%);
     color: white;
   }
   .tier-b-minus {
-    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    background: linear-gradient(135deg, var(--color-tier-b-minus) 0%, oklch(48% 0.18 268) 100%);
     color: white;
   }
   .tier-c {
-    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    background: linear-gradient(135deg, var(--color-tier-c) 0%, oklch(42% 0.02 245) 100%);
     color: white;
   }
 
   /* Glass Effect */
   .glass {
-    background: rgba(26, 31, 53, 0.6);
+    background: oklch(22% 0.015 280 / 0.6);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--color-border-muted);
+  }
+
+  /* Toast styles */
+  .toast-success {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    color: var(--color-foreground);
+  }
+
+  .toast-error {
+    background: oklch(25% 0.08 25 / 0.9);
+    border: 1px solid oklch(50% 0.15 25 / 0.4);
+    color: oklch(85% 0.08 25);
   }
 }
 
@@ -318,18 +406,39 @@
    ============================================================================= */
 
 @layer utilities {
+  /* Display font (Beaufort for LOL) - use on any element */
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+  }
+
+  /* Gradient text - Gold */
   .text-gradient {
-    background: linear-gradient(135deg, #8b5cf6 0%, #22d3ee 100%);
+    background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
+  /* Glow effects */
   .glow {
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+    box-shadow: 0 0 20px oklch(77% 0.18 292 / 0.2);
   }
 
   .glow-hover:hover {
-    box-shadow: 0 0 24px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0 24px oklch(77% 0.18 292 / 0.3);
+  }
+
+  /* Text stroke for overlays */
+  .text-stroke {
+    text-shadow:
+      2px 0 #000000,
+      -2px 0 #000000,
+      0 2px #000000,
+      0 -2px #000000,
+      1px 1px #000000,
+      -1px -1px #000000,
+      1px -1px #000000,
+      -1px 1px #000000;
   }
 }

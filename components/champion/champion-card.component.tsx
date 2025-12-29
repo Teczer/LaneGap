@@ -33,8 +33,8 @@ export const ChampionCard = ({
     <div
       className={cn(
         'group relative flex flex-col items-center',
-        'rounded-xl bg-white/[0.03] transition-all duration-200',
-        'border border-transparent hover:border-white/10 hover:bg-white/[0.08]',
+        'rounded-xl bg-white/3 transition-all duration-200',
+        'border border-transparent hover:border-white/10 hover:bg-white/8',
         'cursor-pointer',
         compact ? 'gap-2 p-2.5' : 'gap-3 p-4',
         className
@@ -45,7 +45,7 @@ export const ChampionCard = ({
         <ChampionIcon
           championId={championId}
           size={compact ? 'md' : 'lg'}
-          className="transition-all duration-200 group-hover:ring-violet-500/50"
+          className="group-hover:ring-accent-gold/50 transition-all duration-200"
         />
         {tier && (
           <div className="absolute -right-1 -bottom-1">

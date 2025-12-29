@@ -70,8 +70,8 @@ export const DeleteAccountSection = ({ translations: t }: IDeleteAccountSectionP
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
           <div className="animate-scale-in bg-card mx-4 w-full max-w-md rounded-xl border border-white/10 p-6 shadow-2xl">
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-500/20">
-                <LuTrash2 className="h-5 w-5 text-red-400" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-danger/20">
+                <LuTrash2 className="h-5 w-5 text-danger" />
               </div>
               <h3 className="text-lg font-semibold text-white">{t.deleteConfirmTitle}</h3>
             </div>

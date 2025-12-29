@@ -22,8 +22,8 @@ export const LevelSpikeTimeline = ({ spikes, language, className }: ILevelSpikeT
           className={cn(
             'animate-slide-up flex items-start gap-3 rounded-lg p-3',
             spike.important
-              ? 'bg-gradient-to-r from-amber-500/15 to-orange-500/10 ring-1 ring-amber-500/30'
-              : 'bg-white/5'
+              ? 'from-warning/15 to-accent-gold/10 ring-warning/30 bg-linear-to-br ring-1'
+              : 'bg-muted'
           )}
           style={{ animationDelay: `${index * 50}ms` }}
         >
@@ -31,8 +31,8 @@ export const LevelSpikeTimeline = ({ spikes, language, className }: ILevelSpikeT
             className={cn(
               'flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-xs font-bold',
               spike.important
-                ? 'bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/30'
-                : 'bg-violet-500/20 text-violet-400'
+                ? 'from-warning to-accent-gold shadow-warning/30 bg-linear-to-br text-white shadow-lg'
+                : 'bg-primary-muted text-primary-light'
             )}
           >
             {spike.level}
@@ -47,7 +47,7 @@ export const LevelSpikeTimeline = ({ spikes, language, className }: ILevelSpikeT
               {spike.text[language]}
             </p>
           </div>
-          {spike.important && <LuStar className="h-4 w-4 shrink-0 fill-amber-400 text-amber-400" />}
+          {spike.important && <LuStar className="fill-warning text-warning h-4 w-4 shrink-0" />}
         </div>
       ))}
     </div>

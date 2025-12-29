@@ -79,14 +79,12 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
     <PageContainer>
       {/* Hero Section */}
       <div className="animate-fade-in mb-8 text-center">
-        <h1 className="mb-4 text-4xl font-bold tracking-tight">
+        <h1 className="mb-4 text-6xl font-bold tracking-tight">
           <span className="text-white">LANE</span>
           <span className="text-gradient">GAP</span>
         </h1>
         <p className="text-lg text-white/60">{t.home.subtitle}</p>
-        <p className="mt-2 text-sm text-white/40">
-          Patch 14.24 • {filteredChampions.length} champions
-        </p>
+        <p className="mt-2 text-sm text-white/40">{filteredChampions.length} champions</p>
       </div>
 
       {/* Search Bar */}
@@ -129,7 +127,7 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
       {!search && favoriteChampionsList.length > 0 && (
         <section className="animate-slide-up mb-10" style={{ animationDelay: '100ms' }}>
           <div className="mb-4 flex items-center gap-2">
-            <LuStar className="h-4 w-4 text-yellow-400" />
+            <LuStar className="text-warning h-4 w-4" />
             <h2 className="text-sm font-semibold text-white/80">{t.home.favorites}</h2>
           </div>
           <div className="grid grid-cols-4 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
@@ -170,7 +168,7 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
       {/* All Champions Grid */}
       <section className="animate-slide-up" style={{ animationDelay: '200ms' }}>
         <div className="mb-4 flex items-center gap-2">
-          <LuTarget className="h-4 w-4 text-red-400" />
+          <LuTarget className="text-danger h-4 w-4" />
           <h2 className="text-sm font-semibold text-white/80">
             {search ? `${filteredChampions.length} ${t.home.results}` : t.home.enemyChampions}
           </h2>
@@ -178,7 +176,7 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
 
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
-            <LuLoader className="h-8 w-8 animate-spin text-violet-400" />
+            <LuLoader className="text-primary-light h-8 w-8 animate-spin" />
           </div>
         ) : filteredChampions.length === 0 ? (
           <div className="rounded-xl border border-white/10 bg-white/5 p-8 text-center">
