@@ -117,6 +117,7 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
                 alt={LANE_LABELS[lane][language]}
                 fill
                 className="object-contain"
+                priority={lane === 'mid'}
               />
             </button>
           )

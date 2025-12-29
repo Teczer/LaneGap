@@ -50,18 +50,21 @@ export const PasswordSection = ({ translations: t }: IPasswordSectionProps) => {
             {...register('currentPassword')}
             placeholder={t.currentPasswordPlaceholder}
             error={errors.currentPassword?.message}
+            autoComplete="current-password"
             className="max-w-sm"
           />
           <PasswordInput
             {...register('newPassword')}
             placeholder={t.newPasswordPlaceholder}
             error={errors.newPassword?.message}
+            autoComplete="new-password"
             className="max-w-sm"
           />
           <PasswordInput
             {...register('confirmPassword')}
             placeholder={t.confirmNewPasswordPlaceholder}
             error={errors.confirmPassword?.message}
+            autoComplete="new-password"
             className="max-w-sm"
           />
         </form>
