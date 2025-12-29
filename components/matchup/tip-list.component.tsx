@@ -1,21 +1,18 @@
-'use client'
-
 import { LuChevronRight } from 'react-icons/lu'
+import type { TLanguage } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
-import { useSettingsStore } from '@/app/store/settings.store'
 
 interface ITipListProps {
   tips: {
     en: string[]
     fr: string[]
   }
+  language: TLanguage
   className?: string
   maxItems?: number
 }
 
-export function TipList({ tips, className, maxItems }: ITipListProps) {
-  const language = useSettingsStore((s) => s.language)
-
+export const TipList = ({ tips, language, className, maxItems }: ITipListProps) => {
   const localizedTips = tips[language]
   const displayTips = maxItems ? localizedTips.slice(0, maxItems) : localizedTips
 

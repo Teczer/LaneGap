@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { LuTrash2 } from 'react-icons/lu'
+import type { TSettingsTranslations } from '@/lib/i18n'
 import { parseBold } from '@/lib/utils'
 import { type TDeleteAccountFormData, deleteAccountSchema } from '@/lib/validations/settings.schema'
-import { useTranslations } from '@/hooks/use-translations.hook'
 import { Button, Input } from '@/components/ui'
 import { useAuthStore } from '@/app/store/auth.store'
 import {
@@ -17,8 +17,11 @@ import {
   SettingsCardHeader,
 } from './settings-card.component'
 
-export function DeleteAccountSection() {
-  const { t } = useTranslations()
+interface IDeleteAccountSectionProps {
+  translations: TSettingsTranslations
+}
+
+export const DeleteAccountSection = ({ translations: t }: IDeleteAccountSectionProps) => {
   const router = useRouter()
   const deleteAccount = useAuthStore((s) => s.deleteAccount)
   const [showModal, setShowModal] = useState(false)
@@ -48,16 +51,16 @@ export function DeleteAccountSection() {
     <>
       <SettingsCard variant="danger">
         <SettingsCardHeader
-          title={t('settings.deleteAccount')}
-          description={t('settings.deleteAccountDescription')}
+          title={t.deleteAccount}
+          description={t.deleteAccountDescription}
           variant="danger"
         />
         <SettingsCardContent>
-          <p className="text-sm text-white/60">{parseBold(t('settings.deleteAccountWarning'))}</p>
+          <p className="text-sm text-white/60">{parseBold(t.deleteAccountWarning)}</p>
         </SettingsCardContent>
         <SettingsCardFooter variant="danger">
           <Button variant="danger" size="sm" onClick={() => setShowModal(true)}>
-            {t('settings.deleteAccountButton')}
+            {t.deleteAccountButton}
           </Button>
         </SettingsCardFooter>
       </SettingsCard>
@@ -70,20 +73,18 @@ export function DeleteAccountSection() {
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-500/20">
                 <LuTrash2 className="h-5 w-5 text-red-400" />
               </div>
-              <h3 className="text-lg font-semibold text-white">
-                {t('settings.deleteConfirmTitle')}
-              </h3>
+              <h3 className="text-lg font-semibold text-white">{t.deleteConfirmTitle}</h3>
             </div>
-            <p className="mb-4 text-sm text-white/60">{t('settings.deleteConfirmMessage')}</p>
+            <p className="mb-4 text-sm text-white/60">{t.deleteConfirmMessage}</p>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Input
                 {...register('confirmText')}
-                placeholder={t('settings.deleteConfirmPlaceholder')}
+                placeholder={t.deleteConfirmPlaceholder}
                 className="mb-4"
               />
               <div className="flex gap-3">
                 <Button type="button" variant="ghost" onClick={closeModal} className="flex-1">
-                  {t('settings.cancel')}
+                  {t.cancel}
                 </Button>
                 <Button
                   type="submit"
@@ -92,7 +93,7 @@ export function DeleteAccountSection() {
                   isLoading={isSubmitting}
                   className="flex-1"
                 >
-                  {t('settings.confirm')}
+                  {t.confirm}
                 </Button>
               </div>
             </form>

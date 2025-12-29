@@ -1,10 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import {
-  deleteUserFavorites,
-  getUserFavorites,
-  saveUserFavorites,
-} from '@/lib/api/favorites.api'
+import { deleteUserFavorites, getUserFavorites, saveUserFavorites } from '@/lib/api/favorites.api'
 
 interface IFavoritesState {
   favoriteChampions: string[]

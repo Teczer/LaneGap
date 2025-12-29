@@ -4,7 +4,7 @@ interface ISkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'circular' | 'text'
 }
 
-export function Skeleton({ className, variant = 'default', ...props }: ISkeletonProps) {
+export const Skeleton = ({ className, variant = 'default', ...props }: ISkeletonProps) => {
   const variants = {
     default: 'rounded-lg',
     circular: 'rounded-full',
@@ -20,15 +20,15 @@ export function Skeleton({ className, variant = 'default', ...props }: ISkeleton
 }
 
 // Preset skeleton components
-export function SkeletonText({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export const SkeletonText = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
   return <Skeleton variant="text" className={cn('w-full', className)} {...props} />
 }
 
-export function SkeletonCircle({
+export const SkeletonCircle = ({
   className,
   size = 48,
   ...props
-}: React.HTMLAttributes<HTMLDivElement> & { size?: number }) {
+}: React.HTMLAttributes<HTMLDivElement> & { size?: number }) => {
   return (
     <Skeleton
       variant="circular"
@@ -39,7 +39,7 @@ export function SkeletonCircle({
   )
 }
 
-export function SkeletonCard({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export const SkeletonCard = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div className={cn('space-y-3', className)} {...props}>
       <Skeleton className="h-32 w-full" />

@@ -2,8 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import type { TSettingsTranslations } from '@/lib/i18n'
 import { type TNameFormData, nameSchema } from '@/lib/validations/settings.schema'
-import { useTranslations } from '@/hooks/use-translations.hook'
 import { Button, Input } from '@/components/ui'
 import { useAuthStore } from '@/app/store/auth.store'
 import {
@@ -13,8 +13,11 @@ import {
   SettingsCardHeader,
 } from './settings-card.component'
 
-export function NameSection() {
-  const { t } = useTranslations()
+interface INameSectionProps {
+  translations: TSettingsTranslations
+}
+
+export const NameSection = ({ translations: t }: INameSectionProps) => {
   const { user, updateProfile } = useAuthStore()
 
   const {
@@ -33,7 +36,7 @@ export function NameSection() {
 
   return (
     <SettingsCard>
-      <SettingsCardHeader title={t('settings.name')} description={t('settings.nameDescription')} />
+      <SettingsCardHeader title={t.name} description={t.nameDescription} />
       <SettingsCardContent>
         <form id="name-form" onSubmit={handleSubmit(onSubmit)}>
           <Input
@@ -44,7 +47,7 @@ export function NameSection() {
           />
         </form>
       </SettingsCardContent>
-      <SettingsCardFooter hint={t('settings.nameHint')}>
+      <SettingsCardFooter hint={t.nameHint}>
         <Button
           type="submit"
           form="name-form"
@@ -53,10 +56,9 @@ export function NameSection() {
           isLoading={isSubmitting}
           disabled={!isDirty}
         >
-          {t('settings.save')}
+          {t.save}
         </Button>
       </SettingsCardFooter>
     </SettingsCard>
   )
 }
-

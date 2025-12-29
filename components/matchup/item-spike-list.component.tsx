@@ -1,18 +1,15 @@
-'use client'
-
 import { getItemIconUrl } from '@/lib/data-dragon'
+import type { TLanguage } from '@/lib/i18n'
 import type { IItemSpike } from '@/lib/types'
 import { cn } from '@/lib/utils'
-import { useSettingsStore } from '@/app/store/settings.store'
 
 interface IItemSpikeListProps {
   spikes: IItemSpike[]
+  language: TLanguage
   className?: string
 }
 
-export function ItemSpikeList({ spikes, className }: IItemSpikeListProps) {
-  const language = useSettingsStore((s) => s.language)
-
+export const ItemSpikeList = ({ spikes, language, className }: IItemSpikeListProps) => {
   if (spikes.length === 0) {
     return <p className="text-sm text-white/40 italic">No item spikes documented</p>
   }

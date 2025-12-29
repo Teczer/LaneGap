@@ -2,15 +2,14 @@
 
 /**
  * Seed all missing champions to PocketBase
- * 
+ *
  * - Adds all champions from Data Dragon metadata
  * - Skips champions that already exist in PocketBase
  * - Uses empty arrays for tips (to be filled later)
- * 
+ *
  * Usage:
  *   bun run scripts/seed-champions.ts
  */
-
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import PocketBase from 'pocketbase'
@@ -58,7 +57,9 @@ async function main() {
     await pb.collection('_superusers').authWithPassword(ADMIN_EMAIL, ADMIN_PASSWORD)
     console.log('   ✅ Authenticated\n')
   } else {
-    console.log('⚠️  No admin credentials found. Set POCKETBASE_ADMIN_EMAIL and POCKETBASE_ADMIN_PASSWORD in .env.local\n')
+    console.log(
+      '⚠️  No admin credentials found. Set POCKETBASE_ADMIN_EMAIL and POCKETBASE_ADMIN_PASSWORD in .env.local\n'
+    )
   }
 
   // Get existing champions from PocketBase
@@ -95,14 +96,17 @@ async function main() {
         date_edited: new Date().toISOString().split('T')[0], // Today's date
       })
       added++
-      
+
       // Progress indicator
       if (added % 20 === 0) {
         console.log(`   ✅ Added ${added}/${missingChampions.length}...`)
       }
     } catch (error: unknown) {
       const pbError = error as { response?: { data?: Record<string, unknown> } }
-      console.error(`   ❌ Failed to add ${champ.id}:`, JSON.stringify(pbError.response?.data || error))
+      console.error(
+        `   ❌ Failed to add ${champ.id}:`,
+        JSON.stringify(pbError.response?.data || error)
+      )
       failed++
     }
   }
@@ -115,4 +119,3 @@ async function main() {
 }
 
 main().catch(console.error)
-

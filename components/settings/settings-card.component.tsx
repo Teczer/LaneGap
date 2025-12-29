@@ -5,7 +5,7 @@ interface ISettingsCardProps {
   variant?: 'default' | 'danger'
 }
 
-export function SettingsCard({ children, variant = 'default' }: ISettingsCardProps) {
+export const SettingsCard = ({ children, variant = 'default' }: ISettingsCardProps) => {
   return (
     <div
       className={cn(
@@ -24,11 +24,11 @@ interface ISettingsCardHeaderProps {
   variant?: 'default' | 'danger'
 }
 
-export function SettingsCardHeader({
+export const SettingsCardHeader = ({
   title,
   description,
   variant = 'default',
-}: ISettingsCardHeaderProps) {
+}: ISettingsCardHeaderProps) => {
   return (
     <div className="p-4">
       <h3
@@ -44,7 +44,7 @@ export function SettingsCardHeader({
   )
 }
 
-export function SettingsCardContent({ children }: { children: React.ReactNode }) {
+export const SettingsCardContent = ({ children }: { children: React.ReactNode }) => {
   return <div className="p-4">{children}</div>
 }
 
@@ -54,11 +54,11 @@ interface ISettingsCardFooterProps {
   variant?: 'default' | 'danger'
 }
 
-export function SettingsCardFooter({
+export const SettingsCardFooter = ({
   hint,
   children,
   variant = 'default',
-}: ISettingsCardFooterProps) {
+}: ISettingsCardFooterProps) => {
   return (
     <div
       className={cn(

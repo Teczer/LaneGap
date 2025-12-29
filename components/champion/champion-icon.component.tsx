@@ -17,12 +17,12 @@ const SIZES = {
   xl: 96,
 } as const
 
-export function ChampionIcon({
+export const ChampionIcon = ({
   championId,
   size = 'md',
   className,
   showBorder = true,
-}: IChampionIconProps) {
+}: IChampionIconProps) => {
   const px = SIZES[size]
 
   return (

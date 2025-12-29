@@ -51,14 +51,14 @@ const loaderSizes = {
   xl: 'h-6 w-6',
 }
 
-export function Avatar({
+export const Avatar = ({
   src,
   alt = 'User avatar',
   size = 'md',
   className,
   showRing = true,
   isLoading = false,
-}: IAvatarProps) {
+}: IAvatarProps) => {
   return (
     <div
       className={cn(

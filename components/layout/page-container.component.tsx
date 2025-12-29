@@ -5,7 +5,7 @@ interface IPageContainerProps {
   className?: string
 }
 
-export function PageContainer({ children, className }: IPageContainerProps) {
+export const PageContainer = ({ children, className }: IPageContainerProps) => {
   return (
     <main className={cn('mx-auto min-h-[calc(100vh-8rem)] w-full max-w-5xl px-6 py-8', className)}>
       {children}

@@ -1,12 +1,12 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useTranslations } from '@/hooks/use-translations.hook'
-import { useAuthStore } from '@/app/store/auth.store'
+import { useForm } from 'react-hook-form'
+import type { TSettingsTranslations } from '@/lib/i18n'
+import { type TPasswordFormData, passwordSchema } from '@/lib/validations/settings.schema'
 import { Button } from '@/components/ui'
 import { PasswordInput } from '@/components/ui/password-input'
-import { passwordSchema, type TPasswordFormData } from '@/lib/validations/settings.schema'
+import { useAuthStore } from '@/app/store/auth.store'
 import {
   SettingsCard,
   SettingsCardContent,
@@ -14,8 +14,11 @@ import {
   SettingsCardHeader,
 } from './settings-card.component'
 
-export function PasswordSection() {
-  const { t } = useTranslations()
+interface IPasswordSectionProps {
+  translations: TSettingsTranslations
+}
+
+export const PasswordSection = ({ translations: t }: IPasswordSectionProps) => {
   const updatePassword = useAuthStore((s) => s.updatePassword)
 
   const {
@@ -40,33 +43,30 @@ export function PasswordSection() {
 
   return (
     <SettingsCard>
-      <SettingsCardHeader
-        title={t('settings.password')}
-        description={t('settings.passwordDescription')}
-      />
+      <SettingsCardHeader title={t.password} description={t.passwordDescription} />
       <SettingsCardContent>
         <form id="password-form" onSubmit={handleSubmit(onSubmit)} className="space-y-3">
           <PasswordInput
             {...register('currentPassword')}
-            placeholder={t('settings.currentPasswordPlaceholder')}
+            placeholder={t.currentPasswordPlaceholder}
             error={errors.currentPassword?.message}
             className="max-w-sm"
           />
           <PasswordInput
             {...register('newPassword')}
-            placeholder={t('settings.newPasswordPlaceholder')}
+            placeholder={t.newPasswordPlaceholder}
             error={errors.newPassword?.message}
             className="max-w-sm"
           />
           <PasswordInput
             {...register('confirmPassword')}
-            placeholder={t('settings.confirmNewPasswordPlaceholder')}
+            placeholder={t.confirmNewPasswordPlaceholder}
             error={errors.confirmPassword?.message}
             className="max-w-sm"
           />
         </form>
       </SettingsCardContent>
-      <SettingsCardFooter hint={t('settings.passwordHint')}>
+      <SettingsCardFooter hint={t.passwordHint}>
         <Button
           type="submit"
           form="password-form"
@@ -75,10 +75,9 @@ export function PasswordSection() {
           isLoading={isSubmitting}
           disabled={!isValid}
         >
-          {t('settings.save')}
+          {t.save}
         </Button>
       </SettingsCardFooter>
     </SettingsCard>
   )
 }
-

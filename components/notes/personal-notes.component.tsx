@@ -13,8 +13,8 @@ import {
   LuX,
 } from 'react-icons/lu'
 import type { IUserNote } from '@/lib/api/notes.api'
+import type { TNotesTranslations } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
-import { useTranslations } from '@/hooks/use-translations.hook'
 import { Button, Textarea } from '@/components/ui'
 import { useAuthStore } from '@/app/store/auth.store'
 
@@ -24,20 +24,21 @@ interface IPersonalNotesProps {
   onAddNote: (content: string) => Promise<void>
   onUpdateNote: (noteId: string, content: string) => Promise<void>
   onDeleteNote: (noteId: string) => Promise<void>
+  translations: TNotesTranslations
   title?: string
   className?: string
 }
 
-export function PersonalNotes({
+export const PersonalNotes = ({
   notes,
   isLoading,
   onAddNote,
   onUpdateNote,
   onDeleteNote,
+  translations: t,
   title,
   className,
-}: IPersonalNotesProps) {
-  const { t } = useTranslations()
+}: IPersonalNotesProps) => {
   const { isAuthenticated } = useAuthStore()
 
   const [isAdding, setIsAdding] = useState(false)
@@ -98,13 +99,13 @@ export function PersonalNotes({
             <LuStickyNote className="h-6 w-6 text-violet-400" />
           </div>
           <div>
-            <p className="font-medium text-white/80">{t('notes.myNotes')}</p>
-            <p className="mt-1 text-sm text-white/40">{t('notes.loginToAdd')}</p>
+            <p className="font-medium text-white/80">{t.myNotes}</p>
+            <p className="mt-1 text-sm text-white/40">{t.loginToAdd}</p>
           </div>
           <Link href="/auth">
             <Button variant="secondary" size="sm" className="mt-2">
               <LuLogIn className="h-4 w-4" />
-              {t('auth.loginButton')}
+              Sign in
             </Button>
           </Link>
         </div>
@@ -118,12 +119,12 @@ export function PersonalNotes({
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <LuStickyNote className="h-5 w-5 text-violet-400" />
-          <h3 className="font-semibold text-white">{title || t('notes.myNotes')}</h3>
+          <h3 className="font-semibold text-white">{title || t.myNotes}</h3>
         </div>
         {!isAdding && (
           <Button variant="secondary" size="sm" onClick={() => setIsAdding(true)}>
             <LuPlus className="h-4 w-4" />
-            {t('notes.addNote')}
+            {t.addNote}
           </Button>
         )}
       </div>
@@ -134,7 +135,7 @@ export function PersonalNotes({
           <Textarea
             value={newNote}
             onChange={(e) => setNewNote(e.target.value)}
-            placeholder={t('notes.placeholder')}
+            placeholder={t.placeholder}
             className="min-h-[80px] border-0 bg-transparent p-0 focus:ring-0 focus-visible:ring-0"
             autoFocus
           />
@@ -148,7 +149,6 @@ export function PersonalNotes({
               }}
             >
               <LuX className="h-4 w-4" />
-              {t('common.cancel')}
             </Button>
             <Button
               size="sm"
@@ -157,7 +157,6 @@ export function PersonalNotes({
               isLoading={isSaving}
             >
               <LuCheck className="h-4 w-4" />
-              {t('common.save')}
             </Button>
           </div>
         </div>
@@ -170,8 +169,8 @@ export function PersonalNotes({
         </div>
       ) : notes.length === 0 ? (
         <div className="py-8 text-center">
-          <p className="text-white/40">{t('notes.empty')}</p>
-          <p className="mt-1 text-sm text-white/30">{t('notes.emptyHint')}</p>
+          <p className="text-white/40">{t.empty}</p>
+          <p className="mt-1 text-sm text-white/30">{t.emptyHint}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -199,7 +198,6 @@ export function PersonalNotes({
                       }}
                     >
                       <LuX className="h-3 w-3" />
-                      {t('common.cancel')}
                     </Button>
                     <Button
                       size="sm"
@@ -208,7 +206,6 @@ export function PersonalNotes({
                       isLoading={isSaving}
                     >
                       <LuCheck className="h-3 w-3" />
-                      {t('common.save')}
                     </Button>
                   </div>
                 </div>
@@ -221,7 +218,6 @@ export function PersonalNotes({
                       variant="ghost"
                       size="sm"
                       onClick={() => startEditing(note)}
-                      title={t('common.edit')}
                       className="h-8 w-8 p-0"
                     >
                       <LuPencil className="h-3.5 w-3.5" />
@@ -230,7 +226,6 @@ export function PersonalNotes({
                       variant="ghost"
                       size="sm"
                       onClick={() => handleDeleteNote(note.id)}
-                      title={t('common.delete')}
                       className="h-8 w-8 p-0 hover:bg-red-500/10 hover:text-red-400"
                     >
                       <LuTrash2 className="h-3.5 w-3.5" />

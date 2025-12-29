@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'sonner'
+import { getLanguage, getTranslations } from '@/lib/i18n'
 import { QueryProvider } from '@/lib/providers/query-provider'
 import { Footer } from '@/components/layout/footer.component'
 import { Header } from '@/components/layout/header.component'
@@ -18,14 +19,17 @@ export const metadata: Metadata = {
   keywords: ['League of Legends', 'LoL', 'midlane', 'coaching', 'matchups', 'counters'],
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+  const t = await getTranslations()
+  const language = await getLanguage()
+
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang={language} className={inter.variable}>
       <body suppressHydrationWarning className="flex min-h-screen flex-col">
         <QueryProvider>
-          <Header />
+          <Header translations={{ settings: t.settings.title, auth: t.auth }} />
           {children}
-          <Footer />
+          <Footer translations={t.footer} />
           <Toaster
             theme="dark"
             position="bottom-right"
@@ -45,3 +49,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+
+export default RootLayout
