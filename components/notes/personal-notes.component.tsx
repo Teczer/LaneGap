@@ -89,14 +89,11 @@ export const PersonalNotes = ({
   if (!isAuthenticated) {
     return (
       <div
-        className={cn(
-          'rounded-xl border border-dashed border-white/10 bg-white/[0.02] p-6',
-          className
-        )}
+        className={cn('rounded-xl border border-dashed border-white/10 bg-white/2 p-6', className)}
       >
         <div className="flex flex-col items-center gap-3 text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-muted">
-            <LuStickyNote className="h-6 w-6 text-primary-light" />
+          <div className="bg-primary-muted flex h-12 w-12 items-center justify-center rounded-full">
+            <LuStickyNote className="text-primary-light h-6 w-6" />
           </div>
           <div>
             <p className="font-medium text-white/80">{t.myNotes}</p>
@@ -114,11 +111,11 @@ export const PersonalNotes = ({
   }
 
   return (
-    <div className={cn('rounded-xl border border-white/10 bg-white/[0.03] p-4', className)}>
+    <div className={cn('rounded-xl border border-white/10 bg-white/3 p-4', className)}>
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <LuStickyNote className="h-5 w-5 text-primary-light" />
+          <LuStickyNote className="text-primary-light h-5 w-5" />
           <h3 className="font-semibold text-white">{title || t.myNotes}</h3>
         </div>
         {!isAdding && (
@@ -131,17 +128,17 @@ export const PersonalNotes = ({
 
       {/* Add Note Form */}
       {isAdding && (
-        <div className="mb-4 rounded-lg border border-primary/30 bg-primary-muted p-3">
+        <div className="mb-4 rounded-lg border border-white/6 bg-white/3 p-3">
           <Textarea
             value={newNote}
             onChange={(e) => setNewNote(e.target.value)}
             placeholder={t.placeholder}
-            className="min-h-[80px] border-0 bg-transparent p-0 focus:ring-0 focus-visible:ring-0"
+            className="min-h-[80px] resize-none border-0 bg-transparent px-0 py-0 text-sm leading-relaxed focus:ring-0 focus-visible:ring-0"
             autoFocus
           />
           <div className="mt-2 flex justify-end gap-2">
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={() => {
                 setIsAdding(false)
@@ -165,7 +162,7 @@ export const PersonalNotes = ({
       {/* Notes List */}
       {isLoading ? (
         <div className="flex items-center justify-center py-8">
-          <LuLoader className="h-6 w-6 animate-spin text-primary-light" />
+          <LuLoader className="text-primary-light h-6 w-6 animate-spin" />
         </div>
       ) : notes.length === 0 ? (
         <div className="py-8 text-center">
@@ -177,7 +174,7 @@ export const PersonalNotes = ({
           {notes.map((note) => (
             <div
               key={note.id}
-              className="group rounded-lg border border-white/5 bg-white/[0.02] p-3 transition-colors hover:border-white/10"
+              className="group rounded-lg border border-white/5 bg-white/2 p-3 transition-colors hover:border-white/10"
             >
               {editingId === note.id ? (
                 // Edit mode
@@ -185,7 +182,7 @@ export const PersonalNotes = ({
                   <Textarea
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
-                    className="min-h-[60px] border-0 bg-transparent p-0 focus:ring-0 focus-visible:ring-0"
+                    className="min-h-[60px] resize-none border-0 bg-transparent px-0 py-0 text-sm leading-relaxed focus:ring-0 focus-visible:ring-0"
                     autoFocus
                   />
                   <div className="mt-2 flex justify-end gap-2">
@@ -226,7 +223,7 @@ export const PersonalNotes = ({
                       variant="ghost"
                       size="sm"
                       onClick={() => handleDeleteNote(note.id)}
-                      className="h-8 w-8 p-0 hover:bg-danger/10 hover:text-danger"
+                      className="hover:bg-danger/10 hover:text-danger h-8 w-8 p-0"
                     >
                       <LuTrash2 className="h-3.5 w-3.5" />
                     </Button>
