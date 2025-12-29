@@ -16,7 +16,7 @@ const PasswordInput = forwardRef<HTMLInputElement, IPasswordInputProps>(
     return (
       <div className="relative w-full">
         {icon && (
-          <div className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-foreground-subtle">
+          <div className="text-foreground-subtle pointer-events-none absolute top-1/2 left-3 -translate-y-1/2">
             {icon}
           </div>
         )}
@@ -28,7 +28,7 @@ const PasswordInput = forwardRef<HTMLInputElement, IPasswordInputProps>(
             'bg-input text-foreground placeholder:text-foreground-subtle',
             'border-border-muted focus:border-border',
             'transition-all duration-200',
-            'focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:outline-none',
+            'focus-visible:ring-ring/40 focus-visible:ring-2 focus-visible:outline-none',
             'disabled:cursor-not-allowed disabled:opacity-50',
             icon && 'pl-10',
             error && 'border-danger focus:border-danger focus-visible:ring-danger/20',
@@ -39,12 +39,12 @@ const PasswordInput = forwardRef<HTMLInputElement, IPasswordInputProps>(
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-foreground-subtle transition-colors hover:text-foreground-muted"
+          className="text-foreground-subtle hover:text-foreground-muted absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer transition-colors"
           tabIndex={-1}
         >
-          {showPassword ? <LuEyeOff className="h-5 w-5" /> : <LuEye className="h-5 w-5" />}
+          {showPassword ? <LuEye className="h-5 w-5" /> : <LuEyeOff className="h-5 w-5" />}
         </button>
-        {error && <p className="mt-1 text-xs text-danger">{error}</p>}
+        {error && <p className="text-danger mt-1 text-xs">{error}</p>}
       </div>
     )
   }
