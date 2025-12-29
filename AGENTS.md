@@ -348,7 +348,7 @@ bun run format:check       # Check formatting
 
 ```
 ┌─────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│  Cookie     │ ──► │ middleware.ts    │ ──► │ Server Component │
+│  Cookie     │ ──► │ proxy.ts         │ ──► │ Server Component │
 │ lanegap-lang│     │ (detect/default) │     │ getTranslations()│
 └─────────────┘     └──────────────────┘     └──────────────────┘
                                                       │
