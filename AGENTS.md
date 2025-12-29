@@ -100,7 +100,7 @@ lanegap/
 │   │   ├── use-matchups.query.ts
 │   │   ├── use-notes.query.ts
 │   │   └── index.ts              # Barrel exports
-│   ├── use-translations.hook.ts
+│   ├── use-require-auth.hook.ts  # Auth state helper
 │   └── use-settings.hook.ts
 │
 ├── lib/
@@ -237,7 +237,7 @@ import { Button } from '@/components/ui/button'
 | Type | Convention | Example |
 |------|------------|---------|
 | Files (components) | kebab-case.component.tsx | `champion-icon.component.tsx` |
-| Files (hooks) | use-name.hook.ts | `use-translations.hook.ts` |
+| Files (hooks) | use-name.hook.ts | `use-settings.hook.ts` |
 | Files (queries) | use-name.query.ts | `use-champions.query.ts` |
 | Files (stores) | name.store.ts | `auth.store.ts` |
 | Files (API) | name.api.ts | `auth.api.ts` |
