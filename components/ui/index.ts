@@ -18,3 +18,16 @@ export { PasswordInput, type IPasswordInputProps } from './password-input'
 export { Skeleton, SkeletonCard, SkeletonCircle, SkeletonText } from './skeleton'
 export { Textarea, type ITextareaProps } from './textarea'
 export { Tooltip } from './tooltip'
+export {
+  FadeIn,
+  SlideUp,
+  ScaleIn,
+  StaggerGrid,
+  StaggerItem,
+  motion,
+  fadeIn,
+  slideUp,
+  scaleIn,
+  staggerContainer,
+  staggerItem,
+} from './motion'

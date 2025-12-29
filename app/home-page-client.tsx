@@ -3,16 +3,29 @@
 import { useCallback, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { AnimatePresence, motion } from 'framer-motion'
 import { LuClock, LuLoader, LuSearch, LuStar, LuTarget } from 'react-icons/lu'
 import { LANE_ICONS, LANE_LABELS, type TLane, championPlaysLane } from '@/lib/data/champion-roles'
 import type { TLanguage, TTranslations } from '@/lib/i18n'
 import type { IChampion } from '@/lib/types'
-import { cn } from '@/lib/utils'
 import { useChampions } from '@/hooks/queries'
 import { ChampionCard } from '@/components/champion/champion-card.component'
 import { PageContainer } from '@/components/layout/page-container.component'
 import { Input } from '@/components/ui/input'
 import { useFavoritesStore } from '@/app/store/favorites.store'
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.02, delayChildren: 0.1 },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.2 } },
+}
 
 const LANES: TLane[] = ['top', 'jungle', 'mid', 'adc', 'support']
 
@@ -104,13 +117,18 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
         {LANES.map((lane) => {
           const isSelected = selectedLane === lane
           return (
-            <button
+            <motion.button
               key={lane}
               onClick={() => setSelectedLane(lane)}
-              className={cn(
-                'relative size-16 cursor-pointer transition-all',
-                isSelected ? 'scale-125 opacity-100' : 'opacity-30 grayscale hover:scale-125'
-              )}
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.95 }}
+              animate={{
+                scale: isSelected ? 1.25 : 1,
+                opacity: isSelected ? 1 : 0.3,
+                filter: isSelected ? 'grayscale(0)' : 'grayscale(1)',
+              }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              className="relative size-16 cursor-pointer"
             >
               <Image
                 src={LANE_ICONS[lane]}
@@ -119,7 +137,14 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
                 className="object-contain"
                 priority={lane === 'mid'}
               />
-            </button>
+              {isSelected && (
+                <motion.div
+                  layoutId="lane-indicator"
+                  className="bg-primary absolute -bottom-2 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full"
+                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                />
+              )}
+            </motion.button>
           )
         })}
       </div>
@@ -184,21 +209,26 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
             <p className="text-white/40">{t.common.noChampionsFound}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-4 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
-            {filteredChampions.map((champ, index) => (
-              <ChampionCard
-                key={champ.id}
-                championId={champ.id}
-                name={champ.name}
-                onClick={() => handleSelect(champ)}
-                compact
-                className={cn(
-                  'animate-scale-in',
-                  index < 10 && `stagger-${Math.min(index + 1, 6)}`
-                )}
-              />
-            ))}
-          </div>
+          <motion.div
+            key={selectedLane}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-4 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8"
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredChampions.map((champ) => (
+                <motion.div key={champ.id} variants={itemVariants} layout>
+                  <ChampionCard
+                    championId={champ.id}
+                    name={champ.name}
+                    onClick={() => handleSelect(champ)}
+                    compact
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         )}
       </section>
     </PageContainer>

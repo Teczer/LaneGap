@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import type { TLanguage, TTier } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { TierBadge } from '@/components/matchup/tier-badge.component'
@@ -30,10 +31,13 @@ export const ChampionCard = ({
   const displayName = name[language as TLanguage] || name.en
 
   const content = (
-    <div
+    <motion.div
+      whileHover={{ scale: 1.05, y: -2 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 20 }}
       className={cn(
         'group relative flex flex-col items-center',
-        'rounded-xl bg-white/3 transition-all duration-200',
+        'rounded-xl bg-white/3 transition-colors duration-200',
         'border border-transparent hover:border-white/10 hover:bg-white/8',
         'cursor-pointer',
         compact ? 'gap-2 p-2.5' : 'gap-3 p-4',
@@ -62,7 +66,7 @@ export const ChampionCard = ({
       >
         {displayName}
       </span>
-    </div>
+    </motion.div>
   )
 
   if (href) {
