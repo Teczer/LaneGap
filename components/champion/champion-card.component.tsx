@@ -17,7 +17,7 @@ interface IChampionCardProps {
   compact?: boolean
 }
 
-export function ChampionCard({
+export const ChampionCard = ({
   championId,
   name,
   tier,
@@ -25,7 +25,7 @@ export function ChampionCard({
   onClick,
   className,
   compact = false,
-}: IChampionCardProps) {
+}: IChampionCardProps) => {
   const language = useSettingsStore((s) => s.language)
   const displayName = name[language as TLanguage] || name.en
 

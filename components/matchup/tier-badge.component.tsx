@@ -28,7 +28,7 @@ const TIER_LABELS: Record<TTier, string> = {
   C: 'Countered',
 }
 
-export function TierBadge({ tier, size = 'md', className, showLabel = false }: ITierBadgeProps) {
+export const TierBadge = ({ tier, size = 'md', className, showLabel = false }: ITierBadgeProps) => {
   const sizes = {
     sm: 'text-[10px] px-1.5 py-0.5 min-w-[22px]',
     md: 'text-xs px-2 py-0.5 min-w-[28px]',

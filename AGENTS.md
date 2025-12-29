@@ -100,7 +100,7 @@ lanegap/
 │   │   ├── use-matchups.query.ts
 │   │   ├── use-notes.query.ts
 │   │   └── index.ts              # Barrel exports
-│   ├── use-translations.hook.ts
+│   ├── use-require-auth.hook.ts  # Auth state helper
 │   └── use-settings.hook.ts
 │
 ├── lib/
@@ -237,7 +237,7 @@ import { Button } from '@/components/ui/button'
 | Type | Convention | Example |
 |------|------------|---------|
 | Files (components) | kebab-case.component.tsx | `champion-icon.component.tsx` |
-| Files (hooks) | use-name.hook.ts | `use-translations.hook.ts` |
+| Files (hooks) | use-name.hook.ts | `use-settings.hook.ts` |
 | Files (queries) | use-name.query.ts | `use-champions.query.ts` |
 | Files (stores) | name.store.ts | `auth.store.ts` |
 | Files (API) | name.api.ts | `auth.api.ts` |
@@ -253,6 +253,30 @@ import { Button } from '@/components/ui/button'
 - **No `any`**: Use proper types
 - **Explicit return types**: For public API functions
 - **Named exports only**: No default exports for components
+- **Arrow functions ONLY for components**: Use `export const Component = () => {}` — **NEVER** `export function Component() {}`
+
+```typescript
+// ✅ Good - Arrow function (ALWAYS use this)
+export const ChampionCard = ({ name, onClick }: IChampionCardProps) => {
+  return <div onClick={onClick}>{name}</div>
+}
+
+// ❌ Bad - Function declaration (NEVER use this for components)
+export function ChampionCard({ name, onClick }: IChampionCardProps) {
+  return <div onClick={onClick}>{name}</div>
+}
+
+// ✅ Good - Multiple components in same file
+export const SettingsCard = ({ children }: ISettingsCardProps) => {
+  return <div>{children}</div>
+}
+
+export const SettingsCardHeader = ({ title }: ISettingsCardHeaderProps) => {
+  return <h3>{title}</h3>
+}
+```
+
+> ⚠️ **This rule is strictly enforced.** All existing components must use arrow functions.
 
 ### Linting & Formatting
 
@@ -316,15 +340,79 @@ bun run format:check       # Check formatting
 
 - `lib/i18n/en.json` - English strings
 - `lib/i18n/fr.json` - French strings
+- `lib/i18n/types.ts` - TypeScript types for translations
+- `lib/i18n/get-translations.ts` - Server-side translation getter
+- `lib/i18n/actions.ts` - Server Actions for language switching
 
-### Usage
+### Architecture (Cookie-based SSR)
+
+```
+┌─────────────┐     ┌──────────────────┐     ┌──────────────────┐
+│  Cookie     │ ──► │ proxy.ts         │ ──► │ Server Component │
+│ lanegap-lang│     │ (detect/default) │     │ getTranslations()│
+└─────────────┘     └──────────────────┘     └──────────────────┘
+                                                      │
+                                                      ▼
+                                             ┌──────────────────┐
+                                             │ Client Component │
+                                             │ (receives props) │
+                                             └──────────────────┘
+```
+
+### Usage Pattern (Server → Client)
 
 ```typescript
-import { useTranslations } from '@/hooks/use-translations.hook'
+// ✅ Server Component (page.tsx) - Gets translations, passes to children
+import { getTranslations, getLanguage } from '@/lib/i18n'
+import { SettingsPageClient } from './settings-page-client'
 
-function MyComponent() {
-  const { t, language } = useTranslations()
-  return <p>{t('auth.loginButton')}</p>
+const SettingsPage = async () => {
+  const t = await getTranslations()
+  const language = await getLanguage()
+
+  return <SettingsPageClient translations={t.settings} language={language} />
+}
+
+export default SettingsPage
+
+// ✅ Client Component (receives translations via props)
+// File: settings-page-client.tsx
+'use client'
+
+import type { TSettingsTranslations, TLanguage } from '@/lib/i18n'
+
+interface ISettingsPageClientProps {
+  translations: TSettingsTranslations
+  language: TLanguage
+}
+
+export const SettingsPageClient = ({ translations: t, language }: ISettingsPageClientProps) => {
+  return (
+    <div>
+      <h1>{t.title}</h1>
+      <button>{t.save}</button>
+    </div>
+  )
+}
+```
+
+### Important Rules
+
+- ❌ **NEVER use `useTranslations` hook** - It's deprecated and will be removed
+- ✅ **Always pass translations via props** from Server Components
+- ✅ **Use `getTranslations()` and `getLanguage()`** in Server Components only
+- ✅ **Split pages**: Server wrapper (`page.tsx`) + Client component (`*-page-client.tsx`)
+
+### Language Switching
+
+```typescript
+// Use Server Action to change language
+import { setLanguage } from '@/lib/i18n/actions'
+
+export const LanguageToggle = () => {
+  return (
+    <button onClick={() => setLanguage('fr')}>FR</button>
+  )
 }
 ```
 
@@ -387,5 +475,5 @@ bun dev
 
 ---
 
-**Last Updated**: December 17, 2025
-**Version**: 3.0.0
+**Last Updated**: December 29, 2025
+**Version**: 4.0.0 - SSR-first i18n with cookie-based language switching

@@ -1,4 +1,4 @@
-export function FooterBranding() {
+export const FooterBranding = () => {
   return (
     <div className="flex flex-col gap-1">
       <p>LANEGAP - Midlane Coaching Tool</p>
@@ -6,4 +6,3 @@ export function FooterBranding() {
     </div>
   )
 }
-

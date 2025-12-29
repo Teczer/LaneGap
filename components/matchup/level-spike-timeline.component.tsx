@@ -1,18 +1,15 @@
-'use client'
-
 import { LuStar } from 'react-icons/lu'
+import type { TLanguage } from '@/lib/i18n'
 import type { ILevelSpike } from '@/lib/types'
 import { cn } from '@/lib/utils'
-import { useSettingsStore } from '@/app/store/settings.store'
 
 interface ILevelSpikeTimelineProps {
   spikes: ILevelSpike[]
+  language: TLanguage
   className?: string
 }
 
-export function LevelSpikeTimeline({ spikes, className }: ILevelSpikeTimelineProps) {
-  const language = useSettingsStore((s) => s.language)
-
+export const LevelSpikeTimeline = ({ spikes, language, className }: ILevelSpikeTimelineProps) => {
   if (spikes.length === 0) {
     return <p className="text-sm text-white/40 italic">No level spikes documented</p>
   }

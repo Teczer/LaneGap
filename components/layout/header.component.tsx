@@ -4,19 +4,24 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { LuChevronDown, LuLogIn, LuLogOut, LuSettings, LuSwords } from 'react-icons/lu'
+import type { TAuthTranslations } from '@/lib/i18n'
 import { cn, getAvatarUrl } from '@/lib/utils'
-import { useTranslations } from '@/hooks/use-translations.hook'
 import { useAuthReady } from '@/hooks/use-require-auth.hook'
 import { LanguageToggle } from '@/components/toggles/language-toggle.component'
 import { Avatar } from '@/components/ui'
 import { useAuthStore } from '@/app/store/auth.store'
 
+interface IHeaderTranslations {
+  settings: string
+  auth: TAuthTranslations
+}
+
 interface IHeaderProps {
+  translations: IHeaderTranslations
   className?: string
 }
 
-export function Header({ className }: IHeaderProps) {
-  const { t } = useTranslations()
+export const Header = ({ translations: t, className }: IHeaderProps) => {
   const router = useRouter()
   const { isHydrated, isAuthenticated, user } = useAuthReady()
   const logout = useAuthStore((s) => s.logout)
@@ -121,7 +126,7 @@ export function Header({ className }: IHeaderProps) {
               {isMenuOpen && (
                 <div
                   className={cn(
-                    'absolute right-0 top-full mt-2 w-52',
+                    'absolute top-full right-0 mt-2 w-52',
                     'rounded-xl border border-white/10 bg-[#1a1f35] shadow-2xl shadow-black/20',
                     'animate-scale-in origin-top-right',
                     'overflow-hidden'
@@ -130,7 +135,12 @@ export function Header({ className }: IHeaderProps) {
                   {/* User Info Header */}
                   <div className="border-b border-white/5 p-3">
                     <div className="flex items-center gap-3">
-                      <Avatar src={avatarUrl} alt={user.name} size="md" className="shrink-0 ring-2" />
+                      <Avatar
+                        src={avatarUrl}
+                        alt={user.name}
+                        size="md"
+                        className="shrink-0 ring-2"
+                      />
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-medium text-white">{user.name}</p>
                         <p className="truncate text-xs text-white/50">{user.email}</p>
@@ -150,7 +160,7 @@ export function Header({ className }: IHeaderProps) {
                       )}
                     >
                       <LuSettings className="h-4 w-4" />
-                      {t('settings.title')}
+                      {t.settings}
                     </Link>
                     <button
                       onClick={handleLogout}
@@ -161,7 +171,7 @@ export function Header({ className }: IHeaderProps) {
                       )}
                     >
                       <LuLogOut className="h-4 w-4" />
-                      {t('auth.logout')}
+                      {t.auth.logout}
                     </button>
                   </div>
                 </div>
@@ -173,7 +183,7 @@ export function Header({ className }: IHeaderProps) {
               className="flex items-center gap-2 rounded-lg bg-violet-600/20 px-3 py-1.5 text-sm font-medium text-violet-400 transition-colors hover:bg-violet-600/30"
             >
               <LuLogIn className="h-4 w-4" />
-              {t('auth.loginButton')}
+              {t.auth.loginButton}
             </Link>
           )}
         </div>

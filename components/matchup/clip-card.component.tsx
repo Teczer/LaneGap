@@ -9,7 +9,7 @@ interface IClipCardProps {
   className?: string
 }
 
-export function ClipCard({ clip, className }: IClipCardProps) {
+export const ClipCard = ({ clip, className }: IClipCardProps) => {
   return (
     <div
       className={cn(

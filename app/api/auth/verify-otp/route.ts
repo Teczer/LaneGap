@@ -12,7 +12,9 @@ export async function POST(request: Request) {
   try {
     // Authenticate as admin to bypass API rules
     if (POCKETBASE_ADMIN_EMAIL && POCKETBASE_ADMIN_PASSWORD) {
-      await pb.collection('_superusers').authWithPassword(POCKETBASE_ADMIN_EMAIL, POCKETBASE_ADMIN_PASSWORD)
+      await pb
+        .collection('_superusers')
+        .authWithPassword(POCKETBASE_ADMIN_EMAIL, POCKETBASE_ADMIN_PASSWORD)
     }
     const { email, code } = await request.json()
 

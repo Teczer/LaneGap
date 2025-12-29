@@ -11,13 +11,13 @@ interface ITooltipProps {
   className?: string
 }
 
-export function Tooltip({
+export const Tooltip = ({
   content,
   children,
   position = 'top',
   delay = 200,
   className,
-}: ITooltipProps) {
+}: ITooltipProps) => {
   const [isVisible, setIsVisible] = useState(false)
   const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null)
 

@@ -1,14 +1,17 @@
 'use client'
 
 import { useRef, useState } from 'react'
+import type { TSettingsTranslations } from '@/lib/i18n'
 import { getAvatarUrl } from '@/lib/utils'
-import { useTranslations } from '@/hooks/use-translations.hook'
 import { Avatar } from '@/components/ui'
 import { useAuthStore } from '@/app/store/auth.store'
 import { SettingsCardFooter } from './settings-card.component'
 
-export function AvatarSection() {
-  const { t } = useTranslations()
+interface IAvatarSectionProps {
+  translations: TSettingsTranslations
+}
+
+export const AvatarSection = ({ translations: t }: IAvatarSectionProps) => {
   const { user, updateAvatar } = useAuthStore()
   const [isLoading, setIsLoading] = useState(false)
   const [preview, setPreview] = useState<string | null>(null)
@@ -39,8 +42,8 @@ export function AvatarSection() {
     <div className="rounded-lg border border-white/6 bg-transparent">
       <div className="flex items-start gap-6 px-4 py-4">
         <div className="flex-1 pt-1">
-          <h3 className="text-base font-semibold text-white">{t('settings.avatar')}</h3>
-          <p className="mt-1 text-sm text-white/50">{t('settings.avatarDescription')}</p>
+          <h3 className="text-base font-semibold text-white">{t.avatar}</h3>
+          <p className="mt-1 text-sm text-white/50">{t.avatarDescription}</p>
         </div>
 
         <button
@@ -66,7 +69,7 @@ export function AvatarSection() {
         />
       </div>
 
-      <SettingsCardFooter hint={t('settings.avatarHint')} />
+      <SettingsCardFooter hint={t.avatarHint} />
     </div>
   )
 }

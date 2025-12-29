@@ -6,7 +6,7 @@ export interface IBadgeProps extends HTMLAttributes<HTMLSpanElement> {
   size?: 'sm' | 'md' | 'lg'
 }
 
-export function Badge({ className, variant = 'default', size = 'md', ...props }: IBadgeProps) {
+export const Badge = ({ className, variant = 'default', size = 'md', ...props }: IBadgeProps) => {
   const variants = {
     default: 'bg-accent/20 text-accent border-accent/30',
     secondary: 'bg-surface text-text-secondary border-border',

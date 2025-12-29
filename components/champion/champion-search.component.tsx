@@ -16,12 +16,12 @@ interface IChampionSearchProps {
   autoFocus?: boolean
 }
 
-export function ChampionSearch({
+export const ChampionSearch = ({
   onSelect,
   placeholder = 'Search champion...',
   className,
   autoFocus = false,
-}: IChampionSearchProps) {
+}: IChampionSearchProps) => {
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(0)

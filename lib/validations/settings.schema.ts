@@ -26,4 +26,3 @@ export const deleteAccountSchema = z.object({
 })
 
 export type TDeleteAccountFormData = z.infer<typeof deleteAccountSchema>
-
