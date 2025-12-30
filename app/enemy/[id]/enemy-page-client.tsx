@@ -25,7 +25,7 @@ import {
 } from '@/hooks/queries'
 import { ChampionCard } from '@/components/champion/champion-card.component'
 import { ChampionIcon } from '@/components/champion/champion-icon.component'
-import { PageContainer } from '@/components/layout/page-container.component'
+import { ChampionBackground, PageContainer } from '@/components/layout'
 import { ItemSpikeList } from '@/components/matchup/item-spike-list.component'
 import { LevelSpikeTimeline } from '@/components/matchup/level-spike-timeline.component'
 import { TipList } from '@/components/matchup/tip-list.component'
@@ -103,7 +103,9 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
   const championName = enemy.name[language]
 
   return (
-    <PageContainer>
+    <>
+      <ChampionBackground championId={enemy.id} />
+      <PageContainer>
       {/* Header */}
       <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
@@ -241,5 +243,6 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
         />
       </div>
     </PageContainer>
+    </>
   )
 }

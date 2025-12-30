@@ -1,0 +1,30 @@
+# Cursor Rules for LANEGAP
+
+## Commit Messages
+
+All commit messages MUST be prefixed with an appropriate gitmoji.
+
+Format: `:gitmoji: Concise message in English`
+
+Common gitmojis:
+- :lipstick: UI/style changes
+- :sparkles: New feature
+- :bug: Bug fix
+- :recycle: Refactor code
+- :fire: Remove code/files
+- :wrench: Config changes
+- :globe_with_meridians: i18n/translations
+- :art: Code structure improvements
+- :zap: Performance improvements
+- :rocket: Deploy/release
+- :memo: Documentation
+- :white_check_mark: Tests
+- :package: Dependencies
+- :truck: Move/rename files
+
+Examples:
+- :lipstick: Update button primary styles with gold theme
+- :sparkles: Add dynamic champion background on enemy page
+- :bug: Fix OTP email sending in production
+- :recycle: Refactor header to use Shadcn DropdownMenu
+

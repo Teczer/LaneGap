@@ -286,6 +286,42 @@ bun run lint            # ESLint (removes unused imports)
 bun run type-check      # TypeScript strict check
 ```
 
+### Git Commit Messages
+
+Tous les commits doivent être préfixés par un **gitmoji** adapté :
+
+```bash
+# Format
+:gitmoji: Message concis en anglais
+
+# Exemples
+:lipstick: Update button primary styles with gold theme
+:sparkles: Add dynamic champion background on enemy page
+:bug: Fix OTP email sending in production
+:recycle: Refactor header component to use Shadcn DropdownMenu
+:fire: Remove deprecated useTranslations hook
+:wrench: Add cascade delete for user_notes collection
+:globe_with_meridians: Add French translations for settings page
+:art: Improve code structure in auth store
+```
+
+**Gitmojis fréquents :**
+
+| Emoji | Code | Usage |
+|-------|------|-------|
+| 💄 | `:lipstick:` | UI/style changes |
+| ✨ | `:sparkles:` | New feature |
+| 🐛 | `:bug:` | Bug fix |
+| ♻️ | `:recycle:` | Refactor |
+| 🔥 | `:fire:` | Remove code/files |
+| 🔧 | `:wrench:` | Config changes |
+| 🌐 | `:globe_with_meridians:` | i18n/translations |
+| 🎨 | `:art:` | Code structure |
+| ⚡ | `:zap:` | Performance |
+| 🚀 | `:rocket:` | Deploy/release |
+| 📝 | `:memo:` | Documentation |
+| ✅ | `:white_check_mark:` | Tests |
+
 ---
 
 ## 🔧 Commands
