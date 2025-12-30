@@ -1,4 +1,4 @@
-# 🎮 LANEGAP
+# 🧩 LANEGAP
 
 > **Personal midlane coaching app for League of Legends**
 >
@@ -11,6 +11,7 @@ Think like a pro player building his own tool.
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8?logo=tailwindcss)
+![PocketBase](https://img.shields.io/badge/PocketBase-0.25-b8dbe4?logo=pocketbase)
 ![Bun](https://img.shields.io/badge/Bun-1.1-fbf0df?logo=bun)
 
 ---
@@ -20,9 +21,11 @@ Think like a pro player building his own tool.
 - 🎯 **Counter Picks** — Find the best champions to play against any enemy
 - 📝 **Matchup Tips** — Coaching tips written in natural language (EN/FR)
 - ⚡ **Power Spikes** — Know when enemies are strong (levels & items)
-- 🌍 **Bilingual** — Full support for English and French
+- 🔐 **Authentication** — Login with OTP email verification
+- 📓 **Personal Notes** — Save your own notes per matchup (auth required)
+- 🌍 **Bilingual** — Full support for English and French (SSR-first)
 - ⌨️ **Keyboard First** — Navigate quickly with keyboard shortcuts
-- 🌙 **Dark Mode Only** — DPM-inspired gaming aesthetic
+- 🌙 **LoL Aesthetic** — Dark mode with official League of Legends gold theme
 
 ---
 
@@ -32,6 +35,9 @@ Think like a pro player building his own tool.
 # Install dependencies
 bun install
 
+# Start PocketBase backend (in separate terminal)
+cd pocketbase && ./pocketbase serve
+
 # Sync assets from Data Dragon
 bun run sync:champions
 bun run sync:items
@@ -39,8 +45,13 @@ bun run sync:items
 # Start development server
 bun dev
 
-# Open http://localhost:3000
+# Or start both at once
+bun run dev:full
 ```
+
+**URLs:**
+- Frontend: http://localhost:3000
+- PocketBase Admin: http://127.0.0.1:8090/_/
 
 ---
 
@@ -48,115 +59,27 @@ bun dev
 
 ```
 1. Home Page     → Select the ENEMY champion you're facing
-2. Enemy Page    → View counters, tips, and power spikes
+2. Enemy Page    → View counters, tips, power spikes, and dynamic background
 3. Matchup Page  → Detailed tips for YOUR CHAMP vs ENEMY
+4. Settings      → Change language, update password, manage account
 ```
-
----
-
-## 📊 Contributing Data
-
-All champion data is stored in `data/database.json`. Here's how to contribute:
-
-### Adding a Champion
-
-```json
-{
-  "id": "Orianna",
-  "name": { "en": "Orianna", "fr": "Orianna" },
-  "dateEdited": "2025-12-16",
-  "countersWholeGame": {
-    "S": ["Yasuo", "Kassadin"],
-    "A+": ["Fizz", "Zed"]
-  },
-  "tips": {
-    "en": ["Punish her level 1 - Q is weak with 6 sec CD"],
-    "fr": ["Punish son level 1 - Q est faible avec 6 sec CD"]
-  },
-  "levelSpikes": [...],
-  "itemSpikes": [...]
-}
-```
-
-### Level Spikes
-
-```json
-{
-  "level": 1,
-  "text": {
-    "en": "WEAK LVL 1 - Q does 40 dmg with 6 sec CD, abuse it",
-    "fr": "FAIBLE LVL 1 - Q fait 40 dmg avec 6 sec CD, abuse ça"
-  },
-  "important": true  // Optional: highlights this spike
-}
-```
-
-### Item Spikes
-
-```json
-{
-  "item": "2503",
-  "text": {
-    "en": "Blackfire Torch - Champion comes online",
-    "fr": "Blackfire Torch - Le champion devient fort"
-  }
-}
-```
-
-### 🔍 Finding Item IDs
-
-Item icons are synced from Riot's Data Dragon. To find the correct item ID:
-
-```bash
-# Search by name in metadata
-grep -i "blackfire" public/items/metadata.json
-
-# Output: "id": "2503", "name": "Blackfire Torch"
-```
-
-Common items reference:
-
-| Item | ID |
-|------|-----|
-| Blackfire Torch | `2503` |
-| Liandry's Torment | `6653` |
-| Rabadon's Deathcap | `3089` |
-| Zhonya's Hourglass | `3157` |
-| Luden's Companion | `6655` |
-| Stormsurge | `6657` |
-| Rod of Ages | `3003` |
-| Seraph's Embrace | `3040` |
-
-Full list available in `public/items/metadata.json`.
-
----
-
-## 🛠️ Commands
-
-| Command | Description |
-|---------|-------------|
-| `bun dev` | Start dev server (Turbopack) |
-| `bun run build` | Production build |
-| `bun start` | Start production server |
-| `bun run sync:champions` | Download champion icons |
-| `bun run sync:items` | Download item icons |
-| `bun run validate` | Validate database.json |
-| `bun run lint` | Run ESLint |
-| `bun run format` | Format with Prettier |
 
 ---
 
 ## 🏗️ Tech Stack
 
-| Category | Technology |
-|----------|------------|
-| Runtime | Bun 1.1+ |
-| Framework | Next.js 16 (App Router) |
-| Language | TypeScript 5.9 (strict) |
-| Styling | Tailwind CSS 4 |
-| State | Zustand 5 |
-| Icons | React Icons (Lucide) |
-| Validation | Zod 4 |
+| Category | Technology | Notes |
+|----------|------------|-------|
+| **Runtime** | Bun 1.1+ | Package manager + runtime |
+| **Framework** | Next.js 16 | App Router + Turbopack |
+| **Language** | TypeScript 5.9 | Strict mode |
+| **Styling** | Tailwind CSS 4 | LoL gold theme + Beaufort font |
+| **State** | Zustand 5 | Client-side persistence |
+| **Server State** | React Query 5 | Caching, mutations |
+| **Backend** | PocketBase | Auth, Database, Admin UI |
+| **Animations** | Framer Motion | Smooth transitions |
+| **Forms** | React Hook Form + Zod | Validation |
+| **Icons** | React Icons (Lucide) | Lu prefix |
 
 ---
 
@@ -166,22 +89,53 @@ Full list available in `public/items/metadata.json`.
 lanegap/
 ├── app/                    # Next.js App Router
 │   ├── page.tsx           # Home - Select enemy
-│   ├── enemy/[id]/        # Enemy details
-│   └── matchup/[my]/[vs]/ # Matchup details
-├── components/            # React components
-├── data/                  # JSON database
-│   └── database.json      # All champion data
+│   ├── auth/              # Login/Register with OTP
+│   ├── enemy/[id]/        # Enemy details + dynamic background
+│   ├── settings/          # User settings
+│   ├── store/             # Zustand stores
+│   └── api/auth/          # OTP API routes
+├── components/
+│   ├── ui/                # Design system (Button, Input, Card...)
+│   ├── champion/          # Champion cards, icons, search
+│   ├── matchup/           # Tips, spikes, tier badges
+│   ├── notes/             # Personal notes
+│   ├── settings/          # Settings sections
+│   └── layout/            # Header, Footer, Background
+├── hooks/
+│   └── queries/           # React Query hooks
+├── lib/
+│   ├── api/               # PocketBase API functions
+│   ├── i18n/              # SSR translations (EN/FR)
+│   └── validations/       # Zod schemas
+├── pocketbase/            # PocketBase binary + migrations
 ├── public/
-│   ├── champions/icons/   # Champion icons
-│   └── items/             # Item icons + metadata
-├── lib/                   # Utils & types
-├── hooks/                 # Custom hooks
+│   ├── champions/icons/   # Champion icons (synced)
+│   └── items/             # Item icons (synced)
+├── fonts/                 # BeaufortforLOL font files
 └── scripts/               # Sync scripts
 ```
 
 ---
 
+## 🛠️ Commands
+
+| Command | Description |
+|---------|-------------|
+| `bun dev` | Start Next.js dev server |
+| `bun run dev:full` | Start Next.js + PocketBase |
+| `bun run build` | Production build |
+| `bun start` | Start production server |
+| `bun run sync:champions` | Download champion icons |
+| `bun run sync:items` | Download item icons |
+| `bun run lint` | Run ESLint |
+| `bun run format` | Format with Prettier |
+| `bun run type-check` | TypeScript strict check |
+
+---
+
 ## 🌍 Internationalization
+
+The app uses **SSR-first i18n** with cookie-based language detection.
 
 Tips should be written in **natural coaching language**:
 
@@ -194,6 +148,17 @@ Tips should be written in **natural coaching language**:
 - "Punissez lorsque le E est en temps de recharge"
 - Overly formal language
 
+Language can be changed in **Settings** → **Language**.
+
+---
+
+## 🎨 Design
+
+- **Theme:** Official League of Legends gold (`#C4A15B`, `#EDDC91`)
+- **Font:** BeaufortforLOL for headings, Inter for body
+- **Mode:** Dark only (gaming aesthetic)
+- **Animations:** Framer Motion for smooth transitions
+
 ---
 
 ## 📜 License
@@ -202,4 +167,4 @@ MIT © LaneGap Team
 
 ---
 
-**Version**: 1.0.0 • **Last Updated**: December 2025
+**Version**: 2.0.0 • **Last Updated**: December 2025
