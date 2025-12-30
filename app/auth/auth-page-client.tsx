@@ -12,7 +12,6 @@ import {
   LuMail,
   LuMailCheck,
   LuRefreshCw,
-  LuSparkles,
   LuUser,
 } from 'react-icons/lu'
 import type { TAuthTranslations } from '@/lib/i18n'
@@ -127,14 +126,14 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
         <div className="w-full max-w-md">
           <div className="text-center">
             {/* Icon */}
-            <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-primary-muted">
-              <LuMailCheck className="h-10 w-10 text-primary-light" />
+            <div className="bg-primary-muted mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full">
+              <LuMailCheck className="text-primary-light h-10 w-10" />
             </div>
 
             {/* Title */}
             <h1 className="mb-2 text-2xl font-bold text-white">{t.verifyEmailTitle}</h1>
             <p className="mb-1 text-white/60">{t.otpSentTo}</p>
-            <p className="mb-8 font-medium text-primary-light">{registeredEmail}</p>
+            <p className="text-primary-light mb-8 font-medium">{registeredEmail}</p>
 
             {/* OTP Input */}
             <div className="mb-6 flex justify-center">
@@ -161,7 +160,7 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
             </div>
 
             {/* Error */}
-            {otpError && <p className="mb-4 text-sm text-danger">{otpError}</p>}
+            {otpError && <p className="text-danger mb-4 text-sm">{otpError}</p>}
 
             {/* Verify Button */}
             <Button
@@ -180,7 +179,7 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
               <button
                 onClick={handleResendOTP}
                 disabled={sendOTPMutation.isPending}
-                className="inline-flex cursor-pointer items-center gap-1 font-medium text-primary-light transition-colors hover:text-primary disabled:opacity-50"
+                className="text-primary-light hover:text-primary inline-flex cursor-pointer items-center gap-1 font-medium transition-colors disabled:opacity-50"
               >
                 {sendOTPMutation.isPending ? (
                   <LuLoader className="h-3 w-3 animate-spin" />
@@ -204,10 +203,6 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="mb-8 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary-muted px-4 py-2 text-sm text-primary-light">
-            <LuSparkles className="h-4 w-4" />
-            {t.personalNotes}
-          </div>
           <h1 className="mb-2 text-3xl font-bold text-white">
             {mode === 'login' ? t.welcomeBack : t.createAccount}
           </h1>
@@ -215,7 +210,7 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
         </div>
 
         {/* Form Card */}
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm">
+        <div className="rounded-2xl border border-white/10 bg-white/3 p-6 backdrop-blur-sm">
           {mode === 'login' ? (
             // LOGIN FORM
             <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
@@ -237,7 +232,7 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
               />
 
               {loginForm.formState.errors.root && (
-                <div className="rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
+                <div className="border-danger/30 bg-danger/10 text-danger rounded-lg border px-4 py-3 text-sm">
                   {loginForm.formState.errors.root.message}
                 </div>
               )}
@@ -285,7 +280,7 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
               />
 
               {registerForm.formState.errors.root && (
-                <div className="rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
+                <div className="border-danger/30 bg-danger/10 text-danger rounded-lg border px-4 py-3 text-sm">
                   {registerForm.formState.errors.root.message}
                 </div>
               )}
@@ -306,7 +301,7 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
             <span className="text-white/60">{mode === 'login' ? t.noAccount : t.hasAccount}</span>{' '}
             <button
               onClick={() => switchMode(mode === 'login' ? 'register' : 'login')}
-              className="cursor-pointer font-medium text-primary-light transition-colors hover:text-primary"
+              className="text-primary-light hover:text-primary cursor-pointer font-medium transition-colors"
             >
               {mode === 'login' ? t.registerLink : t.loginLink}
             </button>
@@ -315,11 +310,11 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
 
         {/* Benefits */}
         <div className="mt-8 grid grid-cols-2 gap-4">
-          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+          <div className="rounded-xl border border-white/5 bg-white/2 p-4">
             <div className="mb-2 text-lg">📝</div>
             <p className="text-sm text-white/60">{t.benefit1}</p>
           </div>
-          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+          <div className="rounded-xl border border-white/5 bg-white/2 p-4">
             <div className="mb-2 text-lg">☁️</div>
             <p className="text-sm text-white/60">{t.benefit2}</p>
           </div>

@@ -24,11 +24,8 @@ const Button = forwardRef<HTMLButtonElement, IButtonProps>(
 
     const variants = {
       primary: cn(
-        'bg-[oklch(45%_0.15_240)] font-semibold text-white',
-        'border border-[oklch(60%_0.12_240/0.4)]',
-        'hover:bg-[oklch(52%_0.16_240)]',
-        'shadow-[0_0_16px_oklch(50%_0.15_240/0.3)]',
-        'hover:shadow-[0_0_24px_oklch(55%_0.18_240/0.5)]'
+        'bg-primary-muted text-primary-light font-medium',
+        'hover:bg-primary/30'
       ),
       secondary: cn(
         'bg-muted text-foreground border-border-muted border',
