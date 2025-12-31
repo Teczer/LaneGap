@@ -1,8 +1,11 @@
 /**
  * Import game data from JSON to PocketBase
  *
- * Usage: bun run db:import
- * Usage with custom URL: POCKETBASE_URL=https://your-prod.com bun run db:import
+ * Usage (local dev - no auth required if rules are open):
+ *   bun run db:import
+ *
+ * Usage (production - admin auth required):
+ *   PB_ADMIN_EMAIL=admin@example.com PB_ADMIN_PASSWORD=yourpassword POCKETBASE_URL=https://your-prod.com bun run db:import
  *
  * ⚠️ WARNING: This will DELETE all existing game data and replace it!
  *
@@ -11,10 +14,15 @@
  */
 
 import { readFile } from 'fs/promises'
+import * as readline from 'readline'
 import PocketBase from 'pocketbase'
 
 const POCKETBASE_URL = process.env.POCKETBASE_URL || 'http://127.0.0.1:8090'
 const INPUT_FILE = 'data/game-data.json'
+
+// Check if we need admin auth (for production)
+const PB_ADMIN_EMAIL = process.env.PB_ADMIN_EMAIL
+const PB_ADMIN_PASSWORD = process.env.PB_ADMIN_PASSWORD
 
 // Import order matters due to relations
 // Champions must be imported first, then things that reference them
@@ -31,12 +39,61 @@ interface IExportData {
 // Map old IDs to new IDs for relation fixing
 const idMap: Map<string, string> = new Map()
 
+/**
+ * Prompt for user confirmation
+ */
+async function confirm(question: string): Promise<boolean> {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  })
+
+  return new Promise((resolve) => {
+    rl.question(question, (answer) => {
+      rl.close()
+      resolve(answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes')
+    })
+  })
+}
+
 async function main() {
   console.log('🚀 Starting PocketBase import...')
   console.log(`📡 Target: ${POCKETBASE_URL}`)
   console.log(`📁 Source: ${INPUT_FILE}`)
   console.log('')
+
+  const pb = new PocketBase(POCKETBASE_URL)
+
+  // Authenticate as admin if credentials provided
+  if (PB_ADMIN_EMAIL && PB_ADMIN_PASSWORD) {
+    console.log('🔐 Authenticating as admin...')
+    try {
+      await pb.admins.authWithPassword(PB_ADMIN_EMAIL, PB_ADMIN_PASSWORD)
+      console.log('   ✅ Authenticated as admin')
+    } catch (error) {
+      console.error('   ❌ Admin authentication failed:', error)
+      process.exit(1)
+    }
+  } else if (POCKETBASE_URL !== 'http://127.0.0.1:8090') {
+    // Warn if targeting non-local without auth
+    console.log('⚠️  No admin credentials provided for remote PocketBase!')
+    console.log('   Set PB_ADMIN_EMAIL and PB_ADMIN_PASSWORD environment variables.')
+    console.log('')
+    const proceed = await confirm('Continue without admin auth? (y/N): ')
+    if (!proceed) {
+      console.log('Aborted.')
+      process.exit(0)
+    }
+  }
+
+  console.log('')
   console.log('⚠️  WARNING: This will DELETE all existing game data!')
+  
+  const confirmed = await confirm('Are you sure you want to proceed? (y/N): ')
+  if (!confirmed) {
+    console.log('Aborted.')
+    process.exit(0)
+  }
   console.log('')
 
   // Read export file
@@ -50,8 +107,6 @@ async function main() {
     console.error(`❌ Failed to read ${INPUT_FILE}:`, error)
     process.exit(1)
   }
-
-  const pb = new PocketBase(POCKETBASE_URL)
 
   // Step 1: Delete all existing data (in reverse order due to relations)
   console.log('')
