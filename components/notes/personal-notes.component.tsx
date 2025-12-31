@@ -100,9 +100,9 @@ export const PersonalNotes = ({
             <p className="mt-1 text-sm text-white/40">{t.loginToAdd}</p>
           </div>
           <Link href="/auth">
-            <Button variant="secondary" size="sm" className="mt-2">
+            <Button variant="primary" size="sm" className="mt-2">
               <LuLogIn className="h-4 w-4" />
-              Sign in
+              {t.signInButton}
             </Button>
           </Link>
         </div>

@@ -92,6 +92,7 @@
     "empty": "No notes yet",
     "emptyHint": "Add your first note to remember key insights",
     "loginToAdd": "Sign in to add notes",
+    "signInButton": "Sign in",
     "saved": "Saved",
     "saving": "Saving..."
   },

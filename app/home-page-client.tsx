@@ -113,7 +113,7 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
       </div>
 
       {/* Lane Filter */}
-      <div className="animate-slide-up mx-auto flex justify-center gap-x-4">
+      <div className="animate-slide-up mx-auto mb-6 flex justify-center gap-x-4 sm:mb-0">
         {LANES.map((lane) => {
           const isSelected = selectedLane === lane
           return (

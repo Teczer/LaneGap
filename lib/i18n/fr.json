@@ -92,6 +92,7 @@
     "empty": "Pas encore de notes",
     "emptyHint": "Ajoute ta première note pour retenir les points clés",
     "loginToAdd": "Connecte-toi pour ajouter des notes",
+    "signInButton": "Se connecter",
     "saved": "Sauvegardé",
     "saving": "Sauvegarde..."
   },
