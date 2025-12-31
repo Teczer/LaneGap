@@ -54,7 +54,8 @@
     "verifyButton": "Vérifier l'email",
     "didntReceive": "Tu n'as pas reçu le code ?",
     "resendCode": "Renvoyer",
-    "resendError": "Échec du renvoi. Réessaie."
+    "resendError": "Échec du renvoi. Réessaie.",
+    "orContinueWith": "ou continuer avec"
   },
   "toast": {
     "otpSent": "Code envoyé ! Check ta boîte mail",
@@ -71,6 +72,7 @@
     "noteDeleted": "Note supprimée",
     "noteError": "Échec de la sauvegarde",
     "error": "Une erreur est survenue",
+    "oauthError": "Échec de la connexion OAuth",
     "profileUpdated": "Profil mis à jour !",
     "profileUpdateError": "Échec de la mise à jour du profil",
     "passwordUpdated": "Mot de passe mis à jour !",

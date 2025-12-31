@@ -54,7 +54,8 @@
     "verifyButton": "Verify email",
     "didntReceive": "Didn't receive the code?",
     "resendCode": "Resend",
-    "resendError": "Failed to resend code. Please try again."
+    "resendError": "Failed to resend code. Please try again.",
+    "orContinueWith": "or continue with"
   },
   "toast": {
     "otpSent": "Code sent! Check your inbox",
@@ -71,6 +72,7 @@
     "noteDeleted": "Note deleted",
     "noteError": "Failed to save note",
     "error": "Something went wrong",
+    "oauthError": "OAuth login failed",
     "profileUpdated": "Profile updated!",
     "profileUpdateError": "Failed to update profile",
     "passwordUpdated": "Password updated!",

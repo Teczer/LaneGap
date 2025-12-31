@@ -39,8 +39,11 @@ export interface IUpdatePasswordParams {
   newPassword: string
 }
 
+export type TOAuthProvider = 'google' | 'discord'
+
 interface IAuthActions {
   login: (params: ILoginParams) => Promise<void>
+  loginWithOAuth: (provider: TOAuthProvider) => Promise<void>
   register: (params: IRegisterParams) => Promise<void>
   logout: () => void
   updateProfile: (params: { name: string }) => Promise<void>
@@ -101,6 +104,33 @@ export const useAuthStore = create<TAuthStore>()(
         } catch (error) {
           set({ isLoading: false })
           showErrorToast('loginError')
+          throw error
+        }
+      },
+
+      loginWithOAuth: async (provider) => {
+        set({ isLoading: true })
+        try {
+          const authData = await pb.collection('users').authWithOAuth2({ provider })
+          const user = mapUser(authData.record)
+
+          // Set cookie for middleware auth
+          setAuthCookie(authData.token, user.id)
+
+          set({
+            user,
+            token: authData.token,
+            isAuthenticated: true,
+            isLoading: false,
+          })
+
+          // Sync favorites: merge localStorage with server data
+          useFavoritesStore.getState().mergeAndSync(user.id)
+
+          showSuccessToast('loginSuccess')
+        } catch (error) {
+          set({ isLoading: false })
+          showErrorToast('oauthError')
           throw error
         }
       },

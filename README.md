@@ -21,7 +21,7 @@ Think like a pro player building his own tool.
 - 🎯 **Counter Picks** — Find the best champions to play against any enemy
 - 📝 **Matchup Tips** — Coaching tips written in natural language (EN/FR)
 - ⚡ **Power Spikes** — Know when enemies are strong (levels & items)
-- 🔐 **Authentication** — Login with OTP email verification
+- 🔐 **Authentication** — Login with OTP email, Google, or Discord
 - 📓 **Personal Notes** — Save your own notes per matchup (auth required)
 - 🌍 **Bilingual** — Full support for English and French (SSR-first)
 - ⌨️ **Keyboard First** — Navigate quickly with keyboard shortcuts

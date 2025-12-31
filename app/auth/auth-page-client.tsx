@@ -14,6 +14,7 @@ import {
   LuRefreshCw,
   LuUser,
 } from 'react-icons/lu'
+import { FaGoogle, FaDiscord } from 'react-icons/fa'
 import type { TAuthTranslations } from '@/lib/i18n'
 import {
   type TLoginForm,
@@ -40,7 +41,8 @@ interface IAuthPageClientProps {
 
 export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
   const router = useRouter()
-  const { login, register: registerUser, isLoading } = useAuthStore()
+  const { login, loginWithOAuth, register: registerUser, isLoading } = useAuthStore()
+  const [oauthLoading, setOauthLoading] = useState<'google' | 'discord' | null>(null)
 
   const sendOTPMutation = useSendOTP()
   const verifyOTPMutation = useVerifyOTP()
@@ -107,6 +109,18 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
       await sendOTPMutation.mutateAsync(registeredEmail)
     } catch {
       setOtpError(t.resendError)
+    }
+  }
+
+  const handleOAuthLogin = async (provider: 'google' | 'discord') => {
+    setOauthLoading(provider)
+    try {
+      await loginWithOAuth(provider)
+      router.push('/')
+    } catch {
+      // Error toast is handled in store
+    } finally {
+      setOauthLoading(null)
     }
   }
 
@@ -295,6 +309,48 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
               </Button>
             </form>
           )}
+
+          {/* Divider */}
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-white/10" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-card px-4 text-white/40">{t.orContinueWith}</span>
+            </div>
+          </div>
+
+          {/* OAuth Buttons */}
+          <div className="grid grid-cols-2 gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => handleOAuthLogin('google')}
+              disabled={isLoading || oauthLoading !== null}
+              className="w-full"
+            >
+              {oauthLoading === 'google' ? (
+                <LuLoader className="h-5 w-5 animate-spin" />
+              ) : (
+                <FaGoogle className="h-5 w-5" />
+              )}
+              Google
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => handleOAuthLogin('discord')}
+              disabled={isLoading || oauthLoading !== null}
+              className="w-full"
+            >
+              {oauthLoading === 'discord' ? (
+                <LuLoader className="h-5 w-5 animate-spin" />
+              ) : (
+                <FaDiscord className="h-5 w-5 text-[#5865F2]" />
+              )}
+              Discord
+            </Button>
+          </div>
 
           {/* Toggle mode */}
           <div className="mt-6 text-center">
