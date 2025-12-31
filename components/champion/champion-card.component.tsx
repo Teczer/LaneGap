@@ -16,6 +16,7 @@ interface IChampionCardProps {
   onClick?: () => void
   className?: string
   compact?: boolean
+  disabled?: boolean
 }
 
 export const ChampionCard = ({
@@ -26,24 +27,26 @@ export const ChampionCard = ({
   onClick,
   className,
   compact = false,
+  disabled = false,
 }: IChampionCardProps) => {
   const language = useSettingsStore((s) => s.language)
   const displayName = name[language as TLanguage] || name.en
 
   const content = (
     <motion.div
-      whileHover={{ scale: 1.05, y: -2 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={disabled ? undefined : { scale: 1.05, y: -2 }}
+      whileTap={disabled ? undefined : { scale: 0.98 }}
       transition={{ type: 'spring', stiffness: 400, damping: 20 }}
       className={cn(
         'group relative flex flex-col items-center',
-        'rounded-xl bg-white/3 transition-colors duration-200',
-        'border border-transparent hover:border-white/10 hover:bg-white/8',
-        'cursor-pointer',
+        'rounded-xl transition-colors duration-200',
+        disabled
+          ? 'bg-white/8 border border-white/10 cursor-default'
+          : 'bg-white/3 border border-transparent hover:border-white/10 hover:bg-white/8 cursor-pointer',
         compact ? 'gap-2 p-2.5' : 'gap-3 p-4',
         className
       )}
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick}
     >
       <div className="relative">
         <ChampionIcon
@@ -69,7 +72,7 @@ export const ChampionCard = ({
     </motion.div>
   )
 
-  if (href) {
+  if (href && !disabled) {
     return <Link href={href}>{content}</Link>
   }
 

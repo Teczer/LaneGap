@@ -14,6 +14,15 @@ export interface ILocalizedText {
 // =============================================================================
 
 export type TTier = 'S' | 'A+' | 'A' | 'B+' | 'B' | 'B-' | 'C'
+export type TTierBase = 'S' | 'A' | 'B' | 'C'
+
+/** Get base letter from tier (S, A+, A, B+, B, B-, C -> S, A, A, B, B, B, C) */
+export const getTierBase = (tier: TTier): TTierBase => {
+  if (tier === 'S') return 'S'
+  if (tier.startsWith('A')) return 'A'
+  if (tier.startsWith('B')) return 'B'
+  return 'C'
+}
 
 export const TIER_ORDER: readonly TTier[] = ['S', 'A+', 'A', 'B+', 'B', 'B-', 'C'] as const
 

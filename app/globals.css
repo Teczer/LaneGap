@@ -66,14 +66,14 @@
     oklch(18% 0.02 280 / 0.7) 100%
   );
 
-  /* Tier Colors - Gaming-inspired */
-  --color-tier-s: oklch(80% 0.18 165); /* Emerald #00d4aa */
-  --color-tier-a-plus: oklch(82% 0.14 195); /* Cyan #22d3ee */
-  --color-tier-a: oklch(62% 0.2 260); /* Blue #3b82f6 */
-  --color-tier-b-plus: oklch(65% 0.25 295); /* Magenta #a855f7 */
-  --color-tier-b: oklch(60% 0.22 285); /* Purple #8b5cf6 */
-  --color-tier-b-minus: oklch(55% 0.2 270); /* Indigo #6366f1 */
-  --color-tier-c: oklch(50% 0.02 250); /* Slate #64748b */
+  /* Tier Colors - Persuasive hierarchy */
+  --color-tier-s: oklch(82% 0.16 85); /* Gold - Best pick */
+  --color-tier-a-plus: oklch(75% 0.14 65); /* Orange-gold */
+  --color-tier-a: oklch(70% 0.16 155); /* Emerald - Good */
+  --color-tier-b-plus: oklch(65% 0.12 220); /* Cyan - Slight edge */
+  --color-tier-b: oklch(55% 0.02 260); /* Gray - 50/50 skill */
+  --color-tier-b-minus: oklch(48% 0.02 260); /* Dark gray */
+  --color-tier-c: oklch(40% 0.01 260); /* Slate - Avoid */
 
   /* Status */
   --color-success: oklch(70% 0.18 155); /* Green #10b981 */

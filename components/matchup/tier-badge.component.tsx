@@ -8,14 +8,51 @@ interface ITierBadgeProps {
   showLabel?: boolean
 }
 
-const TIER_STYLES: Record<TTier, string> = {
-  S: 'bg-gradient-to-r from-tier-s to-tier-a-plus text-background',
-  'A+': 'bg-gradient-to-r from-tier-a-plus to-tier-a text-background',
-  A: 'bg-gradient-to-r from-tier-a to-tier-a text-white',
-  'B+': 'bg-gradient-to-r from-tier-b-plus to-tier-b text-white',
-  B: 'bg-gradient-to-r from-tier-b to-tier-b text-white',
-  'B-': 'bg-gradient-to-r from-tier-b-minus to-tier-b-minus text-white',
-  C: 'bg-gradient-to-r from-tier-c to-tier-c text-white',
+// Styles with effects based on tier importance
+// S = Red, A/A+ = Orange, B/B+/B- = Slate gray, C = Dark slate
+const TIER_CONFIG: Record<
+  TTier,
+  {
+    bg: string
+    text: string
+    glow: string
+  }
+> = {
+  S: {
+    bg: 'bg-gradient-to-br from-red-500 to-rose-600',
+    text: 'text-white font-bold',
+    glow: 'shadow-[0_0_10px_rgba(239,68,68,0.5)]',
+  },
+  'A+': {
+    bg: 'bg-gradient-to-br from-orange-500 to-amber-600',
+    text: 'text-white font-bold',
+    glow: 'shadow-[0_0_8px_rgba(249,115,22,0.4)]',
+  },
+  A: {
+    bg: 'bg-gradient-to-br from-orange-500 to-amber-600',
+    text: 'text-white font-bold',
+    glow: '',
+  },
+  'B+': {
+    bg: 'bg-gradient-to-br from-sky-600 to-blue-700',
+    text: 'text-white font-semibold',
+    glow: '',
+  },
+  B: {
+    bg: 'bg-gradient-to-br from-sky-600 to-blue-700',
+    text: 'text-white font-medium',
+    glow: '',
+  },
+  'B-': {
+    bg: 'bg-gradient-to-br from-sky-600 to-blue-700',
+    text: 'text-white font-medium',
+    glow: '',
+  },
+  C: {
+    bg: 'bg-slate-600',
+    text: 'text-white/90 font-normal',
+    glow: '',
+  },
 }
 
 const TIER_LABELS: Record<TTier, string> = {
@@ -23,24 +60,29 @@ const TIER_LABELS: Record<TTier, string> = {
   'A+': 'Strong Counter',
   A: 'Counter',
   'B+': 'Slight Advantage',
-  B: 'Even',
+  B: 'Skill Matchup (50/50)',
   'B-': 'Slight Disadvantage',
-  C: 'Countered',
+  C: 'Avoid',
 }
 
 export const TierBadge = ({ tier, size = 'md', className, showLabel = false }: ITierBadgeProps) => {
+  const config = TIER_CONFIG[tier]
+
+  // Fixed width to ensure consistent sizing regardless of + or not
   const sizes = {
-    sm: 'text-[10px] px-1.5 py-0.5 min-w-[22px]',
-    md: 'text-xs px-2 py-0.5 min-w-[28px]',
-    lg: 'text-sm px-2.5 py-1 min-w-[36px]',
+    sm: 'text-[10px] py-0.5 w-[26px]',
+    md: 'text-xs py-0.5 w-[32px]',
+    lg: 'text-sm py-1 w-[40px]',
   }
 
   return (
     <div className={cn('flex items-center gap-2', className)}>
       <span
         className={cn(
-          'inline-flex items-center justify-center rounded-md font-bold shadow-sm',
-          TIER_STYLES[tier],
+          'inline-flex items-center justify-center rounded-md',
+          config.bg,
+          config.text,
+          config.glow,
           sizes[size]
         )}
       >
@@ -51,4 +93,4 @@ export const TierBadge = ({ tier, size = 'md', className, showLabel = false }: I
   )
 }
 
-export { TIER_STYLES, TIER_LABELS }
+export { TIER_CONFIG, TIER_LABELS }

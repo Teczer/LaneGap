@@ -23,11 +23,12 @@ import {
   useEnemyNotes,
   useUpdateNote,
 } from '@/hooks/queries'
-import { ChampionCard } from '@/components/champion/champion-card.component'
 import { ChampionIcon } from '@/components/champion/champion-icon.component'
+import { CounterPickCard } from '@/components/champion/counter-pick-card.component'
 import { ChampionBackground, PageContainer } from '@/components/layout'
 import { ItemSpikeList } from '@/components/matchup/item-spike-list.component'
 import { LevelSpikeTimeline } from '@/components/matchup/level-spike-timeline.component'
+import { TierLegend } from '@/components/matchup/tier-legend.component'
 import { TipList } from '@/components/matchup/tip-list.component'
 import { PersonalNotes } from '@/components/notes'
 import { Button } from '@/components/ui/button'
@@ -106,143 +107,137 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
     <>
       <ChampionBackground championId={enemy.id} />
       <PageContainer>
-      {/* Header */}
-      <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={() => router.back()}>
-            <LuArrowLeft className="h-4 w-4" />
-          </Button>
-          <ChampionIcon championId={enemy.id} size="xl" />
-          <div>
-            <p className="text-danger mb-1 text-xs font-medium tracking-wider uppercase">
-              {t.enemy.facingEnemy}
-            </p>
-            <h1 className="text-2xl font-bold">{championName}</h1>
-            <p className="text-sm text-white/50">
-              {t.enemy.updated}: {enemy.dateEdited}
-            </p>
+        {/* Header */}
+        <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" onClick={() => router.back()}>
+              <LuArrowLeft className="h-4 w-4" />
+            </Button>
+            <ChampionIcon championId={enemy.id} size="xl" />
+            <div>
+              <p className="text-danger mb-1 text-xs font-medium tracking-wider uppercase">
+                {t.enemy.facingEnemy}
+              </p>
+              <h1 className="text-2xl font-bold">{championName}</h1>
+              <p className="text-sm text-white/50">
+                {t.enemy.updated}: {enemy.dateEdited}
+              </p>
+            </div>
           </div>
+          <Button
+            variant={isFavorite ? 'primary' : 'secondary'}
+            onClick={() => toggleFavorite(enemy.id)}
+          >
+            <LuStar className={cn('h-4 w-4', isFavorite && 'fill-current')} />
+            {isFavorite ? t.enemy.favorited : t.enemy.addFavorite}
+          </Button>
         </div>
-        <Button
-          variant={isFavorite ? 'primary' : 'secondary'}
-          onClick={() => toggleFavorite(enemy.id)}
-        >
-          <LuStar className={cn('h-4 w-4', isFavorite && 'fill-current')} />
-          {isFavorite ? t.enemy.favorited : t.enemy.addFavorite}
-        </Button>
-      </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Counters - Who to pick */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <LuShield className="text-success h-4 w-4" />
-              {t.enemy.bestPicks.replace('{champion}', championName)}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {countersWithData.length === 0 ? (
-              <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
-                <LuSparkles className="text-primary-light/60 mb-3 h-8 w-8" />
-                <p className="text-sm text-white/50">{t.common.counterPicksComingSoon}</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-4 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
-                {countersWithData.map(({ champion: c, tier }) => (
-                  <ChampionCard
-                    key={c.id}
-                    championId={c.id}
-                    name={c.name}
-                    tier={tier}
-                    href={`/matchup/${c.id}/${enemy.id}`}
-                    compact
-                  />
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        <div className="grid gap-6 lg:grid-cols-2">
+          {/* Counters - Who to pick */}
+          <Card className="lg:col-span-2">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="flex items-center gap-2">
+                <LuShield className="text-success h-4 w-4" />
+                {t.enemy.bestPicks.replace('{champion}', championName)}
+              </CardTitle>
+              <TierLegend />
+            </CardHeader>
+            <CardContent>
+              {countersWithData.length === 0 ? (
+                <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
+                  <LuSparkles className="text-primary-light/60 mb-3 h-8 w-8" />
+                  <p className="text-sm text-white/50">{t.common.counterPicksComingSoon}</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-4 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
+                  {countersWithData.map(({ champion: c, tier }) => (
+                    <CounterPickCard key={c.id} championId={c.id} name={c.name} tier={tier} />
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-        {/* Tips vs Enemy */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <LuTarget className="text-danger h-4 w-4" />
-              {t.enemy.howToPlay.replace('{champion}', championName)}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {enemy.tips[language].length > 0 ? (
-              <TipList tips={enemy.tips} language={language} />
-            ) : (
-              <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
-                <LuSparkles className="text-primary-light/60 mb-3 h-8 w-8" />
-                <p className="text-sm text-white/50">{t.common.tipsComingSoon}</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          {/* Tips vs Enemy */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <LuTarget className="text-danger h-4 w-4" />
+                {t.enemy.howToPlay.replace('{champion}', championName)}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {enemy.tips[language].length > 0 ? (
+                <TipList tips={enemy.tips} language={language} />
+              ) : (
+                <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-8 text-center">
+                  <LuSparkles className="text-primary-light/60 mb-3 h-8 w-8" />
+                  <p className="text-sm text-white/50">{t.common.tipsComingSoon}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-        {/* Enemy Level Spikes */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <LuTrendingUp className="text-info h-4 w-4" />
-              {t.enemy.powerSpikes.replace('{champion}', championName)}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {enemy.levelSpikes.length > 0 ? (
-              <LevelSpikeTimeline spikes={enemy.levelSpikes} language={language} />
-            ) : (
-              <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
-                <LuSparkles className="text-primary-light/60 mb-2 h-6 w-6" />
-                <p className="text-sm text-white/50">{t.common.comingSoon}</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          {/* Enemy Level Spikes */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <LuTrendingUp className="text-info h-4 w-4" />
+                {t.enemy.powerSpikes.replace('{champion}', championName)}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {enemy.levelSpikes.length > 0 ? (
+                <LevelSpikeTimeline spikes={enemy.levelSpikes} language={language} />
+              ) : (
+                <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
+                  <LuSparkles className="text-primary-light/60 mb-2 h-6 w-6" />
+                  <p className="text-sm text-white/50">{t.common.comingSoon}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-        {/* Enemy Item Spikes */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <LuBox className="text-accent-gold h-4 w-4" />
-              {t.enemy.itemSpikes.replace('{champion}', championName)}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {enemy.itemSpikes.length > 0 ? (
-              <ItemSpikeList spikes={enemy.itemSpikes} language={language} />
-            ) : (
-              <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
-                <LuSparkles className="text-primary-light/60 mb-2 h-6 w-6" />
-                <p className="text-sm text-white/50">{t.common.comingSoon}</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          {/* Enemy Item Spikes */}
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <LuBox className="text-accent-gold h-4 w-4" />
+                {t.enemy.itemSpikes.replace('{champion}', championName)}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {enemy.itemSpikes.length > 0 ? (
+                <ItemSpikeList spikes={enemy.itemSpikes} language={language} />
+              ) : (
+                <div className="flex flex-col items-center justify-center rounded-lg bg-white/5 py-6 text-center">
+                  <LuSparkles className="text-primary-light/60 mb-2 h-6 w-6" />
+                  <p className="text-sm text-white/50">{t.common.comingSoon}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-        {/* Personal Notes */}
-        <PersonalNotes
-          notes={notes}
-          isLoading={isLoadingNotes}
-          onAddNote={async (content) => {
-            await createNoteMutation.mutateAsync(content)
-          }}
-          onUpdateNote={async (noteId, content) => {
-            await updateNoteMutation.mutateAsync({ noteId, content })
-          }}
-          onDeleteNote={async (noteId) => {
-            await deleteNoteMutation.mutateAsync(noteId)
-          }}
-          title={t.notes.myNotesEnemy.replace('{champion}', championName)}
-          translations={t.notes}
-          className="lg:col-span-2"
-        />
-      </div>
-    </PageContainer>
+          {/* Personal Notes */}
+          <PersonalNotes
+            notes={notes}
+            isLoading={isLoadingNotes}
+            onAddNote={async (content) => {
+              await createNoteMutation.mutateAsync(content)
+            }}
+            onUpdateNote={async (noteId, content) => {
+              await updateNoteMutation.mutateAsync({ noteId, content })
+            }}
+            onDeleteNote={async (noteId) => {
+              await deleteNoteMutation.mutateAsync(noteId)
+            }}
+            title={t.notes.myNotesEnemy.replace('{champion}', championName)}
+            translations={t.notes}
+            className="lg:col-span-2"
+          />
+        </div>
+      </PageContainer>
     </>
   )
 }
