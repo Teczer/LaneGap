@@ -19,6 +19,8 @@
     "sync:champions": "bun run scripts/sync-champions.ts",
     "sync:items": "bun run scripts/sync-items.ts",
     "seed:champions": "bun run scripts/seed-champions.ts",
+    "db:export": "bun run scripts/db-export.ts",
+    "db:import": "bun run scripts/db-import.ts",
     "docker:build": "docker compose build",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
