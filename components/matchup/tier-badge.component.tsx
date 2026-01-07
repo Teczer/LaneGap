@@ -1,3 +1,4 @@
+import type { TLanguage } from '@/lib/i18n'
 import type { TTier } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
@@ -6,10 +7,11 @@ interface ITierBadgeProps {
   size?: 'sm' | 'md' | 'lg'
   className?: string
   showLabel?: boolean
+  language?: TLanguage
 }
 
 // Styles with effects based on tier importance
-// S = Red, A/A+ = Orange, B/B+/B- = Slate gray, C = Dark slate
+// S+ = Iridescent white, S = Red, A/A+ = Orange, B/B+/B- = Slate gray, C = Dark slate
 const TIER_CONFIG: Record<
   TTier,
   {
@@ -18,6 +20,11 @@ const TIER_CONFIG: Record<
     glow: string
   }
 > = {
+  'S+': {
+    bg: 'bg-gradient-to-br from-white via-slate-100 to-blue-50',
+    text: 'text-slate-800 font-bold',
+    glow: 'shadow-[0_0_15px_rgba(255,255,255,0.6)]',
+  },
   S: {
     bg: 'bg-gradient-to-br from-red-500 to-rose-600',
     text: 'text-white font-bold',
@@ -55,17 +62,24 @@ const TIER_CONFIG: Record<
   },
 }
 
-const TIER_LABELS: Record<TTier, string> = {
-  S: 'Hard Counter',
-  'A+': 'Strong Counter',
-  A: 'Counter',
-  'B+': 'Slight Advantage',
-  B: 'Skill Matchup (50/50)',
-  'B-': 'Slight Disadvantage',
-  C: 'Avoid',
+const TIER_LABELS: Record<TTier, Record<TLanguage, string>> = {
+  'S+': { en: 'Perfect Counter', fr: 'Counter parfait' },
+  S: { en: 'Hard Counter', fr: 'Hard counter' },
+  'A+': { en: 'Strong Counter', fr: 'Counter fort' },
+  A: { en: 'Counter', fr: 'Counter' },
+  'B+': { en: 'Slight Advantage', fr: 'Léger avantage' },
+  B: { en: 'Skill Matchup (50/50)', fr: 'Skill matchup (50/50)' },
+  'B-': { en: 'Slight Disadvantage', fr: 'Léger désavantage' },
+  C: { en: 'Avoid', fr: 'À éviter' },
 }
 
-export const TierBadge = ({ tier, size = 'md', className, showLabel = false }: ITierBadgeProps) => {
+export const TierBadge = ({
+  tier,
+  size = 'md',
+  className,
+  showLabel = false,
+  language = 'en',
+}: ITierBadgeProps) => {
   const config = TIER_CONFIG[tier]
 
   // Fixed width to ensure consistent sizing regardless of + or not
@@ -88,7 +102,7 @@ export const TierBadge = ({ tier, size = 'md', className, showLabel = false }: I
       >
         {tier}
       </span>
-      {showLabel && <span className="text-sm text-white/60">{TIER_LABELS[tier]}</span>}
+      {showLabel && <span className="text-sm text-white/60">{TIER_LABELS[tier][language]}</span>}
     </div>
   )
 }

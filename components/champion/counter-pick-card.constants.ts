@@ -7,6 +7,18 @@ export interface ITierStyle {
 }
 
 /**
+ * S+ Tier badge animation config (iridescent shimmer)
+ */
+export const S_PLUS_TIER_BADGE_ANIMATION = {
+  scale: [1, 1.05, 1],
+  boxShadow: [
+    '0 0 15px rgba(255,255,255,0.6), 0 0 30px rgba(200,200,255,0.3)',
+    '0 0 25px rgba(255,255,255,0.9), 0 0 50px rgba(180,200,255,0.5)',
+    '0 0 15px rgba(255,255,255,0.6), 0 0 30px rgba(200,200,255,0.3)',
+  ],
+}
+
+/**
  * S-Tier badge animation config (pulsing scale + glow)
  */
 export const S_TIER_BADGE_ANIMATION = {
@@ -23,6 +35,11 @@ export const S_TIER_BADGE_ANIMATION = {
  * (+ variants share same color as their base letter)
  */
 export const COUNTER_PICK_TIER_STYLES: Record<TTierBase, ITierStyle> = {
+  'S+': {
+    bg: 'bg-gradient-to-br from-white via-slate-100 to-blue-50',
+    border: 'border-white/80',
+    glow: 'shadow-[0_0_25px_rgba(255,255,255,0.5)]',
+  },
   S: {
     bg: 'bg-gradient-to-br from-red-500 to-rose-600',
     border: 'border-red-400/50',

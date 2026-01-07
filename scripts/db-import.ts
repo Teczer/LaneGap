@@ -118,7 +118,7 @@ async function main() {
         await pb.collection(collection).delete(record.id)
       }
       console.log(`   ✅ Deleted ${existing.length} records from ${collection}`)
-    } catch (error) {
+    } catch {
       console.log(`   ⚠️  Could not delete from ${collection} (may be empty)`)
     }
   }
@@ -144,7 +144,7 @@ async function main() {
         const oldId = record.id as string
 
         // Prepare data for import (remove id, created, updated - let PocketBase generate new ones)
-        const { id, created, updated, ...data } = record
+        const { id: _id, created: _created, updated: _updated, ...data } = record
 
         // Fix relations using idMap
         const fixedData = fixRelations(collection, data)

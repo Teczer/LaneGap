@@ -14,6 +14,7 @@ import {
 } from 'react-icons/lu'
 import type { TLanguage, TTranslations } from '@/lib/i18n'
 import type { TTier } from '@/lib/types'
+import { TIER_ORDER } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import {
   useChampion,
@@ -40,8 +41,6 @@ interface IEnemyPageClientProps {
   translations: TTranslations
   language: TLanguage
 }
-
-const TIER_ORDER: TTier[] = ['S', 'A+', 'A', 'B+', 'B', 'B-', 'C']
 
 export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageClientProps) => {
   const router = useRouter()
@@ -141,7 +140,7 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
                 <LuShield className="text-success h-4 w-4" />
                 {t.enemy.bestPicks.replace('{champion}', championName)}
               </CardTitle>
-              <TierLegend />
+              <TierLegend language={language} />
             </CardHeader>
             <CardContent>
               {countersWithData.length === 0 ? (

@@ -13,20 +13,22 @@ export interface ILocalizedText {
 // Tiers
 // =============================================================================
 
-export type TTier = 'S' | 'A+' | 'A' | 'B+' | 'B' | 'B-' | 'C'
-export type TTierBase = 'S' | 'A' | 'B' | 'C'
+export type TTier = 'S+' | 'S' | 'A+' | 'A' | 'B+' | 'B' | 'B-' | 'C'
+export type TTierBase = 'S+' | 'S' | 'A' | 'B' | 'C'
 
-/** Get base letter from tier (S, A+, A, B+, B, B-, C -> S, A, A, B, B, B, C) */
+/** Get base letter from tier (S+, S, A+, A, B+, B, B-, C -> S+, S, A, B, C) */
 export const getTierBase = (tier: TTier): TTierBase => {
+  if (tier === 'S+') return 'S+'
   if (tier === 'S') return 'S'
   if (tier.startsWith('A')) return 'A'
   if (tier.startsWith('B')) return 'B'
   return 'C'
 }
 
-export const TIER_ORDER: readonly TTier[] = ['S', 'A+', 'A', 'B+', 'B', 'B-', 'C'] as const
+export const TIER_ORDER: readonly TTier[] = ['S+', 'S', 'A+', 'A', 'B+', 'B', 'B-', 'C'] as const
 
 export const TIER_COLORS: Record<TTier, string> = {
+  'S+': '#F8FAFC', // Iridescent white/pearl
   S: '#DC2626',
   'A+': '#EA580C',
   A: '#F97316',
@@ -37,6 +39,7 @@ export const TIER_COLORS: Record<TTier, string> = {
 }
 
 export const TIER_BG_COLORS: Record<TTier, string> = {
+  'S+': 'bg-tier-s-plus',
   S: 'bg-tier-s',
   'A+': 'bg-tier-a-plus',
   A: 'bg-tier-a',

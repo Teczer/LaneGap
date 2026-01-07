@@ -45,7 +45,7 @@ async function main() {
 
       // Remove PocketBase metadata fields we don't need
       const cleanRecords = records.map((record) => {
-        const { collectionId, collectionName, ...data } = record
+        const { collectionId: _cId, collectionName: _cName, ...data } = record
         // Keep id, created, updated for reference
         return data
       })

@@ -6,8 +6,12 @@ import { getTierBase } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { useSettingsStore } from '@/app/store/settings.store'
 import { ChampionIcon } from './champion-icon.component'
-import { COUNTER_PICK_TIER_STYLES, S_TIER_BADGE_ANIMATION } from './counter-pick-card.constants'
-import { ATierGlow, STierBeam } from './effects'
+import {
+  COUNTER_PICK_TIER_STYLES,
+  S_PLUS_TIER_BADGE_ANIMATION,
+  S_TIER_BADGE_ANIMATION,
+} from './counter-pick-card.constants'
+import { ATierGlow, SPlusTierBeam, STierBeam } from './effects'
 
 interface ICounterPickCardProps {
   championId: string
@@ -21,6 +25,7 @@ export const CounterPickCard = ({ championId, name, tier, className }: ICounterP
   const displayName = name[language as TLanguage] || name.en
   const tierBase = getTierBase(tier)
   const colors = COUNTER_PICK_TIER_STYLES[tierBase]
+  const isSPlusTier = tierBase === 'S+'
   const isSTier = tierBase === 'S'
   const isATier = tierBase === 'A'
 
@@ -31,6 +36,9 @@ export const CounterPickCard = ({ championId, name, tier, className }: ICounterP
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       className={cn('group relative', className)}
     >
+      {/* S+ Tier: Iridescent multi-beam with halo */}
+      {isSPlusTier && <SPlusTierBeam />}
+
       {/* S-Tier: Red beam with trail effect */}
       {isSTier && <STierBeam />}
 
@@ -59,14 +67,21 @@ export const CounterPickCard = ({ championId, name, tier, className }: ICounterP
               'absolute -right-1.5 -bottom-1.5',
               'flex items-center justify-center',
               'h-7 w-7 rounded-lg',
-              'text-[11px] font-bold text-white',
+              'text-[11px] font-bold',
+              isSPlusTier ? 'text-slate-800' : 'text-white',
               colors.bg,
               colors.glow,
               'border border-white/20'
             )}
-            animate={isSTier ? S_TIER_BADGE_ANIMATION : undefined}
+            animate={
+              isSPlusTier
+                ? S_PLUS_TIER_BADGE_ANIMATION
+                : isSTier
+                  ? S_TIER_BADGE_ANIMATION
+                  : undefined
+            }
             transition={{
-              duration: 1.5,
+              duration: isSPlusTier ? 2 : 1.5,
               repeat: Infinity,
               ease: 'easeInOut',
             }}

@@ -1,19 +1,21 @@
 'use client'
 
 import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { LuInfo, LuX } from 'react-icons/lu'
-import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@/lib/utils'
-import { TierBadge, TIER_LABELS } from './tier-badge.component'
+import type { TLanguage } from '@/lib/i18n'
 import type { TTier } from '@/lib/types'
+import { cn } from '@/lib/utils'
+import { TIER_LABELS, TierBadge } from './tier-badge.component'
 
-const TIERS_TO_SHOW: TTier[] = ['S', 'A+', 'A', 'B+', 'B', 'B-', 'C']
+const TIERS_TO_SHOW: TTier[] = ['S+', 'S', 'A+', 'A', 'B+', 'B', 'B-', 'C']
 
 interface ITierLegendProps {
   className?: string
+  language: TLanguage
 }
 
-export const TierLegend = ({ className }: ITierLegendProps) => {
+export const TierLegend = ({ className, language }: ITierLegendProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -23,8 +25,8 @@ export const TierLegend = ({ className }: ITierLegendProps) => {
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           'flex h-7 w-7 items-center justify-center rounded-full',
-          'text-white/40 hover:text-white/70 hover:bg-white/10',
-          'transition-colors duration-200 cursor-pointer'
+          'text-white/40 hover:bg-white/10 hover:text-white/70',
+          'cursor-pointer transition-colors duration-200'
         )}
         aria-label="Tier explanation"
       >
@@ -36,10 +38,7 @@ export const TierLegend = ({ className }: ITierLegendProps) => {
         {isOpen && (
           <>
             {/* Backdrop */}
-            <div
-              className="fixed inset-0 z-40"
-              onClick={() => setIsOpen(false)}
-            />
+            <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
 
             {/* Content */}
             <motion.div
@@ -48,8 +47,8 @@ export const TierLegend = ({ className }: ITierLegendProps) => {
               exit={{ opacity: 0, scale: 0.95, y: -10 }}
               transition={{ duration: 0.15 }}
               className={cn(
-                'absolute right-0 top-full z-50 mt-2',
-                'w-64 rounded-xl border border-white/10 bg-card/95 backdrop-blur-sm',
+                'absolute top-full right-0 z-50 mt-2',
+                'bg-card/95 w-64 rounded-xl border border-white/10 backdrop-blur-sm',
                 'shadow-xl shadow-black/20'
               )}
             >
@@ -58,21 +57,21 @@ export const TierLegend = ({ className }: ITierLegendProps) => {
                 <span className="font-semibold text-white">Tier Legend</span>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="text-white/40 hover:text-white/70 cursor-pointer"
+                  className="cursor-pointer text-white/40 hover:text-white/70"
                 >
                   <LuX className="h-4 w-4" />
                 </button>
               </div>
 
               {/* Tier list */}
-              <div className="p-3 space-y-2">
+              <div className="space-y-2 p-3">
                 {TIERS_TO_SHOW.map((tier) => (
                   <div
                     key={tier}
                     className="flex items-center gap-3 rounded-lg px-2 py-1.5 hover:bg-white/5"
                   >
-                    <TierBadge tier={tier} size="sm" />
-                    <span className="text-sm text-white/70">{TIER_LABELS[tier]}</span>
+                    <TierBadge tier={tier} size="sm" language={language} />
+                    <span className="text-sm text-white/70">{TIER_LABELS[tier][language]}</span>
                   </div>
                 ))}
               </div>
@@ -83,4 +82,3 @@ export const TierLegend = ({ className }: ITierLegendProps) => {
     </div>
   )
 }
-

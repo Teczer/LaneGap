@@ -67,6 +67,7 @@
   );
 
   /* Tier Colors - Persuasive hierarchy */
+  --color-tier-s-plus: oklch(95% 0.02 280); /* Iridescent pearl white */
   --color-tier-s: oklch(82% 0.16 85); /* Gold - Best pick */
   --color-tier-a-plus: oklch(75% 0.14 65); /* Orange-gold */
   --color-tier-a: oklch(70% 0.16 155); /* Emerald - Good */
