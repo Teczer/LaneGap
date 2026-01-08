@@ -130,7 +130,8 @@
   "footer": {
     "tagline": "Laning phase is a puzzle. Every matchup has a solution — find yours.",
     "disclaimer": "Not affiliated with Riot Games.",
-    "loltimeflash": "Track summoner spells with"
+    "loltimeflash": "Track summoner spells with",
+    "dataCredit": "Some data from"
   },
   "settings": {
     "title": "Account Settings",

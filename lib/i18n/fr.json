@@ -130,7 +130,8 @@
   "footer": {
     "tagline": "La laning phase, c'est un puzzle. Chaque matchup a sa solution — trouve la tienne.",
     "disclaimer": "Non affilié à Riot Games.",
-    "loltimeflash": "Track les summs avec"
+    "loltimeflash": "Track les summs avec",
+    "dataCredit": "Certaines data viennent de"
   },
   "settings": {
     "title": "Paramètres du compte",
