@@ -1,7 +1,8 @@
 'use client'
 
+import { useMemo } from 'react'
 import { motion } from 'framer-motion'
-import type { TLanguage, TTier } from '@/lib/types'
+import type { TLanguage, TTier, TTierBase } from '@/lib/types'
 import { getTierBase } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { useSettingsStore } from '@/app/store/settings.store'
@@ -20,14 +21,26 @@ interface ICounterPickCardProps {
   className?: string
 }
 
+const useBeamEffect = (tierBase: TTierBase) =>
+  useMemo(() => {
+    switch (tierBase) {
+      case 'S+':
+        return <SPlusTierBeam />
+      case 'S':
+        return <STierBeam />
+      case 'A':
+        return <ATierGlow />
+      default:
+        return null
+    }
+  }, [tierBase])
+
 export const CounterPickCard = ({ championId, name, tier, className }: ICounterPickCardProps) => {
   const language = useSettingsStore((s) => s.language)
   const displayName = name[language as TLanguage] || name.en
   const tierBase = getTierBase(tier)
   const colors = COUNTER_PICK_TIER_STYLES[tierBase]
-  const isSPlusTier = tierBase === 'S+'
-  const isSTier = tierBase === 'S'
-  const isATier = tierBase === 'A'
+  const beamEffect = useBeamEffect(tierBase)
 
   return (
     <motion.div
@@ -36,14 +49,8 @@ export const CounterPickCard = ({ championId, name, tier, className }: ICounterP
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       className={cn('group relative', className)}
     >
-      {/* S+ Tier: Iridescent multi-beam with halo */}
-      {isSPlusTier && <SPlusTierBeam />}
-
-      {/* S-Tier: Red beam with trail effect */}
-      {isSTier && <STierBeam />}
-
-      {/* A-Tier: Pulsing orange glow effect */}
-      {isATier && <ATierGlow />}
+      {/* Tier-specific beam effect */}
+      {beamEffect}
 
       {/* Card content */}
       <div
@@ -68,20 +75,20 @@ export const CounterPickCard = ({ championId, name, tier, className }: ICounterP
               'flex items-center justify-center',
               'h-7 w-7 rounded-lg',
               'text-[11px] font-bold',
-              isSPlusTier ? 'text-slate-800' : 'text-white',
+              tierBase === 'S+' ? 'text-slate-800' : 'text-white',
               colors.bg,
               colors.glow,
               'border border-white/20'
             )}
             animate={
-              isSPlusTier
+              tierBase === 'S+'
                 ? S_PLUS_TIER_BADGE_ANIMATION
-                : isSTier
+                : tierBase === 'S'
                   ? S_TIER_BADGE_ANIMATION
                   : undefined
             }
             transition={{
-              duration: isSPlusTier ? 2 : 1.5,
+              duration: tierBase === 'S+' ? 2 : 1.5,
               repeat: Infinity,
               ease: 'easeInOut',
             }}

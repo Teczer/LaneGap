@@ -1,5 +1,3 @@
-'use client'
-
 /**
  * S-Tier Beam Effect
  * A red beam that rotates around the border, leaving a trail behind.

@@ -8,14 +8,14 @@ interface IFooterBrandingProps {
 
 export const FooterBranding = ({ translations: t }: IFooterBrandingProps) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col items-center gap-2 sm:items-start">
       <div className="flex items-center gap-2">
         <Logo size="sm" className="text-primary/60" />
         <span className="font-medium text-white/60">LANEGAP</span>
       </div>
       <p className="max-w-xs text-white/40">{t.tagline}</p>
       <p className="text-white/25">{t.disclaimer}</p>
-      <p className="flex items-center gap-1.5 text-white/25">
+      <p className="flex items-center justify-center gap-1.5 text-white/25 sm:justify-start">
         {t.dataCredit}{' '}
         <a
           href="https://www.youtube.com/@Midpeng"

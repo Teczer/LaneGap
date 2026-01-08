@@ -1,5 +1,3 @@
-'use client'
-
 /**
  * S+ Tier Iridescent Beam Effect
  * Multiple beams with halo reflections and pearl iridescent colors.
@@ -28,10 +26,9 @@ export const SPlusTierBeam = () => (
     </span>
 
     {/* Inner mask to show only the border */}
-    <span className="absolute inset-[2px] rounded-[10px] bg-card" />
+    <span className="bg-card absolute inset-[2px] rounded-[10px]" />
 
     {/* Subtle inner reflection glow */}
     <span className="pointer-events-none absolute inset-[3px] rounded-[9px] bg-gradient-to-br from-white/5 via-transparent to-blue-100/5" />
   </>
 )
-
