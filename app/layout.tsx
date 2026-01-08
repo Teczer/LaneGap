@@ -44,10 +44,31 @@ const beaufort = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'LANEGAP - Midlane Coaching Tool',
+  title: 'LANEGAP - Laning Phase Coaching Tool',
   description:
-    'Instant midlane matchup insights for League of Legends. Get coaching in < 5 seconds.',
-  keywords: ['League of Legends', 'LoL', 'midlane', 'coaching', 'matchups', 'counters'],
+    'Master every matchup in League of Legends. Instant insights on counters, power spikes, and tips for all lanes.',
+  keywords: [
+    'League of Legends',
+    'LoL',
+    'laning phase',
+    'coaching',
+    'matchups',
+    'counters',
+    'tips',
+  ],
+  openGraph: {
+    title: 'LANEGAP - Laning Phase Coaching Tool',
+    description:
+      'Master every matchup in League of Legends. Instant insights on counters, power spikes, and tips for all lanes.',
+    type: 'website',
+    siteName: 'LANEGAP',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'LANEGAP - Laning Phase Coaching Tool',
+    description:
+      'Master every matchup in League of Legends. Instant insights on counters, power spikes, and tips for all lanes.',
+  },
 }
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
