@@ -35,28 +35,22 @@ jobs:
             echo "✅ Git pull completed"
             echo ""
 
-            # Stop running containers
-            echo "🛑 Stopping running containers..."
-            sudo docker compose down
-            echo "✅ Containers stopped"
-            echo ""
-
-            # Clean old images
-            echo "🧹 Cleaning old Docker images..."
-            sudo docker system prune -f
-            echo "✅ Cleanup completed"
-            echo ""
-
-            # Build new images
-            echo "🔨 Building Docker images..."
+            # Build new images FIRST (while old containers still run)
+            echo "🔨 Building Docker images (old containers still running)..."
             sudo docker compose build
             echo "✅ Build completed"
             echo ""
 
-            # Start containers
-            echo "▶️  Starting containers..."
-            sudo docker compose up -d
-            echo "✅ Containers started"
+            # Quick swap: recreate containers with new images (minimal downtime)
+            echo "🔄 Swapping to new containers..."
+            sudo docker compose up -d --force-recreate --remove-orphans
+            echo "✅ Containers updated"
+            echo ""
+
+            # Clean old images AFTER new containers are running
+            echo "🧹 Cleaning old Docker images..."
+            sudo docker image prune -f
+            echo "✅ Cleanup completed"
             echo ""
 
             # Wait for services to be ready
