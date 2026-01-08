@@ -1,7 +1,7 @@
 {
-  "version": "15.24.1",
-  "lastUpdated": "2025-12-15T14:21:29.783Z",
-  "itemCount": 242,
+  "version": "16.1.1",
+  "lastUpdated": "2026-01-08T13:46:09.335Z",
+  "itemCount": 253,
   "items": [
     {
       "id": "1001",
@@ -189,6 +189,11 @@
       "gold": 150
     },
     {
+      "id": "2051",
+      "name": "Guardian's Horn",
+      "gold": 950
+    },
+    {
       "id": "2055",
       "name": "Control Ward",
       "gold": 75
@@ -254,6 +259,51 @@
       "gold": 900
     },
     {
+      "id": "2510",
+      "name": "Dusk and Dawn",
+      "gold": 3100
+    },
+    {
+      "id": "2512",
+      "name": "Fiendhunter Bolts",
+      "gold": 2650
+    },
+    {
+      "id": "2517",
+      "name": "Endless Hunger",
+      "gold": 3000
+    },
+    {
+      "id": "2520",
+      "name": "Bastionbreaker",
+      "gold": 3200
+    },
+    {
+      "id": "2522",
+      "name": "Actualizer",
+      "gold": 3100
+    },
+    {
+      "id": "2523",
+      "name": "Hexoptics C44",
+      "gold": 2800
+    },
+    {
+      "id": "2524",
+      "name": "Bandlepipes",
+      "gold": 2000
+    },
+    {
+      "id": "2525",
+      "name": "Protoplasm Harness",
+      "gold": 2500
+    },
+    {
+      "id": "2526",
+      "name": "Whispering Circlet",
+      "gold": 2250
+    },
+    {
       "id": "3002",
       "name": "Trailblazer",
       "gold": 2400
@@ -279,11 +329,6 @@
       "gold": 1000
     },
     {
-      "id": "3010",
-      "name": "Symbiotic Soles",
-      "gold": 900
-    },
-    {
       "id": "3020",
       "name": "Sorcerer's Shoes",
       "gold": 1100
@@ -301,17 +346,17 @@
     {
       "id": "3031",
       "name": "Infinity Edge",
-      "gold": 3450
+      "gold": 3500
     },
     {
       "id": "3032",
       "name": "Yun Tal Wildarrows",
-      "gold": 3000
+      "gold": 3100
     },
     {
       "id": "3033",
       "name": "Mortal Reminder",
-      "gold": 3300
+      "gold": 3000
     },
     {
       "id": "3035",
@@ -321,7 +366,7 @@
     {
       "id": "3036",
       "name": "Lord Dominik's Regards",
-      "gold": 3100
+      "gold": 3300
     },
     {
       "id": "3041",
@@ -474,6 +519,11 @@
       "gold": 2650
     },
     {
+      "id": "3097",
+      "name": "Stormrazor",
+      "gold": 3200
+    },
+    {
       "id": "3100",
       "name": "Lich Bane",
       "gold": 2900
@@ -482,11 +532,6 @@
       "id": "3102",
       "name": "Banshee's Veil",
       "gold": 3000
-    },
-    {
-      "id": "3105",
-      "name": "Aegis of the Legion",
-      "gold": 1100
     },
     {
       "id": "3107",
@@ -512,6 +557,11 @@
       "id": "3111",
       "name": "Mercury's Treads",
       "gold": 1250
+    },
+    {
+      "id": "3112",
+      "name": "Guardian's Orb",
+      "gold": 950
     },
     {
       "id": "3113",
@@ -604,6 +654,11 @@
       "gold": 1100
     },
     {
+      "id": "3146",
+      "name": "Hextech Gunblade",
+      "gold": 3000
+    },
+    {
       "id": "3147",
       "name": "Haunting Guise",
       "gold": 1300
@@ -651,47 +706,52 @@
     {
       "id": "3170",
       "name": "Swiftmarch",
-      "gold": 1500
+      "gold": 1000
     },
     {
       "id": "3171",
       "name": "Crimson Lucidity",
-      "gold": 1400
+      "gold": 900
     },
     {
       "id": "3172",
       "name": "Gunmetal Greaves",
-      "gold": 1600
+      "gold": 1100
     },
     {
       "id": "3173",
       "name": "Chainlaced Crushers",
-      "gold": 1750
+      "gold": 1250
     },
     {
       "id": "3174",
       "name": "Armored Advance",
-      "gold": 1700
+      "gold": 1200
     },
     {
       "id": "3175",
       "name": "Spellslinger's Shoes",
-      "gold": 1600
+      "gold": 1100
     },
     {
-      "id": "3176",
-      "name": "Forever Forward",
-      "gold": 1400
+      "id": "3177",
+      "name": "Guardian's Blade",
+      "gold": 950
     },
     {
       "id": "3179",
       "name": "Umbral Glaive",
-      "gold": 2500
+      "gold": 2800
     },
     {
       "id": "3181",
       "name": "Hullbreaker",
       "gold": 3000
+    },
+    {
+      "id": "3184",
+      "name": "Guardian's Hammer",
+      "gold": 950
     },
     {
       "id": "3190",
@@ -831,7 +891,7 @@
     {
       "id": "4628",
       "name": "Horizon Focus",
-      "gold": 2750
+      "gold": 2700
     },
     {
       "id": "4629",
@@ -854,19 +914,9 @@
       "gold": 3100
     },
     {
-      "id": "4638",
-      "name": "Watchful Wardstone",
-      "gold": 1100
-    },
-    {
       "id": "4642",
       "name": "Bandleglass Mirror",
       "gold": 900
-    },
-    {
-      "id": "4643",
-      "name": "Vigilant Wardstone",
-      "gold": 2300
     },
     {
       "id": "4645",
@@ -925,7 +975,7 @@
     },
     {
       "id": "6655",
-      "name": "Luden's Companion",
+      "name": "Luden's Echo",
       "gold": 2750
     },
     {
@@ -1037,6 +1087,11 @@
       "id": "322065",
       "name": "Shurelya's Battlesong",
       "gold": 2600
+    },
+    {
+      "id": "322526",
+      "name": "Whispering Circlet",
+      "gold": 2250
     },
     {
       "id": "323002",
