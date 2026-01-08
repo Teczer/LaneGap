@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import { LuClock, LuLoader, LuSearch, LuStar, LuTarget } from 'react-icons/lu'
+import { CURRENT_PATCH } from '@/lib/config'
 import { LANE_ICONS, LANE_LABELS, type TLane, championPlaysLane } from '@/lib/data/champion-roles'
 import type { TLanguage, TTranslations } from '@/lib/i18n'
 import type { IChampion } from '@/lib/types'
@@ -97,7 +98,9 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
           <span className="text-gradient">GAP</span>
         </h1>
         <p className="text-lg text-white/60">{t.home.subtitle}</p>
-        <p className="mt-2 text-sm text-white/40">{filteredChampions.length} champions</p>
+        <p className="mt-2 text-sm text-white/40">
+          {filteredChampions.length} champions · Patch {CURRENT_PATCH}
+        </p>
       </div>
 
       {/* Search Bar */}

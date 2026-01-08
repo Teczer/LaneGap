@@ -47,6 +47,7 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
   const router = useRouter()
   const { data: champions = [] } = useChampions()
   const { data: enemy, isLoading } = useChampion(id)
+
   const favoriteChampions = useFavoritesStore((s) => s.favoriteChampions)
   const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite)
 

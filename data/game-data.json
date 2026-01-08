@@ -1,5 +1,5 @@
 {
-  "exportedAt": "2026-01-08T14:36:17.757Z",
+  "exportedAt": "2026-01-08T16:27:40.964Z",
   "source": "https://backlanegap.loltimeflash.com",
   "collections": {
     "champions": [
@@ -720,12 +720,18 @@
         "name_en": "Diana",
         "name_fr": "Diana",
         "tips_en": [
-          "Tips coming soon..."
+          "Sometimes the best way to dodge her Q is to walk forward toward her",
+          "Her E has over a 22s cooldown if she doesn’t dash on her Q — abuse that.",
+          "Diana is extremely MR-dependent; even a small amount can completely shut her down.",
+          "A good Diana runs Phase Rush — it’s very hard to trade back against her in lane."
         ],
         "tips_fr": [
-          "Tips à venir..."
+          "Parfois le meilleur moyen de dodge son Q est d'avancer vers elle",
+          "+ de 22s de cooldown sur son E si elle ne dash pas sur son Q, abuse de ça",
+          "Diana est très sensible à la MR, un peu de MR peut complètement ruin sa game",
+          "Une bonne Diana joue phase rush, très compliqué à trade-back en lane"
         ],
-        "updated": "2026-01-07 17:43:44.259Z"
+        "updated": "2026-01-08 15:00:41.020Z"
       },
       {
         "champion_id": "Draven",
@@ -3348,6 +3354,36 @@
         "text_en": "R threat - can R+Flash",
         "text_fr": "R menace - peut R+Flash",
         "updated": "2026-01-07 17:43:47.354Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "created": "2026-01-08 15:05:07.436Z",
+        "id": "i0kfgavgbi48obt",
+        "important": false,
+        "level": 2,
+        "text_en": "She can crush you if you misposition, with her stacked autos + QE → Phase Rush.",
+        "text_fr": "Elle peut te crush si tu te miss positionne mal avec son stack auto + QE → phase rush",
+        "updated": "2026-01-08 15:06:07.727Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "created": "2026-01-08 15:06:01.631Z",
+        "id": "8jcpdk2g91fchvh",
+        "important": true,
+        "level": 3,
+        "text_en": "She can trade very easily without taking much damage with QE → W + Phase Rush.",
+        "text_fr": "Peut te trade très facilement sans prendre trop de dégats avec QE → W + phase rush",
+        "updated": "2026-01-08 15:06:01.631Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "created": "2026-01-08 15:06:58.971Z",
+        "id": "69bfc57a6ba53ux",
+        "important": false,
+        "level": 6,
+        "text_en": "You’re generally in kill range if you’re below 50% HP.",
+        "text_fr": "T'es à range de kill si t'as - de 50% d'hp généralement",
+        "updated": "2026-01-08 15:06:58.971Z"
       }
     ],
     "item_spikes": [
@@ -3791,6 +3827,33 @@
         "text_en": "HE'S THANOS",
         "text_fr": "C'EST THANOS",
         "updated": "2026-01-08 14:13:14.741Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "created": "2026-01-08 15:08:16.114Z",
+        "id": "cbbb4topofgfrm2",
+        "item_id": "1082",
+        "text_en": "Dark Seal — first back, good HP sustain and damage",
+        "text_fr": "Sceau Noir - Premier back, bon pull d'hp + damage",
+        "updated": "2026-01-08 15:08:16.114Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "created": "2026-01-08 15:09:19.294Z",
+        "id": "azlgn4yf7i5u23l",
+        "item_id": "3020",
+        "text_en": "Rush Sorcerer’s Shoes as a first item to run you down quickly",
+        "text_fr": "Rush 1st item Chaussures du sorcier généralement pour te run dessus rapidement ",
+        "updated": "2026-01-08 15:09:19.294Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "created": "2026-01-08 15:10:08.123Z",
+        "id": "bjze40fabvsdksz",
+        "item_id": "3152",
+        "text_en": "Diana becomes very strong in skirmishes with Protobelt + ult",
+        "text_fr": "Diana devient très forte dans les skirmish avec protobelt + ult",
+        "updated": "2026-01-08 15:10:08.123Z"
       }
     ],
     "counters": [
@@ -4615,16 +4678,16 @@
         "counter_champion": "3m3jn5fvsp69y52",
         "created": "2026-01-07 17:43:49.673Z",
         "id": "ier2x2r2gv3p43a",
-        "tier": "S",
-        "updated": "2026-01-07 17:43:49.673Z"
+        "tier": "S+",
+        "updated": "2026-01-08 15:29:02.695Z"
       },
       {
         "champion": "lsclcj1f61rwnp9",
         "counter_champion": "uxz1vh63cjweb09",
         "created": "2026-01-07 17:43:49.688Z",
         "id": "k10ce2ytuag7j5q",
-        "tier": "S",
-        "updated": "2026-01-07 17:43:49.688Z"
+        "tier": "S+",
+        "updated": "2026-01-08 15:29:26.074Z"
       },
       {
         "champion": "lsclcj1f61rwnp9",
@@ -5201,6 +5264,166 @@
         "id": "4tvkgmmago84cht",
         "tier": "B+",
         "updated": "2026-01-07 17:43:50.806Z"
+      },
+      {
+        "champion": "x8mpqck4kfjs6ps",
+        "counter_champion": "qhcaqsblwrfmnwz",
+        "created": "2026-01-08 14:49:17.783Z",
+        "id": "ocdjvcumwhqcgw5",
+        "tier": "S+",
+        "updated": "2026-01-08 14:49:17.783Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "qhcaqsblwrfmnwz",
+        "created": "2026-01-08 14:50:43.923Z",
+        "id": "iu54im8nejotu3i",
+        "tier": "S+",
+        "updated": "2026-01-08 14:50:43.923Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "ii0gah9wc2rvrpt",
+        "created": "2026-01-08 14:51:09.457Z",
+        "id": "7bdshk0cmu5aibr",
+        "tier": "S+",
+        "updated": "2026-01-08 15:18:00.653Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "ryypy7d2nofbl92",
+        "created": "2026-01-08 14:51:55.863Z",
+        "id": "5ppc1miuabvu9l9",
+        "tier": "S+",
+        "updated": "2026-01-08 14:51:55.863Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "iughxacy5v5ixo7",
+        "created": "2026-01-08 14:54:23.532Z",
+        "id": "wippk3hxa88l5fz",
+        "tier": "A+",
+        "updated": "2026-01-08 14:54:37.919Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "np9z8odtkpu9z3i",
+        "created": "2026-01-08 14:55:09.589Z",
+        "id": "9p3kl4xrz6247f6",
+        "tier": "S",
+        "updated": "2026-01-08 14:55:09.589Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "kvdyh7tr59wjntq",
+        "created": "2026-01-08 15:11:04.808Z",
+        "id": "o4h7p3mn3kgy02c",
+        "tier": "B+",
+        "updated": "2026-01-08 15:11:04.808Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "yuyvxqy8hyw06va",
+        "created": "2026-01-08 15:12:12.864Z",
+        "id": "3mxnlsh26t73ep1",
+        "tier": "A+",
+        "updated": "2026-01-08 15:12:12.864Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "lsclcj1f61rwnp9",
+        "created": "2026-01-08 15:12:37.817Z",
+        "id": "nzddwt40bp5yaax",
+        "tier": "A",
+        "updated": "2026-01-08 15:12:37.817Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "8ikwqhpro43l69m",
+        "created": "2026-01-08 15:14:01.145Z",
+        "id": "k55ml4ydp7h0j3o",
+        "tier": "A+",
+        "updated": "2026-01-08 15:14:01.145Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "hj2pdobk6gdqoh6",
+        "created": "2026-01-08 15:14:16.069Z",
+        "id": "m1uq8eifzavwmqy",
+        "tier": "C",
+        "updated": "2026-01-08 15:14:16.069Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "6n9uh9piiu6l6a2",
+        "created": "2026-01-08 15:14:31.160Z",
+        "id": "jsixsgfo3esuefg",
+        "tier": "C",
+        "updated": "2026-01-08 15:14:31.160Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "t2gqkt3iy51gx3o",
+        "created": "2026-01-08 15:14:45.618Z",
+        "id": "u9p69nqess0a038",
+        "tier": "C",
+        "updated": "2026-01-08 15:14:45.618Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "z7gdcpzte58k52p",
+        "created": "2026-01-08 15:15:28.435Z",
+        "id": "0yo2gqvha1y17mf",
+        "tier": "B+",
+        "updated": "2026-01-08 15:15:33.423Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "uxz1vh63cjweb09",
+        "created": "2026-01-08 15:16:04.835Z",
+        "id": "aiwphiygumacsyw",
+        "tier": "A",
+        "updated": "2026-01-08 15:16:04.835Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "pn0eqeo6qynmviz",
+        "created": "2026-01-08 15:16:18.276Z",
+        "id": "m5kvhxo2w5q1lqb",
+        "tier": "A+",
+        "updated": "2026-01-08 15:16:18.276Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "0ajbwwasd0kxeij",
+        "created": "2026-01-08 15:17:53.389Z",
+        "id": "c9mer3dpif1z0da",
+        "tier": "S",
+        "updated": "2026-01-08 15:17:53.389Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "7gbyga9mf1xg29z",
+        "created": "2026-01-08 15:18:45.112Z",
+        "id": "s6rmrwnspuc9cf9",
+        "tier": "B",
+        "updated": "2026-01-08 15:18:45.112Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "m1r1xjxdv3mel98",
+        "created": "2026-01-08 15:19:12.352Z",
+        "id": "538ce824u4o78qd",
+        "tier": "B-",
+        "updated": "2026-01-08 15:19:19.665Z"
+      },
+      {
+        "champion": "ri27efy10toe7a7",
+        "counter_champion": "w9a4p8zrttanaiz",
+        "created": "2026-01-08 15:19:38.674Z",
+        "id": "1gg2f3alw2uc7o9",
+        "tier": "A+",
+        "updated": "2026-01-08 15:19:38.674Z"
       }
     ],
     "matchups": []
