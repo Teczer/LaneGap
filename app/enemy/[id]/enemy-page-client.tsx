@@ -41,7 +41,7 @@ interface IEnemyPageClientProps {
   language: TLanguage
 }
 
-const TIER_ORDER: TTier[] = ['S', 'A+', 'A', 'B+', 'B', 'B-', 'C']
+const TIER_ORDER: TTier[] = ['S+', 'S', 'A+', 'A', 'B+', 'B', 'B-', 'C']
 
 export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageClientProps) => {
   const router = useRouter()
@@ -76,8 +76,6 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
 
     return result
   }, [enemy, champions])
-
-  console.log('countersWithData', countersWithData)
 
   if (isLoading) {
     return (
