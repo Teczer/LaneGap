@@ -14,7 +14,6 @@ import {
 } from 'react-icons/lu'
 import type { TLanguage, TTranslations } from '@/lib/i18n'
 import type { TTier } from '@/lib/types'
-import { TIER_ORDER } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import {
   useChampion,
@@ -41,6 +40,8 @@ interface IEnemyPageClientProps {
   translations: TTranslations
   language: TLanguage
 }
+
+const TIER_ORDER: TTier[] = ['S', 'A+', 'A', 'B+', 'B', 'B-', 'C']
 
 export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageClientProps) => {
   const router = useRouter()
@@ -75,6 +76,8 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
 
     return result
   }, [enemy, champions])
+
+  console.log('countersWithData', countersWithData)
 
   if (isLoading) {
     return (
@@ -149,7 +152,7 @@ export const EnemyPageClient = ({ id, translations: t, language }: IEnemyPageCli
                   <p className="text-sm text-white/50">{t.common.counterPicksComingSoon}</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
+                <div className="grid grid-cols-3 gap-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
                   {countersWithData.map(({ champion: c, tier }) => (
                     <CounterPickCard key={c.id} championId={c.id} name={c.name} tier={tier} />
                   ))}
