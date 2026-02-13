@@ -6,29 +6,35 @@ import { useRouter } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import { LuClock, LuLoader, LuSearch, LuStar, LuTarget } from 'react-icons/lu'
 import { CURRENT_PATCH } from '@/lib/config'
-import { LANE_ICONS, LANE_LABELS, type TLane, championPlaysLane } from '@/lib/data/champion-roles'
+import { matchesSearch } from '@/lib/data/champion-aliases'
+import { LANE_ICONS, LANE_LABELS, championPlaysLane } from '@/lib/data/champion-roles'
+import type { TLaneFilter } from '@/lib/data/champion-roles'
 import type { TLanguage, TTranslations } from '@/lib/i18n'
 import type { IChampion } from '@/lib/types'
 import { useChampions } from '@/hooks/queries'
 import { ChampionCard } from '@/components/champion/champion-card.component'
 import { PageContainer } from '@/components/layout/page-container.component'
 import { Input } from '@/components/ui/input'
+import {
+  FAVORITES_ANIMATION_DELAY,
+  GRID_ANIMATION_DELAY,
+  LANE_BUTTON_HOVER_SCALE,
+  LANE_BUTTON_SELECTED_OPACITY,
+  LANE_BUTTON_SELECTED_SCALE,
+  LANE_BUTTON_SPRING_DAMPING,
+  LANE_BUTTON_SPRING_STIFFNESS,
+  LANE_BUTTON_TAP_SCALE,
+  LANE_BUTTON_UNSELECTED_OPACITY,
+  LANE_BUTTON_UNSELECTED_SCALE,
+  LANE_FILTERS,
+  LANE_INDICATOR_SPRING_DAMPING,
+  LANE_INDICATOR_SPRING_STIFFNESS,
+  RECENT_ANIMATION_DELAY,
+  SEARCH_ANIMATION_DELAY,
+  containerVariants,
+  itemVariants,
+} from '@/app/home-page.constants'
 import { useFavoritesStore } from '@/app/store/favorites.store'
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.02, delayChildren: 0.1 },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.2 } },
-}
-
-const LANES: TLane[] = ['top', 'mid', 'adc', 'support']
 
 interface IHomePageClientProps {
   translations: TTranslations
@@ -39,7 +45,7 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
   const router = useRouter()
   const { data: champions = [], isLoading } = useChampions({ sort: 'name_en' })
   const [search, setSearch] = useState('')
-  const [selectedLane, setSelectedLane] = useState<TLane>('mid')
+  const [selectedLane, setSelectedLane] = useState<TLaneFilter>('fill')
 
   const favoriteChampions = useFavoritesStore((s) => s.favoriteChampions)
   const recentChampions = useFavoritesStore((s) => s.recentChampions)
@@ -49,18 +55,14 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
   const filteredChampions = useMemo(() => {
     let result = champions
 
-    // Filter by lane
-    result = result.filter((c) => championPlaysLane(c.id, selectedLane))
+    // Filter by lane (skip if 'fill' is selected = show all)
+    if (selectedLane !== 'fill') {
+      result = result.filter((c) => championPlaysLane(c.id, selectedLane))
+    }
 
-    // Filter by search
+    // Filter by search (with alias support)
     if (search.trim()) {
-      const lowerQuery = search.toLowerCase()
-      result = result.filter(
-        (c) =>
-          c.name.en.toLowerCase().includes(lowerQuery) ||
-          c.name.fr.toLowerCase().includes(lowerQuery) ||
-          c.id.toLowerCase().includes(lowerQuery)
-      )
+      result = result.filter((c) => matchesSearch(c.id, c.name.en, c.name.fr, search))
     }
 
     return result
@@ -68,17 +70,22 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
 
   // Filter favorites by selected lane (already sorted from API)
   const favoriteChampionsList = useMemo(() => {
-    return champions
-      .filter((c) => favoriteChampions.includes(c.id))
-      .filter((c) => championPlaysLane(c.id, selectedLane))
+    let result = champions.filter((c) => favoriteChampions.includes(c.id))
+    if (selectedLane !== 'fill') {
+      result = result.filter((c) => championPlaysLane(c.id, selectedLane))
+    }
+    return result
   }, [champions, favoriteChampions, selectedLane])
 
   // Filter recents by selected lane
   const recentChampionsList = useMemo(() => {
-    return recentChampions
+    let result = recentChampions
       .map((id) => champions.find((c) => c.id === id))
       .filter((c): c is IChampion => c !== undefined)
-      .filter((c) => championPlaysLane(c.id, selectedLane))
+    if (selectedLane !== 'fill') {
+      result = result.filter((c) => championPlaysLane(c.id, selectedLane))
+    }
+    return result
   }, [champions, recentChampions, selectedLane])
 
   const handleSelect = useCallback(
@@ -104,7 +111,10 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
       </div>
 
       {/* Search Bar */}
-      <div className="animate-slide-up mx-auto mb-10 max-w-md" style={{ animationDelay: '50ms' }}>
+      <div
+        className="animate-slide-up mx-auto mb-10 max-w-md"
+        style={{ animationDelay: SEARCH_ANIMATION_DELAY }}
+      >
         <Input
           id="champion-search"
           value={search}
@@ -117,20 +127,24 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
 
       {/* Lane Filter */}
       <div className="animate-slide-up mx-auto mb-6 flex justify-center gap-x-4 sm:mb-0">
-        {LANES.map((lane) => {
+        {LANE_FILTERS.map((lane) => {
           const isSelected = selectedLane === lane
           return (
             <motion.button
               key={lane}
               onClick={() => setSelectedLane(lane)}
-              whileHover={{ scale: 1.15 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: LANE_BUTTON_HOVER_SCALE }}
+              whileTap={{ scale: LANE_BUTTON_TAP_SCALE }}
               animate={{
-                scale: isSelected ? 1.25 : 1,
-                opacity: isSelected ? 1 : 0.3,
+                scale: isSelected ? LANE_BUTTON_SELECTED_SCALE : LANE_BUTTON_UNSELECTED_SCALE,
+                opacity: isSelected ? LANE_BUTTON_SELECTED_OPACITY : LANE_BUTTON_UNSELECTED_OPACITY,
                 filter: isSelected ? 'grayscale(0)' : 'grayscale(1)',
               }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              transition={{
+                type: 'spring',
+                stiffness: LANE_BUTTON_SPRING_STIFFNESS,
+                damping: LANE_BUTTON_SPRING_DAMPING,
+              }}
               className="relative size-16 cursor-pointer"
             >
               <Image
@@ -138,13 +152,17 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
                 alt={LANE_LABELS[lane][language]}
                 fill
                 className="object-contain"
-                priority={lane === 'mid'}
+                priority={lane === 'fill'}
               />
               {isSelected && (
                 <motion.div
                   layoutId="lane-indicator"
                   className="bg-primary absolute -bottom-2 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full"
-                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: LANE_INDICATOR_SPRING_STIFFNESS,
+                    damping: LANE_INDICATOR_SPRING_DAMPING,
+                  }}
                 />
               )}
             </motion.button>
@@ -154,7 +172,10 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
 
       {/* Favorites Section */}
       {!search && favoriteChampionsList.length > 0 && (
-        <section className="animate-slide-up mb-10" style={{ animationDelay: '100ms' }}>
+        <section
+          className="animate-slide-up mb-10"
+          style={{ animationDelay: FAVORITES_ANIMATION_DELAY }}
+        >
           <div className="mb-4 flex items-center gap-2">
             <LuStar className="text-warning h-4 w-4" />
             <h2 className="text-sm font-semibold text-white/80">{t.home.favorites}</h2>
@@ -175,7 +196,10 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
 
       {/* Recent Section */}
       {!search && recentChampionsList.length > 0 && (
-        <section className="animate-slide-up mb-10" style={{ animationDelay: '150ms' }}>
+        <section
+          className="animate-slide-up mb-10"
+          style={{ animationDelay: RECENT_ANIMATION_DELAY }}
+        >
           <div className="mb-4 flex items-center gap-2">
             <LuClock className="h-4 w-4 text-white/40" />
             <h2 className="text-sm font-semibold text-white/80">{t.home.recent}</h2>
@@ -195,7 +219,7 @@ export const HomePageClient = ({ translations: t, language }: IHomePageClientPro
       )}
 
       {/* All Champions Grid */}
-      <section className="animate-slide-up" style={{ animationDelay: '200ms' }}>
+      <section className="animate-slide-up" style={{ animationDelay: GRID_ANIMATION_DELAY }}>
         <div className="mb-4 flex items-center gap-2">
           <LuTarget className="text-danger h-4 w-4" />
           <h2 className="text-sm font-semibold text-white/80">

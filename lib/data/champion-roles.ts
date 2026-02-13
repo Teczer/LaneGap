@@ -5,15 +5,18 @@
  */
 
 export type TLane = 'top' | 'mid' | 'adc' | 'support'
+export type TLaneFilter = TLane | 'fill'
 
-export const LANE_LABELS: Record<TLane, { en: string; fr: string }> = {
+export const LANE_LABELS: Record<TLaneFilter, { en: string; fr: string }> = {
+  fill: { en: 'All', fr: 'Tous' },
   top: { en: 'Top', fr: 'Top' },
   mid: { en: 'Mid', fr: 'Mid' },
   adc: { en: 'ADC', fr: 'ADC' },
   support: { en: 'Support', fr: 'Support' },
 }
 
-export const LANE_ICONS: Record<TLane, string> = {
+export const LANE_ICONS: Record<TLaneFilter, string> = {
+  fill: '/roles/icon-position-fill.png',
   top: '/roles/icon-position-top.png',
   mid: '/roles/icon-position-middle.png',
   adc: '/roles/icon-position-bottom.png',
