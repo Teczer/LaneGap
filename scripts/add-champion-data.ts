@@ -3,7 +3,6 @@
  *
  * Usage: bun run scripts/add-champion-data.ts
  */
-
 import PocketBase from 'pocketbase'
 
 const POCKETBASE_URL = process.env.POCKETBASE_URL || 'http://127.0.0.1:8090'
@@ -126,7 +125,7 @@ const YASUO_LEVEL_SPIKES = [
   {
     level: 1,
     text_en:
-      "If Yasuo starts E he will look for full trade - space around the minions by not giving him angles to E into minion and E you. If he starts Q you can look to punish during last hits",
+      'If Yasuo starts E he will look for full trade - space around the minions by not giving him angles to E into minion and E you. If he starts Q you can look to punish during last hits',
     text_fr:
       "Si Yasuo start E il va chercher un full trade - space autour des minions en ne lui donnant pas d'angles pour E sur minion puis E sur toi. S'il start Q tu peux punish pendant ses last hits",
     important: true,
@@ -277,12 +276,11 @@ const TRISTANA_ITEM_SPIKES: { item_id: string; text_en: string; text_fr: string 
 // HELPER: Get champion record ID by champion_id
 // ============================================================================
 
-async function getChampionId(
-  pb: PocketBase,
-  championId: string
-): Promise<string | null> {
+async function getChampionId(pb: PocketBase, championId: string): Promise<string | null> {
   try {
-    const result = await pb.collection('champions').getFirstListItem(`champion_id = "${championId}"`)
+    const result = await pb
+      .collection('champions')
+      .getFirstListItem(`champion_id = "${championId}"`)
     return result.id
   } catch {
     console.error(`   ⚠️  Champion not found: ${championId}`)
@@ -392,8 +390,9 @@ async function main() {
           filter: `champion = "${enemyId}" && counter_champion = "${counterId}"`,
         })
 
-        if (existing.totalItems > 0) {
-          await pb.collection('counters').update(existing.items[0].id, { tier: c.tier })
+        const existingRecord = existing.items[0]
+        if (existing.totalItems > 0 && existingRecord) {
+          await pb.collection('counters').update(existingRecord.id, { tier: c.tier })
           console.log(`   🔄 Updated ${c.counter} vs ${enemy}`)
         } else {
           await pb.collection('counters').create({
@@ -430,8 +429,9 @@ async function main() {
           filter: `champion = "${champRecordId}" && level = ${spike.level}`,
         })
 
-        if (existing.totalItems > 0) {
-          await pb.collection('level_spikes').update(existing.items[0].id, {
+        const existingRecord = existing.items[0]
+        if (existing.totalItems > 0 && existingRecord) {
+          await pb.collection('level_spikes').update(existingRecord.id, {
             text_en: spike.text_en,
             text_fr: spike.text_fr,
             important: spike.important,
@@ -474,8 +474,9 @@ async function main() {
           filter: `champion = "${champRecordId}" && item_id = "${spike.item_id}"`,
         })
 
-        if (existing.totalItems > 0) {
-          await pb.collection('item_spikes').update(existing.items[0].id, {
+        const existingRecord = existing.items[0]
+        if (existing.totalItems > 0 && existingRecord) {
+          await pb.collection('item_spikes').update(existingRecord.id, {
             text_en: spike.text_en,
             text_fr: spike.text_fr,
           })
