@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { LuChevronDown, LuLogIn, LuLogOut, LuSettings } from 'react-icons/lu'
-import type { TAuthTranslations } from '@/lib/i18n'
+import type { TAuthTranslations, TLanguage } from '@/lib/i18n'
 import { cn, getAvatarUrl } from '@/lib/utils'
 import { useAuthReady } from '@/hooks/use-require-auth.hook'
 import {
@@ -18,6 +18,7 @@ import {
 } from '@/components/ui'
 import { Logo } from '@/components/ui/logo'
 import { useAuthStore } from '@/app/store/auth.store'
+import { LanguageToggle } from './language-toggle.component'
 
 interface IHeaderTranslations {
   settings: string
@@ -26,10 +27,11 @@ interface IHeaderTranslations {
 
 interface IHeaderProps {
   translations: IHeaderTranslations
+  language: TLanguage
   className?: string
 }
 
-export const Header = ({ translations: t, className }: IHeaderProps) => {
+export const Header = ({ translations: t, language, className }: IHeaderProps) => {
   const router = useRouter()
   const { isHydrated, isAuthenticated, user } = useAuthReady()
   const logout = useAuthStore((s) => s.logout)
@@ -59,6 +61,8 @@ export const Header = ({ translations: t, className }: IHeaderProps) => {
 
         {/* Controls */}
         <div className="flex items-center gap-3">
+          {/* Language Toggle - only show when not authenticated */}
+          {isHydrated && !isAuthenticated && <LanguageToggle currentLanguage={language} />}
           {/* Show skeleton while hydrating */}
           {!isHydrated ? (
             <div className="h-9 w-24 animate-pulse rounded-lg bg-white/5" />

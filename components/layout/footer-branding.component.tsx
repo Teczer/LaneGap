@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { LuYoutube } from 'react-icons/lu'
 import type { TFooterTranslations } from '@/lib/i18n'
 import { Logo } from '@/components/ui/logo'
@@ -14,7 +15,13 @@ export const FooterBranding = ({ translations: t }: IFooterBrandingProps) => {
         <span className="font-medium text-white/60">LANEGAP</span>
       </div>
       <p className="max-w-xs text-white/40">{t.tagline}</p>
-      <p className="text-white/25">{t.disclaimer}</p>
+      <div className="flex items-center gap-2 text-white/25">
+        <span>{t.disclaimer}</span>
+        <span>·</span>
+        <Link href="/privacy" className="transition-colors hover:text-white/50">
+          {t.privacy}
+        </Link>
+      </div>
       <p className="flex items-center justify-center gap-1.5 text-white/25 sm:justify-start">
         {t.dataCredit}{' '}
         <a

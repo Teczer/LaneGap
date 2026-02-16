@@ -79,7 +79,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
     <html lang={language} className={`${inter.variable} ${beaufort.variable}`}>
       <body suppressHydrationWarning className="flex min-h-screen flex-col">
         <QueryProvider>
-          <Header translations={{ settings: t.settings.title, auth: t.auth }} />
+          <Header translations={{ settings: t.settings.title, auth: t.auth }} language={language} />
           {children}
           <Footer translations={t.footer} />
           <Toaster
