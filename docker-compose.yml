@@ -24,9 +24,16 @@ services:
       - '${FRONTEND_PORT:-2124}:3000'
     environment:
       - NODE_ENV=production
+      # Public (client-side) variables
       - NEXT_PUBLIC_POCKETBASE_URL=${NEXT_PUBLIC_POCKETBASE_URL}
       - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
       - NEXT_PUBLIC_PATCH_VERSION=${NEXT_PUBLIC_PATCH_VERSION:-15.1.1}
+      # Server-side variables (API routes)
+      - POCKETBASE_URL=http://pocketbase:8090
+      - POCKETBASE_ADMIN_EMAIL=${POCKETBASE_ADMIN_EMAIL}
+      - POCKETBASE_ADMIN_PASSWORD=${POCKETBASE_ADMIN_PASSWORD}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - EMAIL_FROM=${EMAIL_FROM:-LANEGAP <noreply@mehdihattou.com>}
     depends_on:
       pocketbase:
         condition: service_healthy

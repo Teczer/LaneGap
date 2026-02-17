@@ -11,6 +11,7 @@ export interface IUser {
   email: string
   name: string
   avatar?: string
+  verified: boolean
   created: string
 }
 
@@ -66,6 +67,7 @@ function mapUser(record: RecordModel): IUser {
     email,
     name,
     avatar: record.avatar as string | undefined,
+    verified: record.verified as boolean,
     created: record.created,
   }
 }
@@ -87,6 +89,14 @@ export const useAuthStore = create<TAuthStore>()(
           const authData = await pb.collection('users').authWithPassword(email, password)
           const user = mapUser(authData.record)
 
+          // Check if user is verified
+          if (!user.verified) {
+            // Clear auth since user is not verified
+            pb.authStore.clear()
+            set({ isLoading: false })
+            throw new Error('email_not_verified')
+          }
+
           // Set cookie for middleware auth
           setAuthCookie(authData.token, user.id)
 
@@ -103,7 +113,11 @@ export const useAuthStore = create<TAuthStore>()(
           showSuccessToast('loginSuccess')
         } catch (error) {
           set({ isLoading: false })
-          showErrorToast('loginError')
+          // Don't show toast for unverified email - handled by form
+          const errorMessage = error instanceof Error ? error.message : ''
+          if (errorMessage !== 'email_not_verified') {
+            showErrorToast('loginError')
+          }
           throw error
         }
       },
@@ -149,7 +163,12 @@ export const useAuthStore = create<TAuthStore>()(
           // Don't show success toast here - OTP flow will handle it
         } catch (error) {
           set({ isLoading: false })
-          showErrorToast('registerError')
+          // Don't show toast here - let the form handle specific error messages
+          // Re-throw with a more specific message if it's an email uniqueness error
+          const errorStr = String(error)
+          if (errorStr.includes('validation_not_unique') || errorStr.includes('unique')) {
+            throw new Error('email_already_used')
+          }
           throw error
         }
       },

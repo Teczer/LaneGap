@@ -67,7 +67,24 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
     try {
       await login({ email: data.email, password: data.password })
       router.push('/')
-    } catch {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : ''
+
+      // If email not verified, send OTP and redirect to verification
+      if (errorMessage === 'email_not_verified') {
+        try {
+          await sendOTPMutation.mutateAsync(data.email)
+          setRegisteredEmail(data.email)
+          setRegisteredPassword(data.password)
+          setMode('verify-otp')
+          // Show info message
+          loginForm.setError('root', { message: t.emailNotVerified })
+        } catch {
+          loginForm.setError('root', { message: t.sendOtpError })
+        }
+        return
+      }
+
       loginForm.setError('root', { message: t.loginError })
     }
   }
@@ -75,12 +92,25 @@ export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
   const onRegisterSubmit = async (data: TRegisterForm) => {
     try {
       await registerUser({ email: data.email, password: data.password, name: data.name })
+    } catch (error) {
+      // Check if it's an "email already exists" error
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      if (errorMessage.includes('email_already_used') || errorMessage.includes('unique')) {
+        registerForm.setError('root', { message: t.emailAlreadyUsed })
+      } else {
+        registerForm.setError('root', { message: t.registerError })
+      }
+      return
+    }
+
+    // Registration succeeded, now send OTP
+    try {
       await sendOTPMutation.mutateAsync(data.email)
       setRegisteredEmail(data.email)
       setRegisteredPassword(data.password) // Store for auto-login after OTP
       setMode('verify-otp')
     } catch {
-      registerForm.setError('root', { message: t.registerError })
+      registerForm.setError('root', { message: t.sendOtpError })
     }
   }
 
