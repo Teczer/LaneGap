@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react'
 import type { TSettingsTranslations } from '@/lib/i18n'
 import { getAvatarUrl } from '@/lib/utils'
+import { compressImage } from '@/lib/image-utils'
 import { Avatar } from '@/components/ui'
 import { useAuthStore } from '@/app/store/auth.store'
 import { SettingsCardFooter } from './settings-card.component'
@@ -15,6 +16,7 @@ export const AvatarSection = ({ translations: t }: IAvatarSectionProps) => {
   const { user, updateAvatar } = useAuthStore()
   const [isLoading, setIsLoading] = useState(false)
   const [preview, setPreview] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   if (!user) return null
@@ -23,18 +25,32 @@ export const AvatarSection = ({ translations: t }: IAvatarSectionProps) => {
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (!file || file.size > 2 * 1024 * 1024) return
+    if (!file) return
 
-    const reader = new FileReader()
-    reader.onloadend = () => setPreview(reader.result as string)
-    reader.readAsDataURL(file)
-
+    setError(null)
     setIsLoading(true)
+
     try {
-      await updateAvatar(file)
+      const { file: compressedFile, preview: compressedPreview } = await compressImage(file)
+      setPreview(compressedPreview)
+      await updateAvatar(compressedFile)
       setPreview(null)
+    } catch (err) {
+      const errorCode = err instanceof Error ? err.message : 'unknown_error'
+
+      const errorMessages: Record<string, string> = {
+        file_too_large: 'Image trop lourde (max 5MB)',
+        invalid_file_type: 'Format non supporté',
+        compression_error: "Erreur lors de l'optimisation",
+        image_load_error: "Impossible de charger l'image",
+      }
+
+      setError(errorMessages[errorCode] || "Erreur lors du chargement de l'image")
     } finally {
       setIsLoading(false)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
     }
   }
 
@@ -44,6 +60,7 @@ export const AvatarSection = ({ translations: t }: IAvatarSectionProps) => {
         <div className="flex-1 pt-1">
           <h3 className="text-base font-semibold text-white">{t.avatar}</h3>
           <p className="mt-1 text-sm text-white/50">{t.avatarDescription}</p>
+          {error && <p className="text-danger mt-2 text-sm">{error}</p>}
         </div>
 
         <button

@@ -35,6 +35,27 @@ Think like a pro player building his own tool.
    - Enemy power spikes to be aware of
    - Personal notes (authenticated users)
 4. Auth Page → Login/Register with OTP email verification
+5. Onboarding Page → Profile setup (pseudo + avatar) for new users
+```
+
+### Authentication & Onboarding Flow
+
+```
+/auth (Login/Register)
+    │
+    ├─► Email verified? ──► YES ──► Redirect to /
+    │
+    └─► NO ──► OTP Verification (full-screen overlay)
+                    │
+                    ├─► New registration? ──► YES ──► /onboarding
+                    │
+                    └─► Existing user ──► Redirect to /
+
+/onboarding (Protected route - auth required)
+    │
+    ├─► Step 1: Pseudo (skip possible)
+    │
+    └─► Step 2: Avatar (skip possible) ──► Redirect to /
 ```
 
 ---
@@ -63,6 +84,10 @@ lanegap/
 ├── app/                          # Next.js App Router
 │   ├── page.tsx                  # Home - Select enemy champion
 │   ├── auth/page.tsx             # Login/Register with OTP
+│   ├── onboarding/               # Profile setup flow
+│   │   ├── page.tsx
+│   │   ├── layout.tsx            # Full-screen overlay layout
+│   │   └── onboarding-page-client.tsx
 │   ├── enemy/[id]/page.tsx       # Enemy page - counters & tips
 │   ├── matchup/[myChamp]/[enemyChamp]/page.tsx
 │   ├── api/                      # API Routes (Next.js)
@@ -75,6 +100,28 @@ lanegap/
 │   │   └── favorites.store.ts
 │   ├── layout.tsx
 │   └── globals.css               # Design system
+│
+├── features/                     # Feature-based architecture
+│   ├── auth/                     # Auth feature module
+│   │   ├── components/
+│   │   │   ├── auth-benefits.component.tsx
+│   │   │   ├── auth-header.component.tsx
+│   │   │   ├── auth-mode-toggle.component.tsx
+│   │   │   ├── login-form.component.tsx
+│   │   │   ├── register-form.component.tsx
+│   │   │   ├── oauth-buttons.component.tsx
+│   │   │   ├── otp-step.component.tsx
+│   │   │   └── index.ts
+│   │   ├── types/index.ts
+│   │   └── index.ts              # Barrel export
+│   │
+│   └── onboarding/               # Onboarding feature module
+│       ├── components/
+│       │   ├── pseudo-step.component.tsx
+│       │   ├── avatar-step.component.tsx
+│       │   ├── progress-indicator.component.tsx
+│       │   └── index.ts
+│       └── index.ts              # Barrel export
 │
 ├── components/
 │   ├── ui/                       # Design System Primitives
@@ -116,6 +163,7 @@ lanegap/
 │   │   ├── en.json
 │   │   └── fr.json
 │   ├── pocketbase.ts             # PocketBase client
+│   ├── image-utils.ts            # Image compression utility
 │   ├── types.ts
 │   ├── utils.ts
 │   └── config.ts
@@ -178,6 +226,199 @@ export function useSendOTP() {
 // 3. Component usage
 const sendOTPMutation = useSendOTP()
 await sendOTPMutation.mutateAsync(email)
+```
+
+---
+
+## 📝 Form Patterns (React Hook Form + Zod)
+
+### Single useForm at Parent Level
+
+Pour les formulaires complexes avec plusieurs étapes ou modes, utiliser **un seul `useForm`** au niveau du parent et passer les props aux enfants.
+
+```typescript
+// ✅ Good - Single useForm at parent
+const { register, control, getValues, setError, trigger, formState: { errors } } = useForm<TAuthForm>({
+  resolver: zodResolver(authFormSchema),
+  defaultValues: { email: '', password: '', confirmPassword: '' },
+})
+
+// Pass to children
+<LoginForm register={register} errors={errors} onSubmit={handleLogin} />
+<RegisterForm register={register} errors={errors} onSubmit={handleRegister} />
+```
+
+```typescript
+// ❌ Bad - Multiple useForm instances
+const loginForm = useForm<TLoginForm>({ ... })
+const registerForm = useForm<TRegisterForm>({ ... })
+```
+
+### useWatch for Reactive Values
+
+Utiliser `useWatch` pour récupérer des valeurs réactives du formulaire sans re-render complet.
+
+```typescript
+// ✅ Good - useWatch for reactive values
+const email = useWatch({ control, name: 'email' })
+const password = useWatch({ control, name: 'password' })
+
+// Use in OTP step display
+<p>{email}</p>
+```
+
+```typescript
+// ❌ Bad - useState sync with form values
+const [email, setEmail] = useState('')
+useEffect(() => { setEmail(getValues('email')) }, [])
+```
+
+### Validation Pattern
+
+```typescript
+// ✅ Validate specific fields before action
+const handleLogin = async () => {
+  const isValid = await trigger(['email', 'password'])
+  if (!isValid) return
+  
+  const values = getValues()
+  // proceed...
+}
+
+// ✅ Use safeParse for complex validation
+const result = registerSchema.safeParse(values)
+if (!result.success) {
+  result.error.issues.forEach((issue) => {
+    setError(issue.path[0] as keyof TAuthForm, { message: issue.message })
+  })
+  return
+}
+```
+
+### mode: 'onChange' for Real-time Validation
+
+```typescript
+// ✅ For inputs that need real-time feedback
+const form = useForm<TProfileSetupForm>({
+  resolver: zodResolver(profileSetupSchema),
+  defaultValues: { name: '' },
+  mode: 'onChange',  // Validate on every change
+})
+
+const { isValid, errors } = form.formState
+const nameValue = form.watch('name')
+
+// Button disabled until valid
+<Button disabled={!isValid || !nameValue.trim()}>
+  {t.continueButton}
+</Button>
+```
+
+---
+
+## 🔒 Route Protection (proxy.ts)
+
+### Pattern
+
+La protection des routes se fait via `proxy.ts` (middleware Next.js 16), **jamais avec `useEffect`**.
+
+```typescript
+// proxy.ts
+const PROTECTED_ROUTES = ['/settings', '/onboarding']
+const AUTH_ROUTES = ['/auth']
+
+// Redirect to /auth if protected route and not authenticated
+if (isProtectedRoute && !isAuthenticated) {
+  return NextResponse.redirect(new URL('/auth', request.url))
+}
+
+// Redirect to home if auth route and already authenticated
+if (isAuthRoute && isAuthenticated) {
+  return NextResponse.redirect(new URL('/', request.url))
+}
+```
+
+### Rules
+
+- ❌ **NEVER use `useEffect` for auth redirects** — C'est un anti-pattern
+- ✅ **Use `proxy.ts`** for server-side route protection
+- ✅ **Protected routes** are checked before page render
+
+```typescript
+// ❌ Bad - useEffect redirect anti-pattern
+useEffect(() => {
+  if (!user) {
+    router.push('/auth')
+  }
+}, [user])
+
+// ✅ Good - Server-side protection in proxy.ts
+// User never sees the protected page if not authenticated
+```
+
+---
+
+## 🖼️ Image Upload Pattern
+
+### Compression avec browser-image-compression
+
+Toujours compresser les images côté client avant upload.
+
+```typescript
+// lib/image-utils.ts
+import imageCompression from 'browser-image-compression'
+
+const MAX_SIZE_MB = 1
+const MAX_WIDTH_OR_HEIGHT = 1024
+const MAX_INPUT_SIZE_MB = 10
+
+export const compressImage = async (file: File): Promise<ICompressResult> => {
+  if (!file.type.startsWith('image/')) {
+    throw new Error('invalid_file_type')
+  }
+
+  if (file.size > MAX_INPUT_SIZE_MB * 1024 * 1024) {
+    throw new Error('file_too_large')
+  }
+
+  const compressedFile = await imageCompression(file, {
+    maxSizeMB: MAX_SIZE_MB,
+    maxWidthOrHeight: MAX_WIDTH_OR_HEIGHT,
+    useWebWorker: true,
+    fileType: 'image/jpeg',
+  })
+
+  const preview = await imageCompression.getDataUrlFromFile(compressedFile)
+  return { file: compressedFile, preview }
+}
+```
+
+### Usage in Components
+
+```typescript
+const [isCompressing, setIsCompressing] = useState(false)
+const [error, setError] = useState<string | null>(null)
+
+const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0]
+  if (!file) return
+
+  setError(null)
+  setIsCompressing(true)
+
+  try {
+    const { file: compressedFile, preview } = await compressImage(file)
+    setAvatarFile(compressedFile)
+    setPreview(preview)
+  } catch (err) {
+    const errorCode = err instanceof Error ? err.message : 'unknown_error'
+    setError(errorMessages[errorCode] || "Erreur lors du chargement")
+  } finally {
+    setIsCompressing(false)
+    // Reset input to allow re-selecting same file
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+}
 ```
 
 ---
@@ -467,15 +708,195 @@ Le français doit être du **coaching français naturel**:
 
 ---
 
+## 🎭 Full-Screen Overlay Pattern
+
+### For Focused Flows (OTP, Onboarding)
+
+Utiliser un layout dédié ou un overlay pour les flows qui nécessitent une attention totale.
+
+```typescript
+// app/onboarding/layout.tsx
+const OnboardingLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="bg-background fixed inset-0 z-50 flex min-h-screen items-center justify-center p-4">
+      {children}
+    </div>
+  )
+}
+
+export default OnboardingLayout
+```
+
+### OTP Overlay in Auth Page
+
+```typescript
+// Dans auth-page-client.tsx
+if (step === 'otp') {
+  return (
+    <OTPStep
+      translations={t}
+      email={email}
+      onVerify={handleVerifyOTP}
+      onBack={handleBackToForm}
+    />
+  )
+}
+
+// otp-step.component.tsx
+return (
+  <div className="bg-background fixed inset-0 z-50 flex items-center justify-center p-4">
+    {/* Full-screen OTP UI */}
+  </div>
+)
+```
+
+### Multi-Step Progress Indicator
+
+```typescript
+<ProgressIndicator
+  currentStep={step}
+  steps={['pseudo', 'avatar']}
+  showBack={step === 'avatar'}
+  onBack={handleBack}
+/>
+```
+
+---
+
+## 🏗️ Feature-Based Architecture
+
+### When to Use `features/`
+
+Pour les flows complexes avec plusieurs composants interconnectés, créer un module dans `features/`.
+
+```
+features/
+├── auth/                     # Auth feature
+│   ├── components/           # Feature-specific components
+│   │   ├── login-form.component.tsx
+│   │   ├── otp-step.component.tsx
+│   │   └── index.ts          # Barrel export
+│   ├── types/index.ts        # Feature types
+│   └── index.ts              # Main barrel export
+│
+└── onboarding/               # Onboarding feature
+    ├── components/
+    └── index.ts
+```
+
+### Import Pattern
+
+```typescript
+// ✅ Import from feature barrel
+import { LoginForm, OTPStep, AuthHeader } from '@/features/auth'
+import type { TAuthMode } from '@/features/auth'
+
+// ✅ Import from onboarding feature
+import { PseudoStep, AvatarStep, ProgressIndicator } from '@/features/onboarding'
+```
+
+### Rules
+
+- ✅ **Group related components** in feature folders
+- ✅ **Barrel exports** (`index.ts`) for clean imports
+- ✅ **Feature types** in `types/index.ts`
+- ❌ **Don't over-engineer** — Only create features for complex flows
+
+---
+
+## 🚫 State Management Anti-Patterns
+
+### Don't Over-Engineer with Context
+
+```typescript
+// ❌ Bad - Context for simple local state
+const AuthContext = createContext<IAuthContext | null>(null)
+const AuthProvider = ({ children }) => {
+  const [mode, setMode] = useState('login')
+  const [step, setStep] = useState('form')
+  // ...
+}
+
+// ✅ Good - Local state is simpler
+const AuthPageClient = () => {
+  const [mode, setMode] = useState<TAuthMode>('login')
+  const [step, setStep] = useState<TFlowStep>('form')
+  // Pass handlers to children as props
+}
+```
+
+### Use Context Only When
+
+1. State is needed **deep in the tree** (3+ levels)
+2. Many components need the **same state**
+3. **Avoiding prop drilling** is a real problem
+
+### useRef for Non-Reactive Data
+
+```typescript
+// ✅ Good - useRef for data that shouldn't trigger re-renders
+const pendingAuthRef = useRef<IPendingAuth | null>(null)
+
+// Set without re-render
+pendingAuthRef.current = { email, password }
+
+// Read in callbacks
+const handleVerify = async () => {
+  const { email, password } = pendingAuthRef.current!
+  await login({ email, password })
+}
+```
+
+---
+
+## 🔐 Security Patterns
+
+### Never Store Credentials in URLs
+
+```typescript
+// ❌ Bad - Password in URL params
+router.push(`/onboarding?email=${email}&p=${password}`)
+
+// ❌ Bad - Password in sessionStorage
+sessionStorage.setItem('credentials', JSON.stringify({ email, password }))
+
+// ✅ Good - Keep credentials in memory (useRef) during flow
+const pendingAuthRef = useRef<{ email: string; password: string } | null>(null)
+```
+
+### Multi-Step Flow Pattern
+
+Pour les flows multi-étapes (auth → OTP → onboarding), garder les credentials en mémoire uniquement le temps nécessaire.
+
+```typescript
+// auth-page-client.tsx
+const [step, setStep] = useState<'form' | 'otp'>('form')
+
+// Credentials stay in form state via useWatch
+const email = useWatch({ control, name: 'email' })
+const password = useWatch({ control, name: 'password' })
+
+const handleVerifyOTP = async (code: string) => {
+  await verifyOTPMutation.mutateAsync({ email, code })
+  await login({ email, password })  // Use form values directly
+  router.push(isNewRegistration ? '/onboarding' : '/')
+}
+```
+
+---
+
 ## ⚠️ Don'ts
 
 - ❌ **Ne pas créer de fichiers .md supplémentaires** (sauf AGENTS.md)
 - ❌ No unnecessary animations
-- ❌ No over-abstraction
+- ❌ No over-abstraction (especially Context)
 - ❌ No direct fetch in components (use React Query)
 - ❌ No inline styles (use Tailwind)
 - ❌ No default exports for components
 - ❌ No `any` types
+- ❌ No `useEffect` for auth redirects (use proxy.ts)
+- ❌ No credentials in URLs or sessionStorage
+- ❌ No multiple `useForm` instances when one suffices
 
 ---
 
@@ -511,5 +932,5 @@ bun dev
 
 ---
 
-**Last Updated**: December 29, 2025
-**Version**: 4.0.0 - SSR-first i18n with cookie-based language switching
+**Last Updated**: January 26, 2026
+**Version**: 5.0.0 - Feature-based architecture, form patterns, route protection, image compression

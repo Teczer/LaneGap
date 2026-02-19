@@ -12,6 +12,7 @@ export type {
   TLanguageTranslations,
   TFooterTranslations,
   TSettingsTranslations,
+  TOnboardingTranslations,
 } from './types'
 
 export { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from './types'

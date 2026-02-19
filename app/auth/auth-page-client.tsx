@@ -2,38 +2,25 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import {
+  AuthBenefits,
+  AuthHeader,
+  AuthModeToggle,
+  LoginForm,
+  OAuthButtons,
+  OTPStep,
+  RegisterForm,
+} from '@/features/auth'
+import type { TAuthMode } from '@/features/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import {
-  LuCheck,
-  LuLoader,
-  LuLock,
-  LuLogIn,
-  LuMail,
-  LuMailCheck,
-  LuRefreshCw,
-  LuUser,
-} from 'react-icons/lu'
-import { FaGoogle, FaDiscord } from 'react-icons/fa'
+import { AnimatePresence } from 'framer-motion'
+import { useForm, useWatch } from 'react-hook-form'
 import type { TAuthTranslations } from '@/lib/i18n'
-import {
-  type TLoginForm,
-  type TRegisterForm,
-  loginSchema,
-  registerSchema,
-} from '@/lib/validations/auth.schema'
+import { type TAuthForm, authFormSchema, registerSchema } from '@/lib/validations/auth.schema'
 import { useSendOTP, useVerifyOTP } from '@/hooks/queries'
-import {
-  Button,
-  Input,
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-  PasswordInput,
-} from '@/components/ui'
 import { useAuthStore } from '@/app/store/auth.store'
 
-type TAuthMode = 'login' | 'register' | 'verify-otp'
+type TFlowStep = 'form' | 'otp'
 
 interface IAuthPageClientProps {
   translations: TAuthTranslations
@@ -41,370 +28,149 @@ interface IAuthPageClientProps {
 
 export const AuthPageClient = ({ translations: t }: IAuthPageClientProps) => {
   const router = useRouter()
-  const { login, loginWithOAuth, register: registerUser, isLoading } = useAuthStore()
-  const [oauthLoading, setOauthLoading] = useState<'google' | 'discord' | null>(null)
+  const { login, register: registerUser, isLoading } = useAuthStore()
+
+  const [mode, setMode] = useState<TAuthMode>('login')
+  const [step, setStep] = useState<TFlowStep>('form')
+  const [isNewRegistration, setIsNewRegistration] = useState(false)
 
   const sendOTPMutation = useSendOTP()
   const verifyOTPMutation = useVerifyOTP()
 
-  const [mode, setMode] = useState<TAuthMode>('login')
-  const [registeredEmail, setRegisteredEmail] = useState('')
-  const [registeredPassword, setRegisteredPassword] = useState('') // Store for auto-login after OTP
-  const [otpValue, setOtpValue] = useState('')
-  const [otpError, setOtpError] = useState<string | null>(null)
-
-  const loginForm = useForm<TLoginForm>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { email: '', password: '' },
+  const {
+    register,
+    control,
+    getValues,
+    setError,
+    clearErrors,
+    trigger,
+    formState: { errors },
+  } = useForm<TAuthForm>({
+    resolver: zodResolver(authFormSchema),
+    defaultValues: { email: '', password: '', confirmPassword: '' },
   })
 
-  const registerForm = useForm<TRegisterForm>({
-    resolver: zodResolver(registerSchema),
-    defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
-  })
+  // Reactive values for OTP step display
+  const email = useWatch({ control, name: 'email' })
+  const password = useWatch({ control, name: 'password' })
 
-  const onLoginSubmit = async (data: TLoginForm) => {
+  const handleLogin = async () => {
+    const isValid = await trigger(['email', 'password'])
+    if (!isValid) return
+
+    const values = getValues()
+
     try {
-      await login({ email: data.email, password: data.password })
+      await login({ email: values.email, password: values.password })
       router.push('/')
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : ''
 
-      // If email not verified, send OTP and redirect to verification
       if (errorMessage === 'email_not_verified') {
-        try {
-          await sendOTPMutation.mutateAsync(data.email)
-          setRegisteredEmail(data.email)
-          setRegisteredPassword(data.password)
-          setMode('verify-otp')
-          // Show info message
-          loginForm.setError('root', { message: t.emailNotVerified })
-        } catch {
-          loginForm.setError('root', { message: t.sendOtpError })
-        }
+        setIsNewRegistration(false)
+        await sendOTPMutation.mutateAsync(values.email)
+        setStep('otp')
         return
       }
 
-      loginForm.setError('root', { message: t.loginError })
+      setError('root', { message: t.loginError })
     }
   }
 
-  const onRegisterSubmit = async (data: TRegisterForm) => {
+  const handleRegister = async () => {
+    const values = getValues()
+
+    const result = registerSchema.safeParse(values)
+    if (!result.success) {
+      result.error.issues.forEach((issue) => {
+        setError(issue.path[0] as keyof TAuthForm, { message: issue.message })
+      })
+      return
+    }
+
     try {
-      await registerUser({ email: data.email, password: data.password, name: data.name })
+      await registerUser({ email: values.email, password: values.password })
     } catch (error) {
-      // Check if it's an "email already exists" error
       const errorMessage = error instanceof Error ? error.message : String(error)
       if (errorMessage.includes('email_already_used') || errorMessage.includes('unique')) {
-        registerForm.setError('root', { message: t.emailAlreadyUsed })
+        setError('root', { message: t.emailAlreadyUsed })
       } else {
-        registerForm.setError('root', { message: t.registerError })
+        setError('root', { message: t.registerError })
       }
       return
     }
 
-    // Registration succeeded, now send OTP
-    try {
-      await sendOTPMutation.mutateAsync(data.email)
-      setRegisteredEmail(data.email)
-      setRegisteredPassword(data.password) // Store for auto-login after OTP
-      setMode('verify-otp')
-    } catch {
-      registerForm.setError('root', { message: t.sendOtpError })
-    }
+    setIsNewRegistration(true)
+    await sendOTPMutation.mutateAsync(values.email)
+    setStep('otp')
   }
 
-  const handleVerifyOTP = async () => {
-    if (otpValue.length !== 6) {
-      setOtpError(t.otpIncomplete)
-      return
-    }
-
-    setOtpError(null)
-
-    try {
-      await verifyOTPMutation.mutateAsync({ email: registeredEmail, code: otpValue })
-      // Auto-login after successful OTP verification
-      await login({ email: registeredEmail, password: registeredPassword })
-      setRegisteredPassword('') // Clear password from memory
-      router.push('/')
-    } catch (err) {
-      setOtpError(err instanceof Error ? err.message : t.otpInvalid)
-    }
+  const handleVerifyOTP = async (code: string) => {
+    await verifyOTPMutation.mutateAsync({ email, code })
+    await login({ email, password })
+    router.push(isNewRegistration ? '/onboarding' : '/')
   }
 
   const handleResendOTP = async () => {
-    setOtpError(null)
-    try {
-      await sendOTPMutation.mutateAsync(registeredEmail)
-    } catch {
-      setOtpError(t.resendError)
-    }
+    await sendOTPMutation.mutateAsync(email)
   }
 
-  const handleOAuthLogin = async (provider: 'google' | 'discord') => {
-    setOauthLoading(provider)
-    try {
-      await loginWithOAuth(provider)
-      router.push('/')
-    } catch {
-      // Error toast is handled in store
-    } finally {
-      setOauthLoading(null)
-    }
+  const handleBackToForm = () => {
+    setStep('form')
   }
 
-  const switchMode = (newMode: TAuthMode) => {
+  const handleModeChange = (newMode: TAuthMode) => {
+    clearErrors()
     setMode(newMode)
-    loginForm.reset()
-    registerForm.reset()
-    setOtpValue('')
-    setOtpError(null)
-    setRegisteredPassword('') // Clear password from memory
   }
 
-  // OTP Verification Screen
-  if (mode === 'verify-otp') {
+  if (step === 'otp') {
     return (
-      <main className="flex min-h-[calc(100vh-140px)] items-center justify-center px-4">
-        <div className="w-full max-w-md">
-          <div className="text-center">
-            {/* Icon */}
-            <div className="bg-primary-muted mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full">
-              <LuMailCheck className="text-primary-light h-10 w-10" />
-            </div>
-
-            {/* Title */}
-            <h1 className="mb-2 text-2xl font-bold text-white">{t.verifyEmailTitle}</h1>
-            <p className="mb-1 text-white/60">{t.otpSentTo}</p>
-            <p className="text-primary-light mb-8 font-medium">{registeredEmail}</p>
-
-            {/* OTP Input */}
-            <div className="mb-6 flex justify-center">
-              <InputOTP
-                maxLength={6}
-                value={otpValue}
-                onChange={(value) => {
-                  setOtpValue(value)
-                  setOtpError(null)
-                }}
-              >
-                <InputOTPGroup>
-                  <InputOTPSlot index={0} />
-                  <InputOTPSlot index={1} />
-                  <InputOTPSlot index={2} />
-                </InputOTPGroup>
-                <div className="mx-2 text-white/30">-</div>
-                <InputOTPGroup>
-                  <InputOTPSlot index={3} />
-                  <InputOTPSlot index={4} />
-                  <InputOTPSlot index={5} />
-                </InputOTPGroup>
-              </InputOTP>
-            </div>
-
-            {/* Error */}
-            {otpError && <p className="text-danger mb-4 text-sm">{otpError}</p>}
-
-            {/* Verify Button */}
-            <Button
-              onClick={handleVerifyOTP}
-              isLoading={verifyOTPMutation.isPending}
-              disabled={otpValue.length !== 6}
-              className="mb-4 w-full"
-            >
-              <LuCheck className="h-5 w-5" />
-              {t.verifyButton}
-            </Button>
-
-            {/* Resend */}
-            <div className="flex items-center justify-center gap-2 text-sm text-white/50">
-              <span>{t.didntReceive}</span>
-              <button
-                onClick={handleResendOTP}
-                disabled={sendOTPMutation.isPending}
-                className="text-primary-light hover:text-primary inline-flex cursor-pointer items-center gap-1 font-medium transition-colors disabled:opacity-50"
-              >
-                {sendOTPMutation.isPending ? (
-                  <LuLoader className="h-3 w-3 animate-spin" />
-                ) : (
-                  <LuRefreshCw className="h-3 w-3" />
-                )}
-                {t.resendCode}
-              </button>
-            </div>
-
-            {/* Hint */}
-            <p className="mt-6 text-xs text-white/30">{t.otpHint}</p>
-          </div>
-        </div>
-      </main>
+      <OTPStep
+        translations={t}
+        email={email}
+        isVerifying={verifyOTPMutation.isPending || isLoading}
+        isResending={sendOTPMutation.isPending}
+        onVerify={handleVerifyOTP}
+        onResend={handleResendOTP}
+        onBack={handleBackToForm}
+      />
     )
   }
 
   return (
-    <main className="flex min-h-[calc(100vh-140px)] items-center justify-center px-4">
+    <main className="flex min-h-[calc(100vh-140px)] items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="mb-8 text-center">
-          <h1 className="mb-2 text-3xl font-bold text-white">
-            {mode === 'login' ? t.welcomeBack : t.createAccount}
-          </h1>
-          <p className="text-white/60">{mode === 'login' ? t.loginSubtitle : t.registerSubtitle}</p>
-        </div>
+        <AuthHeader translations={t} mode={mode} />
 
-        {/* Form Card */}
         <div className="rounded-2xl border border-white/10 bg-white/3 p-6 backdrop-blur-sm">
-          {mode === 'login' ? (
-            // LOGIN FORM
-            <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
-              <Input
-                type="email"
-                placeholder={t.emailPlaceholder}
-                autoComplete="email"
-                icon={<LuMail className="h-5 w-5" />}
-                error={loginForm.formState.errors.email?.message}
-                {...loginForm.register('email')}
-              />
-
-              <PasswordInput
-                placeholder={t.passwordPlaceholder}
-                autoComplete="current-password"
-                icon={<LuLock className="h-5 w-5" />}
-                error={loginForm.formState.errors.password?.message}
-                {...loginForm.register('password')}
-              />
-
-              {loginForm.formState.errors.root && (
-                <div className="border-danger/30 bg-danger/10 text-danger rounded-lg border px-4 py-3 text-sm">
-                  {loginForm.formState.errors.root.message}
-                </div>
-              )}
-
-              <Button type="submit" isLoading={isLoading} className="w-full">
-                <LuLogIn className="h-5 w-5" />
-                {t.loginButton}
-              </Button>
-            </form>
-          ) : (
-            // REGISTER FORM
-            <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
-              <Input
-                type="text"
-                placeholder={t.namePlaceholder}
-                autoComplete="name"
-                icon={<LuUser className="h-5 w-5" />}
-                error={registerForm.formState.errors.name?.message}
-                {...registerForm.register('name')}
-              />
-
-              <Input
-                type="email"
-                placeholder={t.emailPlaceholder}
-                autoComplete="email"
-                icon={<LuMail className="h-5 w-5" />}
-                error={registerForm.formState.errors.email?.message}
-                {...registerForm.register('email')}
-              />
-
-              <PasswordInput
-                placeholder={t.passwordPlaceholder}
-                autoComplete="new-password"
-                icon={<LuLock className="h-5 w-5" />}
-                error={registerForm.formState.errors.password?.message}
-                {...registerForm.register('password')}
-              />
-
-              <PasswordInput
-                placeholder={t.confirmPasswordPlaceholder}
-                autoComplete="new-password"
-                icon={<LuLock className="h-5 w-5" />}
-                error={registerForm.formState.errors.confirmPassword?.message}
-                {...registerForm.register('confirmPassword')}
-              />
-
-              {registerForm.formState.errors.root && (
-                <div className="border-danger/30 bg-danger/10 text-danger rounded-lg border px-4 py-3 text-sm">
-                  {registerForm.formState.errors.root.message}
-                </div>
-              )}
-
-              <Button
-                type="submit"
+          <AnimatePresence mode="wait">
+            {mode === 'login' ? (
+              <LoginForm
+                key="login"
+                translations={t}
+                register={register}
+                errors={errors}
                 isLoading={isLoading || sendOTPMutation.isPending}
-                className="w-full"
-              >
-                <LuLogIn className="h-5 w-5" />
-                {t.registerButton}
-              </Button>
-            </form>
-          )}
+                onSubmit={handleLogin}
+              />
+            ) : (
+              <RegisterForm
+                key="register"
+                translations={t}
+                register={register}
+                errors={errors}
+                isLoading={isLoading || sendOTPMutation.isPending}
+                onSubmit={handleRegister}
+              />
+            )}
+          </AnimatePresence>
 
-          {/* Divider */}
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/10" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="bg-card px-4 text-white/40">{t.orContinueWith}</span>
-            </div>
-          </div>
-
-          {/* OAuth Buttons */}
-          <div className="grid grid-cols-2 gap-3">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => handleOAuthLogin('google')}
-              disabled={isLoading || oauthLoading !== null}
-              className="w-full"
-            >
-              {oauthLoading === 'google' ? (
-                <LuLoader className="h-5 w-5 animate-spin" />
-              ) : (
-                <FaGoogle className="h-5 w-5" />
-              )}
-              Google
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => handleOAuthLogin('discord')}
-              disabled={isLoading || oauthLoading !== null}
-              className="w-full"
-            >
-              {oauthLoading === 'discord' ? (
-                <LuLoader className="h-5 w-5 animate-spin" />
-              ) : (
-                <FaDiscord className="h-5 w-5 text-[#5865F2]" />
-              )}
-              Discord
-            </Button>
-          </div>
-
-          {/* Toggle mode */}
-          <div className="mt-6 text-center">
-            <span className="text-white/60">{mode === 'login' ? t.noAccount : t.hasAccount}</span>{' '}
-            <button
-              onClick={() => switchMode(mode === 'login' ? 'register' : 'login')}
-              className="text-primary-light hover:text-primary cursor-pointer font-medium transition-colors"
-            >
-              {mode === 'login' ? t.registerLink : t.loginLink}
-            </button>
-          </div>
+          <OAuthButtons translations={t} />
+          <AuthModeToggle translations={t} mode={mode} onModeChange={handleModeChange} />
         </div>
 
-        {/* Benefits */}
-        <div className="mt-8 grid grid-cols-2 gap-4">
-          <div className="rounded-xl border border-white/5 bg-white/2 p-4">
-            <div className="mb-2 text-lg">📝</div>
-            <p className="text-sm text-white/60">{t.benefit1}</p>
-          </div>
-          <div className="rounded-xl border border-white/5 bg-white/2 p-4">
-            <div className="mb-2 text-lg">☁️</div>
-            <p className="text-sm text-white/60">{t.benefit2}</p>
-          </div>
-        </div>
+        <AuthBenefits translations={t} />
       </div>
     </main>
   )

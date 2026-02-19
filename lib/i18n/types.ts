@@ -23,6 +23,7 @@ export type TMatchupTranslations = TTranslations['matchup']
 export type TLanguageTranslations = TTranslations['language']
 export type TFooterTranslations = TTranslations['footer']
 export type TSettingsTranslations = TTranslations['settings']
+export type TOnboardingTranslations = TTranslations['onboarding']
 
 /**
  * Default language

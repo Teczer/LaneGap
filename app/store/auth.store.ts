@@ -32,7 +32,6 @@ export interface ILoginParams {
 export interface IRegisterParams {
   email: string
   password: string
-  name: string
 }
 
 export interface IUpdatePasswordParams {
@@ -149,15 +148,19 @@ export const useAuthStore = create<TAuthStore>()(
         }
       },
 
-      register: async ({ email, password, name }) => {
+      register: async ({ email, password }) => {
         set({ isLoading: true })
         try {
+          // Generate random default name (Player_XXXX)
+          const randomSuffix = Math.floor(1000 + Math.random() * 9000)
+          const defaultName = `Player_${randomSuffix}`
+
           // Create user (but don't login yet - wait for OTP verification)
           await pb.collection('users').create({
             email,
             password,
             passwordConfirm: password,
-            name,
+            name: defaultName,
           })
           set({ isLoading: false })
           // Don't show success toast here - OTP flow will handle it

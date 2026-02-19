@@ -10,7 +10,7 @@ export interface IAvatarProps {
   /** Alt text for the image */
   alt?: string
   /** Size variant */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   /** Additional classes */
   className?: string
   /** Show ring around avatar */
@@ -25,6 +25,7 @@ const sizes = {
   md: 'h-10 w-10',
   lg: 'h-16 w-16',
   xl: 'h-20 w-20',
+  '2xl': 'h-28 w-28',
 }
 
 const iconSizes = {
@@ -33,6 +34,7 @@ const iconSizes = {
   md: 'h-5 w-5',
   lg: 'h-7 w-7',
   xl: 'h-8 w-8',
+  '2xl': 'h-12 w-12',
 }
 
 const ringSizes = {
@@ -41,6 +43,7 @@ const ringSizes = {
   md: 'ring-2 ring-border-muted',
   lg: 'ring-2 ring-border-muted ring-offset-2 ring-offset-background',
   xl: 'ring-2 ring-border-muted ring-offset-2 ring-offset-background',
+  '2xl': 'ring-2 ring-border-muted ring-offset-2 ring-offset-background',
 }
 
 const loaderSizes = {
@@ -49,6 +52,7 @@ const loaderSizes = {
   md: 'h-5 w-5',
   lg: 'h-6 w-6',
   xl: 'h-6 w-6',
+  '2xl': 'h-8 w-8',
 }
 
 export const Avatar = ({

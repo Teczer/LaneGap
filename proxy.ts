@@ -10,7 +10,7 @@ import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES, type TLanguage } from '@/lib/i18
 const LANGUAGE_COOKIE_NAME = 'lanegap-lang'
 
 // Routes that require authentication
-const PROTECTED_ROUTES = ['/settings']
+const PROTECTED_ROUTES = ['/settings', '/onboarding']
 
 // Routes that should redirect to home if already authenticated
 const AUTH_ROUTES = ['/auth']
